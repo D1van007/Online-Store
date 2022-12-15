@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 require('webpack');
 const path = require('path');
 
@@ -32,7 +33,14 @@ module.exports = {
       },
     ],
   },
-  plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })],
+  plugins: [
+    new HtmlWebpackPlugin({ template: './src/index.html' }),
+    new CopyPlugin({
+      patterns: [
+        { from: "redirect", to: "" },
+      ],
+    }),
+  ],
   resolve: {
     extensions: [ ".tsx", ".ts", ".js" ]
   },
