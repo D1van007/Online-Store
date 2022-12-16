@@ -1,5 +1,8 @@
 import { App } from "./components/app/app";
 import "../node_modules/@icon/foundation-icons/foundation-icons.css";
+
+const app = new App()
+
 /*
 const params = new URLSearchParams(window.location.href)
 params.set('i','test')
@@ -10,6 +13,6 @@ console.log(url)
 url.searchParams.append('h','test')
 window.history.pushState({},'',url.search)
 //window.location.search = params.toString()*/
-console.log('test_link')
 //window.location.hash = '/cart'
-const app = new App()
+
+
