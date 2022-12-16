@@ -1,17 +1,15 @@
 import { Loader } from "../loader/loader";
+
 import { IDataProducts } from "../../types";
-import { Gallery } from "../gallery/gallery";
 import { GalleryFilter } from "../gallery/gallery_filter";
+import { Router } from "../router/router";
 
 export class App{
   loader: Loader
+  router: Router
   constructor(){
     this.loader = new Loader()
-    this.test()
+    this.router = new Router()
   }
-  async test(){
-    let data:IDataProducts = await this.loader.load()
-    let productArr = data.products
-    let galleryFilter = new GalleryFilter('gallery',productArr)
-  }
+  
 }
