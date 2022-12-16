@@ -25,12 +25,13 @@ export class GalleryFilter{
   render():HTMLDivElement{
     let filterContainer = document.createElement('div')
     filterContainer.classList.add('gellery__filter')
-    this.$parentId.insertAdjacentElement('beforebegin',filterContainer)
+    this.$parentId.insertAdjacentElement('afterbegin',filterContainer)
     return filterContainer
   }
   renderContent(){
     this.$id.innerHTML = renderHTML()
   }
+  
   searchInput(){
     this.$search.addEventListener('input', this.inputHandler.bind(this))
   }

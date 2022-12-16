@@ -19,26 +19,23 @@ export class Router{
   }
   historyEventTarcker(){
     document.addEventListener('onpushstate', ()=>{
-      console.log('state_push')
-      setTimeout(async()=>{
-        this.isNewPage = this.isNewPageHandler()
-        console.log(this.isNewPage)
-        this.urlUpdate()
-        this.clearMain()
-        await this.newPageRoute()
-      },200)
+      this.historyEventHendler()
     })
     
     window.addEventListener('popstate', ()=>{
-      setTimeout(async()=>{
-        this.isNewPage = this.isNewPageHandler()
-        console.log(this.isNewPage)
-        this.urlUpdate()
-        this.clearMain()
-        await this.newPageRoute()
-      },200)
+      this.historyEventHendler()
     })
   }
+  historyEventHendler(){
+    setTimeout(async()=>{
+      this.isNewPage = this.isNewPageHandler()
+      console.log(this.isNewPage)
+      this.urlUpdate()
+      this.clearMain()
+      await this.newPageRoute()
+    },200)
+  }
+  
   async newPageRoute(){
     if(this.isNewPage){
       if(this.url.pathname == '/'){
