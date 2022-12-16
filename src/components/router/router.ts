@@ -27,7 +27,7 @@ export class Router{
     })
   }
   historyEventHendler(){
-    setTimeout(async()=>{
+    setTimeout(async()=>{ //это костыль
       this.isNewPage = this.isNewPageHandler()
       console.log(this.isNewPage)
       this.urlUpdate()
@@ -40,7 +40,11 @@ export class Router{
     if(this.isNewPage){
       if(this.url.pathname == '/'){
         console.log('router')
-        this.loadAndCreateGallery()
+        await this.loadAndCreateGallery()
+        console.log(this.galleryFilter?.gallery.productsArr)
+      }
+      if(this.url.pathname == '/cart'){
+        console.log('cart')
       }
     }
   }

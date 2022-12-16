@@ -6,6 +6,7 @@ export class Gallery{
   data: IProduct[]
   $id: HTMLElement
   $productList
+  productsArr:ItemCard[]=[]
   //isBigCard:boolean
   constructor(selector:string, data:IProduct[]){
     this.$id = document.getElementById(selector)!
@@ -25,6 +26,7 @@ export class Gallery{
       this.data.forEach(e=>{
         console.log('test')
         let card = new ItemCard(e.id,e,this.$productList)
+        this.productsArr.push(card)
       })
     }
   }
