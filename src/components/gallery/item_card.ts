@@ -1,11 +1,15 @@
+import { eventedPushState } from "../router/events_history"
+
 import { IProduct } from "../../types"
 export class ItemCard{
   $parentSelector:HTMLElement
   id:number
   product:IProduct
   $id:HTMLElement
+  $main:HTMLElement
   constructor(id:number, product:IProduct, $selector:HTMLElement){
     this.$parentSelector = $selector
+    this.$main = document.getElementById('main')!
     this.id = id
     this.product = product
     this.render()
@@ -15,9 +19,12 @@ export class ItemCard{
   render(){
     this.$parentSelector.insertAdjacentHTML('beforeend',renderHTML(this.id,this.product))
   }
+  selfPageRender(){
+    this.$main.innerHTML = selfPageHTML(this.product)
+  }
   test(){
     this.$id.addEventListener('click',()=>{
-      console.log(`click ${this.id}`)
+      eventedPushState({},'',`/product${this.id}`)
     })
   }
 }
@@ -29,4 +36,8 @@ function renderHTML(id:number,data:IProduct):string{
     <div class="product__item__price">${data.price}</div>
   </li>
   `
+}
+
+function selfPageHTML(data:IProduct){
+  return `<h1>name:${data.title} id:${data.id}</h1>`
 }

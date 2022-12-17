@@ -45,15 +45,18 @@ export class Router{
       else if(this.url.pathname == '/cart'){
         console.log('cart')
       }else if((await this.getProductRouteList()).includes(this.url.pathname)){
-        console.log('product')
+        await this.createItemPage()
+      }else{
+        alert('it"s a 404 live with it')
       }
     }
+    //console.log(await this.getProductRouteList())
   }
 
   async getProductRouteList(){
     let data = await this.loader.load()
     return data.reduce((acc:string[],e)=>{
-      acc.push(`/poduct${e.id}`)
+      acc.push(`/product${e.id}`)
       return acc
     },[])
 
@@ -62,6 +65,17 @@ export class Router{
   async loadAndCreateGallery(){
     let data = await this.loader.load()
     this.galleryFilter = new GalleryFilter('main',data)
+  }
+
+  async createItemPage(){
+    await this.loadAndCreateGallery()
+    let $main = document.getElementById('main')!
+    $main.innerHTML = ''
+    let productItemsArr = this.galleryFilter?.gallery.productsArr
+    let id = parseInt(this.url.pathname.replace(/[^\d]/g, ''))
+    productItemsArr = productItemsArr?.filter(e=>e.id == id)
+    if(productItemsArr)
+    productItemsArr[0].selfPageRender()
   }
 
   urlUpdate(){
