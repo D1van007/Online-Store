@@ -52,7 +52,6 @@ export class GalleryFilter{
   }
   hrefParamsHendler(){
     let url = new URL(window.location.href)
-    console.log(url.searchParams.has('i'))
     let params = url.searchParams
     if(params.has('search')){
       this.$search.value = params.get('search')!

@@ -29,7 +29,6 @@ export class Router{
   historyEventHendler(){
     setTimeout(async()=>{ //это костыль
       this.isNewPage = this.isNewPageHandler()
-      console.log(this.isNewPage)
       this.urlUpdate()
       this.clearMain()
       await this.newPageRoute()
@@ -39,18 +38,15 @@ export class Router{
   async newPageRoute(){
     if(this.isNewPage){
       if(this.url.pathname == '/'){
-        console.log('router')
         await this.loadAndCreateGallery()
       }
       else if(this.url.pathname == '/cart'){
-        console.log('cart')
       }else if((await this.getProductRouteList()).includes(this.url.pathname)){
         await this.createItemPage()
       }else{
         alert('it"s a 404 live with it')
       }
     }
-    //console.log(await this.getProductRouteList())
   }
 
   async getProductRouteList(){
@@ -84,7 +80,6 @@ export class Router{
 
   isNewPageHandler():boolean{
     let newUrl = new URL(window.location.href)
-    console.log(this.url.pathname, newUrl.pathname)
     return !(this.url.pathname == newUrl.pathname)
   }
 
