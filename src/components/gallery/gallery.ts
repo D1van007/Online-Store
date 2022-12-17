@@ -4,18 +4,24 @@ import './gallery.css'
 
 export class Gallery{
   data: IProduct[]
-  $id: HTMLElement
+  $parentId: HTMLElement
+  $id: HTMLElement|null
   $productList
   productsArr:ItemCard[]=[]
   //isBigCard:boolean
   constructor(selector:string, data:IProduct[]){
-    this.$id = document.getElementById(selector)!
-    //this.isBigCard = isBigCard
+    this.$parentId = document.getElementById(selector)!
+    console.log(selector)
+    console.log(this.$parentId)
+    this.$id = null
     this.data = data
     this.$productList =  this.render()
     this.renderProducts()
   }
   render():HTMLUListElement{
+    this.$id = document.createElement('div')
+    this.$id.classList.add('gallery')
+    this.$parentId.insertAdjacentElement('beforeend',this.$id)
     let productList = document.createElement('ul')
     productList.classList.add('product__list')
     this.$id.insertAdjacentElement('beforeend',productList)
@@ -31,6 +37,7 @@ export class Gallery{
     }
   }
   destroy(){
-    this.$id.removeChild(this.$productList)
+    if(this.$id)
+    this.$parentId.removeChild(this.$id)
   }
 }

@@ -18,7 +18,7 @@ export class Router{
     this.isNewPage = false
   }
   historyEventTarcker(){
-    document.addEventListener('onpushstate', ()=>{
+    window.addEventListener('onpushstate', ()=>{
       this.historyEventHendler()
     })
     
@@ -52,7 +52,7 @@ export class Router{
   async loadAndCreateGallery(){
     let data:IDataProducts = await this.loader.load()
     let productArr = data.products
-    this.galleryFilter = new GalleryFilter('gallery',productArr)
+    this.galleryFilter = new GalleryFilter('main',productArr)
   }
 
   urlUpdate(){
@@ -67,8 +67,8 @@ export class Router{
 
   clearMain(){
     if(this.isNewPage){
-      let $gallery = document.getElementById('gallery')!
-      $gallery.innerHTML = ''
+      let $main = document.getElementById('main')!
+      $main.innerHTML = ''
     }
   }
 

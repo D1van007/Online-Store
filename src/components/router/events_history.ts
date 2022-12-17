@@ -6,6 +6,6 @@ export function eventedPushState(state:any, title:string, url:string) {
           url
       }
   });
-  document.dispatchEvent(pushChangeEvent);
+  window.dispatchEvent(pushChangeEvent);
   return history.pushState(state, title, url);
 }

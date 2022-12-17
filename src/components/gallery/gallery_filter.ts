@@ -18,7 +18,7 @@ export class GalleryFilter{
     this.$search = this.$id.querySelector('.gellery__filter__search-bar')!
     this.$sort = this.$id.querySelector('.gellery__filter__sort-bar')!
     this.searchInput()
-    this.gallery = new Gallery('gallery',this.data)
+    this.gallery = new Gallery('main',this.data)
     this.sortInput()
     this.hrefParamsHendler()
   }
@@ -38,7 +38,7 @@ export class GalleryFilter{
   inputHandler(){
     this.gallery.destroy()
     let filterData = this.searchDataFilter(this.$search.value)
-    this.gallery = new Gallery('gallery',filterData)
+    this.gallery = new Gallery('main',filterData)
   }
   searchDataFilter(value:string):IProduct[]{
     return this.data.filter(e=>e.title.toLocaleLowerCase().includes(value.toLocaleLowerCase()))
