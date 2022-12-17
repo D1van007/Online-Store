@@ -33,7 +33,7 @@ export class Router{
       this.urlUpdate()
       this.clearMain()
       await this.newPageRoute()
-    },200)
+    },100)
   }
   
   async newPageRoute(){
@@ -41,18 +41,27 @@ export class Router{
       if(this.url.pathname == '/'){
         console.log('router')
         await this.loadAndCreateGallery()
-        console.log(this.galleryFilter?.gallery.productsArr)
       }
-      if(this.url.pathname == '/cart'){
+      else if(this.url.pathname == '/cart'){
         console.log('cart')
+      }else if((await this.getProductRouteList()).includes(this.url.pathname)){
+        console.log('product')
       }
     }
   }
 
+  async getProductRouteList(){
+    let data = await this.loader.load()
+    return data.reduce((acc:string[],e)=>{
+      acc.push(`/poduct${e.id}`)
+      return acc
+    },[])
+
+  }
+
   async loadAndCreateGallery(){
-    let data:IDataProducts = await this.loader.load()
-    let productArr = data.products
-    this.galleryFilter = new GalleryFilter('main',productArr)
+    let data = await this.loader.load()
+    this.galleryFilter = new GalleryFilter('main',data)
   }
 
   urlUpdate(){
