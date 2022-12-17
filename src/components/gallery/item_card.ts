@@ -39,5 +39,5 @@ function renderHTML(id:number,data:IProduct):string{
 }
 
 function selfPageHTML(data:IProduct){
-  return `<h1>name:${data.title} id:${data.id}</h1>`
+  return `<h1>NAME:${data.title} ID:${data.id}</h1>`
 }

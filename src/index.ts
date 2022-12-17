@@ -15,7 +15,10 @@ url.searchParams.append('h','test')
 window.history.pushState({},'',url.search)
 //window.location.search = params.toString()*/
 //window.location.hash = '/cart'
-
+document.querySelector('.main-link')?.addEventListener('click',(e:Event)=>{
+  e.preventDefault()
+  eventedPushState({},'','/')
+})
 document.querySelector('.cart-link')?.addEventListener('click',(e:Event)=>{
   e.preventDefault()
   eventedPushState({},'','/cart')
