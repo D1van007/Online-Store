@@ -41,6 +41,7 @@ export class Router{
         await this.loadAndCreateGallery()
       }
       else if(this.url.pathname == '/cart'){
+        
       }else if((await this.getProductRouteList()).includes(this.url.pathname)){
         await this.createItemPage()
       }else{

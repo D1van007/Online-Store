@@ -13,4 +13,5 @@ document.querySelector('.cart-link')?.addEventListener('click',(e:Event)=>{
   eventedPushState({},'','/cart')
 })
 
-
+let url = new URL(window.location.href)
+console.log(url.pathname)
