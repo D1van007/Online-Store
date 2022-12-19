@@ -7,6 +7,7 @@ export class ItemCard{
   product:IProduct
   $id:HTMLElement
   $main:HTMLElement
+  $addToCartButton:HTMLButtonElement
   constructor(id:number, product:IProduct, $selector:HTMLElement){
     this.$parentSelector = $selector
     this.$main = document.getElementById('main')!
@@ -14,7 +15,8 @@ export class ItemCard{
     this.product = product
     this.render()
     this.$id = document.getElementById(this.id.toString())!
-    this.test()
+    this.$addToCartButton = this.$id.querySelector('.add-to-cart')!
+    this.itemEventTracker()
   }
   render(){
     this.$parentSelector.insertAdjacentHTML('beforeend',renderHTML(this.id,this.product))
@@ -22,10 +24,29 @@ export class ItemCard{
   selfPageRender(){
     this.$main.innerHTML = selfPageHTML(this.product)
   }
-  test(){
-    this.$id.addEventListener('click',()=>{
-      eventedPushState({},'',`/product${this.id}`)
+  itemEventTracker(){
+    this.$id.addEventListener('click',(e)=>{
+      if(e.target==this.$addToCartButton){
+        this.addToLocal()
+        console.log(window.localStorage.getItem('cart_item'))
+      }else{
+        eventedPushState({},'',`/product${this.id}`)
+      }
     })
+  }
+  addToLocal(){
+    let dataInLocal:IProduct[] = []
+    if(window.localStorage.getItem('cart_item')){
+      dataInLocal = JSON.parse(window.localStorage.getItem('cart_item') as string)
+      console.log(!dataInLocal.some(e=>e.id==this.id))
+      if(!dataInLocal.some(e=>e.id==this.id)){
+        dataInLocal.push(this.product)
+        window.localStorage.setItem('cart_item',JSON.stringify(dataInLocal))
+      }
+    }else{
+      dataInLocal.push(this.product)
+      window.localStorage.setItem('cart_item',JSON.stringify(dataInLocal))
+    }
   }
 }
 
@@ -34,6 +55,7 @@ function renderHTML(id:number,data:IProduct):string{
   <li class="product__item" id = "${id}" style = "background-image: url(${data.images[0]});">
     <h3 class="product__item__title">${data.title}</h3>
     <div class="product__item__price">${data.price}</div>
+    <button class="add-to-cart">Add cart</button>
   </li>
   `
 }
