@@ -1,0 +1,25 @@
+.product__list{
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  grid-gap: 5px;
+  height: 200px;
+  margin: 0;
+  padding: 0;
+}
+.product__item{
+  background-size: cover;
+  list-style: none;
+  color: rgb(65, 131, 65);
+  border: 1px solid rgb(80, 116, 80);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.product__item__title{
+  background-color: rgba(224, 224, 224, 0.5);
+}
+
+.gellery__filter{
+  height: 100px;
+  background-color: rgb(170, 68, 68);
+}
