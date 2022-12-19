@@ -41,7 +41,6 @@ export class ItemCart {
                 this.value += 1
                 this.amountValue.textContent = this.value.toString()
                 localStorage.setItem(`id${this.dataItem.id}-amount`, JSON.stringify(this.value));
-                console.log(this.value)
             }
             else if((<HTMLElement> event.target).matches('.line3')){
                 this.value -= 1
@@ -61,13 +60,12 @@ export class ItemCart {
                 }
                 else {this.amountValue.textContent = this.value.toString()
                 localStorage.setItem(`id${this.dataItem.id}-amount`, JSON.stringify(this.value));
-                console.log(this.value)}
+                }
             }
             this.productItemSum.textContent = `${this.value * this.dataItem.price}`
             this.cart.sumAmountItems()
             this.cart.sumAmountPrice()
             if (JSON.parse(localStorage.getItem(`cart_item`)!).length === 0){
-                console.log('заходит один раз')
                 this.cart.clearCart ()
             }
         })

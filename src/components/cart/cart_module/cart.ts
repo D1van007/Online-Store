@@ -36,7 +36,6 @@ export class Cart {
             if (!JSON.parse(localStorage.getItem(`id${e.id}-amount`)!))
             {localStorage.setItem(`id${e.id}-amount`, JSON.stringify(1))}
             let itemCart = new ItemCart(e, this.productList, index )
-            console.log(this.productList)
         })
     }
     renderSumInCart () {
@@ -60,13 +59,11 @@ export class Cart {
     sumAmountPrice () {
         if (JSON.parse(localStorage.getItem(`cart_item`)!).length>0) {
         const amountPriceListArr = Array.from(document.querySelectorAll('.product__item__sum'))
-        console.log(amountPriceListArr)
         const amountPriceListArrValue: number[] = []
         amountPriceListArr.forEach((e:Element) => amountPriceListArrValue.push(Number(e.textContent)))
         const amountSum = amountPriceListArrValue.reduce((sum, e) => {
             return sum + e
         })
-        console.log(amountPriceListArrValue)
         const amountSumPrice= document.getElementById('amountSum__price')!
         amountSumPrice.textContent = `Total: € ${amountSum}`
     }}
@@ -74,7 +71,6 @@ export class Cart {
     renderItemNumb () {
         this.numbList = document.querySelectorAll('.number__item')
         this.numbList.forEach((e, index) => {
-            console.log(this.numbList)
             e.textContent = (index + 1).toString()
         })
     }
