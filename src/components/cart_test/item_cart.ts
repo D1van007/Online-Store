@@ -1,5 +1,6 @@
 import { IProduct } from "../../pages/cart/types";
 import { Cart } from "./cart";
+import { SumCart } from "./sum_cart";
 
 export class ItemCart {
     dataItem : IProduct
@@ -24,9 +25,10 @@ export class ItemCart {
         this.test()
         this.changeAmount()
         this.cart = new Cart('main')
+        // this.sumCart = new SumCart('')
     }
     render () {
-        this.selectorList.insertAdjacentHTML("beforeend", createHTMLItem(this.dataItem,this.index, this.value))
+        this.selectorList.insertAdjacentHTML("beforeend", createHTMLCartItem(this.dataItem,this.index, this.value))
     }
 
     test () {
@@ -35,7 +37,6 @@ export class ItemCart {
 
     changeAmount () {
         this.amountContent.addEventListener('click', (event) => {
-            console.log(event.target)
             if((<HTMLElement> event.target).matches('.line1')){
                 this.value += 1
                 this.amountValue.textContent = this.value.toString()
@@ -62,17 +63,22 @@ export class ItemCart {
                 localStorage.setItem(`id${this.dataItem.id}-amount`, JSON.stringify(this.value));
                 console.log(this.value)}
             }
-            this.productItemSum.textContent = `Total: €${this.value * this.dataItem.price}`
+            this.productItemSum.textContent = `${this.value * this.dataItem.price}`
+            this.cart.sumAmountItems()
+            this.cart.sumAmountPrice()
+            if (JSON.parse(localStorage.getItem(`cart_item`)!).length === 0){
+                console.log('заходит один раз')
+                this.cart.clearCart ()
+            }
         })
     }
-
 }
 
-function createHTMLItem (dataItem : IProduct, index: number, amountValue: number) {
+function createHTMLCartItem (dataItem : IProduct, index: number, amountValue: number) {
     return `<li class="product__item" id = "${dataItem.id}">
     <span id="number__item${dataItem.id}" class="number__item">${index+1}</span>
     <div class="product__item__img" style = "background-image: url(${dataItem.images[0]})"></div>
-    <div>
+    <div class="product__item__full-name">
         <h3 class="product__item__title">${dataItem.title}</h3>
         <p class="product__item__description">${dataItem.description}</p>
             <div class="product__item__description-second">
@@ -84,15 +90,15 @@ function createHTMLItem (dataItem : IProduct, index: number, amountValue: number
         <p class="product__item__price">Price: €${dataItem.price}</p>
         <div id="amount_content${dataItem.id}" class="amount_content">
             <div class="add-value_circle value_circle">
-                <div class="add-value_circle__line line1">-</div>
-                <div class="add-value_circle__line line2">_</div>
+                <div class="circle__line line1">+</div>
+                <div class="circle__line line2"></div>
             </div>
             <p id="amount_value${dataItem.id}" class="amount_value">${amountValue}</p>
             <div class="remove-value_circle value_circle">
-                <div class="add-value_circle__line line3">-</div>
+                <div class="circle__line line3">-</div>
             </div>
         </div>
-        <p id="product__item__sum${dataItem.id}" class="product__item__sum">Total: €${amountValue * dataItem.price}</p>        
+        <span class="product__item__sum__text">Total: €</span><span id="product__item__sum${dataItem.id}" class="product__item__sum">${amountValue * dataItem.price}</span>       
     </div>    
 </li>`
 }
