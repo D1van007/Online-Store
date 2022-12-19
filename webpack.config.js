@@ -4,14 +4,18 @@ require('webpack');
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/pages/cart/script.ts',
   mode: 'development',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
   },
   devServer: {
-    historyApiFallback: true,
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
+    compress: true,
+    port: 9000,
   },
   module: {
     rules: [
@@ -34,7 +38,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: './src/index.html' }),
+    new HtmlWebpackPlugin({ template: './src/pages/cart/index.html' }),
     // new CopyPlugin({
     //   patterns: [
     //     { from: "redirect", to: "" },
@@ -42,6 +46,6 @@ module.exports = {
     // }),
   ],
   resolve: {
-    extensions: [ ".tsx", ".ts", ".js" ]
+    extensions: [ ".tsx", ".ts", ".js", ".css" ]
   },
 };
