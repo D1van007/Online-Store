@@ -2,6 +2,7 @@ import { eventedPushState } from "./events_history";
 import { Loader } from "../loader/loader";
 import { IDataProducts } from "../../types";
 import { GalleryFilter } from "../gallery/gallery_filter";
+import { CartPage } from "../cart/cart_page";
 
 
 export class Router{
@@ -9,9 +10,11 @@ export class Router{
   galleryFilter:GalleryFilter|null
   isNewPage:boolean = true
   url:URL
+  cartPage : CartPage | null
   constructor(){
     this.loader = new Loader()
     this.galleryFilter = null
+    this.cartPage = null
     this.url = new URL(window.location.href)
     this.historyEventTarcker()
     this.newPageRoute()
@@ -41,7 +44,7 @@ export class Router{
         await this.loadAndCreateGallery()
       }
       else if(this.url.pathname == '/cart'){
-        
+        this.cartPage = new CartPage()
       }else if((await this.getProductRouteList()).includes(this.url.pathname)){
         await this.createItemPage()
       }else{

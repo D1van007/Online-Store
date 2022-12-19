@@ -28,7 +28,6 @@ export class ItemCard{
     this.$id.addEventListener('click',(e)=>{
       if(e.target==this.$addToCartButton){
         this.addToLocal()
-        console.log(window.localStorage.getItem('cart_item'))
       }else{
         eventedPushState({},'',`/product${this.id}`)
       }
@@ -38,7 +37,6 @@ export class ItemCard{
     let dataInLocal:IProduct[] = []
     if(window.localStorage.getItem('cart_item')){
       dataInLocal = JSON.parse(window.localStorage.getItem('cart_item') as string)
-      console.log(!dataInLocal.some(e=>e.id==this.id))
       if(!dataInLocal.some(e=>e.id==this.id)){
         dataInLocal.push(this.product)
         window.localStorage.setItem('cart_item',JSON.stringify(dataInLocal))
