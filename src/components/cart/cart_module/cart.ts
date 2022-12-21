@@ -44,7 +44,7 @@ export class Cart {
 
         }
 
-    sumAmountItems () {
+    totalProducts () {
         if (JSON.parse(localStorage.getItem(`cart_item`)!).length>0) {
         const amountItemsListArr = Array.from(document.querySelectorAll('.amount_value'))
         const amountItemsListArrValue: number[] = []
@@ -52,11 +52,12 @@ export class Cart {
         const amountSum = amountItemsListArrValue.reduce((sum, e) => {
             return sum + e
         })
+        localStorage.setItem('totalProducts', JSON.stringify(amountSum))
         const amountSumItems= document.getElementById('amountSum__items')!
         amountSumItems.textContent = `Products: ${amountSum}`}
     }
 
-    sumAmountPrice () {
+    totalPrice () {
         if (JSON.parse(localStorage.getItem(`cart_item`)!).length>0) {
         const amountPriceListArr = Array.from(document.querySelectorAll('.product__item__sum'))
         const amountPriceListArrValue: number[] = []
@@ -64,6 +65,7 @@ export class Cart {
         const amountSum = amountPriceListArrValue.reduce((sum, e) => {
             return sum + e
         })
+        localStorage.setItem('totalPrice', JSON.stringify(amountSum))
         const amountSumPrice= document.getElementById('amountSum__price')!
         amountSumPrice.textContent = `Total: € ${amountSum}`
     }}
@@ -77,6 +79,7 @@ export class Cart {
 
     clearCart () {
         document.querySelector('.cart_content')!.remove()
+        localStorage.setItem('totalProducts',JSON.stringify(0))
     }
 
 }

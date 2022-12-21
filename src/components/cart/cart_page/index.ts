@@ -12,7 +12,7 @@ export class CartPage {
         this.cart.productList = this.cart.main.querySelector('.shopping-cart_list')!
         this.cart.renderItemInCart ()
         this.cart.renderSumInCart ()
-        this.cart.sumAmountItems ()
-        this.cart.sumAmountPrice ()
+        this.cart.totalProducts ()
+        this.cart.totalPrice ()
     }
 }

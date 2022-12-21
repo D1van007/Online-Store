@@ -10,13 +10,13 @@ export class SumCart {
     render () {
         this.selectorParentsSum.insertAdjacentHTML("beforeend", createHTMLCartSum ())
     }
-
+    
 
 }
 
 function createHTMLCartSum () {
     return `
-    <p id="amountSum__items" class="amountSum__items">Products: 1 </p>
+    <p id="amountSum__items" class="amountSum__items">Products: 0</p>
     <p id="amountSum__price" class="amountSum__price">Total: €</p>
     <form>
         <div>

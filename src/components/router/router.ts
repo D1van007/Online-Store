@@ -3,6 +3,7 @@ import { Loader } from "../loader/loader";
 import { IDataProducts } from "../../types";
 import { GalleryFilter } from "../gallery/gallery_filter";
 import { CartPage } from "../cart/cart_page";
+import { Header } from "../header";
 
 
 export class Router{
@@ -11,14 +12,17 @@ export class Router{
   isNewPage:boolean = true
   url:URL
   cartPage : CartPage | null
+  header : Header | null
   constructor(){
     this.loader = new Loader()
     this.galleryFilter = null
     this.cartPage = null
     this.url = new URL(window.location.href)
+    this.header = new Header('body')
     this.historyEventTarcker()
     this.newPageRoute()
     this.isNewPage = false
+
   }
   historyEventTarcker(){
     window.addEventListener('onpushstate', ()=>{

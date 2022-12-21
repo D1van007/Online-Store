@@ -1,6 +1,7 @@
 import { IProduct } from "../../../types";
 import { Cart } from "./cart";
 import { SumCart } from "./sum_cart";
+import { CartLocalStor } from "../../header/cart_local";
 
 export class ItemCart {
     dataItem : IProduct
@@ -12,6 +13,7 @@ export class ItemCart {
     value : number
     index: number
     cart : Cart
+    cartLocalStor : CartLocalStor
     constructor(dataItem : IProduct, selectorList: HTMLUListElement, index: number) {
         this.dataItem = dataItem
         this.index = index
@@ -22,21 +24,24 @@ export class ItemCart {
         this.amountContent = document.getElementById(`amount_content${dataItem.id}`)!
         this.amountValue = document.getElementById(`amount_value${dataItem.id}`)!
         this.productItemSum = document.getElementById(`product__item__sum${dataItem.id}`)!
-        this.test()
+        // this.test()
         this.changeAmount()
         this.cart = new Cart('main')
+        this.cartLocalStor = new CartLocalStor()
+        
         // this.sumCart = new SumCart('')
     }
     render () {
         this.selectorList.insertAdjacentHTML("beforeend", createHTMLCartItem(this.dataItem,this.index, this.value))
     }
 
-    test () {
-        this.productItemID.addEventListener('click', () => console.log(this.productItemID))
-    }
+    // test () {
+    //     this.productItemID.addEventListener('click', () => console.log(this.productItemID))
+    // }
 
     changeAmount () {
-        this.amountContent.addEventListener('click', (event) => {
+        this.productItemID.addEventListener('click', (event) => {
+            console.log(this)
             if((<HTMLElement> event.target).matches('.line1')){
                 this.value += 1
                 this.amountValue.textContent = this.value.toString()
@@ -45,12 +50,13 @@ export class ItemCart {
             else if((<HTMLElement> event.target).matches('.line3')){
                 this.value -= 1
                 if (this.value < 1) {
-                    const arrLocal = JSON.parse(localStorage.getItem('cart_item')!);
-                    const index = arrLocal.findIndex((e: IProduct) => e.id === this.dataItem.id);
-                        if (index !== -1) {
-                            arrLocal.splice(index, 1);
-                        }
-                    localStorage.setItem('cart_item', JSON.stringify(arrLocal))   
+                    this.cartLocalStor.removeItemInCart (this.productItemID)
+                    // const arrLocal = JSON.parse(localStorage.getItem('cart_item')!);
+                    // const index = arrLocal.findIndex((e: IProduct) => e.id === this.dataItem.id);
+                    //     if (index !== -1) {
+                    //         arrLocal.splice(index, 1);
+                    //     }
+                    // localStorage.setItem('cart_item', JSON.stringify(arrLocal))   
 
                     this.productItemID.remove()
 
@@ -63,10 +69,14 @@ export class ItemCart {
                 }
             }
             this.productItemSum.textContent = `${this.value * this.dataItem.price}`
-            this.cart.sumAmountItems()
-            this.cart.sumAmountPrice()
+            this.cart.totalProducts()
+            this.cart.totalPrice()
+            // console.log(this.cartLocalStor)
+            this.cartLocalStor.drawValueCart()
+
             if (JSON.parse(localStorage.getItem(`cart_item`)!).length === 0){
                 this.cart.clearCart ()
+                this.cartLocalStor.drawValueCart()
             }
         })
     }
@@ -100,3 +110,4 @@ function createHTMLCartItem (dataItem : IProduct, index: number, amountValue: nu
     </div>    
 </li>`
 }
+
