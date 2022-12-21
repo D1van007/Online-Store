@@ -1,24 +1,29 @@
 import { IProduct } from "../../types";
 import { Gallery } from "../gallery/gallery";
 import './gallery.css'
+import { SideFilter } from "./side_filter";
 
 
 export class GalleryFilter{
   data: IProduct[]
+  currentData: IProduct[]
   $parentId: HTMLElement
   $id:HTMLDivElement
   $search:HTMLInputElement
   $sort:HTMLInputElement
   gallery: Gallery
+  sideFilter:SideFilter|null
   constructor(selector:string, data:IProduct[]){
     this.$parentId = document.getElementById(selector)!
     this.data = data
+    this.currentData = this.data
     this.$id = this.render()
     this.renderContent()
     this.$search = this.$id.querySelector('.gellery__filter__search-bar')!
     this.$sort = this.$id.querySelector('.gellery__filter__sort-bar')!
     this.searchInput()
     this.gallery = new Gallery('main',this.data)
+    this.sideFilter = new SideFilter('main',this.data,(data)=>this.sideFilterHandler(data),this)
     this.sortInput()
     this.hrefParamsHendler()
   }
@@ -41,9 +46,14 @@ export class GalleryFilter{
     this.gallery = new Gallery('main',filterData)
   }
   searchDataFilter(value:string):IProduct[]{
-    return this.data.filter(e=>e.title.toLocaleLowerCase().includes(value.toLocaleLowerCase()))
+    return this.currentData.filter(e=>e.title.toLocaleLowerCase().includes(value.toLocaleLowerCase()))
   }
-
+  sideFilterHandler(data:IProduct[]){ // тестим
+    console.log('раз')
+    this.currentData = data
+    this.sortHandler()
+    this.inputHandler()
+  }
   sortInput(){
     this.$sort.addEventListener('change',()=>{
       this.sortHandler()
@@ -61,22 +71,22 @@ export class GalleryFilter{
   sortHandler(){
     switch (this.$sort.value) {
       case 'raitingASC':
-        this.data = this.data.sort((a,b)=>a.rating-b.rating)
+        this.currentData = this.currentData.sort((a,b)=>a.rating-b.rating)
         break;
       case 'raitingDESC':
-        this.data = this.data.sort((a,b)=>b.rating-a.rating)
+        this.currentData = this.currentData.sort((a,b)=>b.rating-a.rating)
         break;
       case 'priceASC':
-        this.data = this.data.sort((a,b)=>a.price-b.price)
+        this.currentData = this.currentData.sort((a,b)=>a.price-b.price)
         break;
       case 'priceDESC':
-        this.data = this.data.sort((a,b)=>b.price-a.price)
+        this.currentData = this.currentData.sort((a,b)=>b.price-a.price)
       break;
       case 'discountASC':
-        this.data = this.data.sort((a,b)=>a.discountPercentage-b.discountPercentage)
+        this.currentData = this.currentData.sort((a,b)=>a.discountPercentage-b.discountPercentage)
       break;
       case 'discountDESC':
-        this.data = this.data.sort((a,b)=>b.discountPercentage-a.discountPercentage)
+        this.currentData = this.currentData.sort((a,b)=>b.discountPercentage-a.discountPercentage)
       break;
     }
   }

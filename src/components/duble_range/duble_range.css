@@ -36,11 +36,12 @@
 .duble-range__info{
 }
 
-.info__left{
+.info__right,.info__left{
   position: absolute;
-}
-
-.info__right{
-  position: absolute;
-  right: 0;
+  left: 0;
+  top:20px;
+  background-color: rgb(174, 175, 85);
+  border-radius: 3px;
+  padding: 5px;
+  color: rgb(255, 255, 255);
 }

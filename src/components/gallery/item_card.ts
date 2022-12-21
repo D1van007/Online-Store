@@ -52,7 +52,8 @@ function renderHTML(id:number,data:IProduct):string{
   return `
   <li class="product__item" id = "${id}" style = "background-image: url(${data.images[0]});">
     <h3 class="product__item__title">${data.title}</h3>
-    <div class="product__item__price">${data.price}</div>
+    <div class="product__item__price">$${data.price}</div>
+    <div class="product__item__price">/q${data.stock}</div>
     <button class="add-to-cart">Add cart</button>
   </li>
   `

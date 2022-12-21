@@ -32,6 +32,10 @@ export class Router{
   historyEventHendler(){
     setTimeout(async()=>{ //это костыль
       this.isNewPage = this.isNewPageHandler()
+      if(this.galleryFilter){ //?????? test
+        this.galleryFilter.sideFilter?.testRemove()
+        this.galleryFilter.sideFilter = null
+      }  //?????? test
       this.urlUpdate()
       this.clearMain()
       await this.newPageRoute()

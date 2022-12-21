@@ -14,15 +14,4 @@ document.querySelector('.cart-link')?.addEventListener('click',(e:Event)=>{
   eventedPushState({},'','/cart')
 })
 
-let $testRange:HTMLElement  = document.querySelector('.test_range')!
-const drange = new DubleRange($testRange,{
-  max: 100,
-  min: 0,
-  eventName: 'testevent'
-})
-setTimeout(()=>{
-  drange.setRangeValue(40,80)
-},3000)
-window.addEventListener('testevent',(e:any)=>{
-  console.log(e.detail.result)
-})
+
