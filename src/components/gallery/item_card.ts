@@ -54,6 +54,8 @@ export class ItemCard{
         this.$addToCartButton.textContent = 'Remove cart'
         this.addToLocal()
         this.cartLocalStor.setAddTotalProducts ()
+        if (!JSON.parse(localStorage.getItem(`id${this.$id.id}-amount`)!))
+            {localStorage.setItem(`id${this.$id.id}-amount`, JSON.stringify(1))}
 
         
       }else if (e.target===this.$addToCartButton && this.$addToCartButton.classList.contains('remove-from-cart')){
