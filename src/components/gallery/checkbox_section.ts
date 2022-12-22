@@ -37,7 +37,8 @@ export class CheckboxSection{
     this.$ulList.addEventListener('click',(e)=>{
       if(e.target instanceof HTMLInputElement){
         this.pushFilteredData()
-        this.updateList()
+        this.parent.updateCheckBoxSections()
+        this.parent.updatePriceAndStockRange()
       }
     })
   }

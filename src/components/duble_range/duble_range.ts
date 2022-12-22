@@ -76,15 +76,15 @@ export class DubleRange{
     this.$secondInput.value = max.toString()
     this.setBackgroundGradient()
     this.renderInfoCurrentValue()
-    this.customEvent()
+    //this.customEvent()
   }
 }
 
 function getdubleRangeHTML(options:DubleRangeOptions):string{
   return `
   <div class="duble-range">
-    <input class="duble-range__input duble-range__i1" type="range" min="${options.min}" max="${options.max+10}" step="1" value="${options.min}">
-    <input class="duble-range__input duble-range__i2" type="range" min="${options.min}" max="${options.max+10}" step="1" value="${options.max}">
+    <input class="duble-range__input duble-range__i1" type="range" min="${options.min}" max="${options.max}" step="1" value="${options.min}">
+    <input class="duble-range__input duble-range__i2" type="range" min="${options.min}" max="${options.max}" step="1" value="${options.max}">
     <div class="duble-range__info">
       <span class="info__left">L</span>
       <span class="info__right">R</span>

@@ -18,11 +18,13 @@ export class SideFilter{
   $iputPriceContainer: HTMLElement
   $iputStockContainer: HTMLElement
   $categoryContainer: HTMLElement
+  $brandContainer: HTMLElement
   productArr: IProduct[]
   arrayOfDataAllFilters: DataArrays = {}
   callback:Callback
   main:any //test
   categoryCheck:CheckboxSection
+  brandCheck:CheckboxSection
   constructor(selector:string,data:IProduct[],callback:Callback,main:any){
     this.main = main //test
     this.$parentID = document.getElementById(selector)!
@@ -30,31 +32,33 @@ export class SideFilter{
     this.$iputPriceContainer = this.$parentID.querySelector('.side-filter__price')!
     this.$iputStockContainer = this.$parentID.querySelector('.side-filter__stock')!
     this.$categoryContainer = this.$parentID.querySelector('.side-filter__category')!
+    this.$brandContainer = this.$parentID.querySelector('.side-filter__brand')!
     this.productArr = data
     this.callback = callback
     this.priceInput = new DubleRange(this.$iputPriceContainer,{
-      min: this.getMinMax(DataKeys.price)[0],
-      max: this.getMinMax(DataKeys.price)[1],
+      min: this.getMinMax(this.productArr,DataKeys.price)[0],
+      max: this.getMinMax(this.productArr,DataKeys.price)[1],
       eventName: 'price'
     })
     this.stockInput = new DubleRange(this.$iputStockContainer,{
-      min: this.getMinMax(DataKeys.stock)[0],
-      max: this.getMinMax(DataKeys.stock)[1],
+      min: this.getMinMax(this.productArr,DataKeys.stock)[0],
+      max: this.getMinMax(this.productArr,DataKeys.stock)[1],
       eventName: 'stock'
     })
     this.addDubleRangeTracker()
     this.categoryCheck = new CheckboxSection(this.$categoryContainer,this.productArr,this,DataKeys.category)
+    this.brandCheck = new CheckboxSection(this.$brandContainer,this.productArr,this,DataKeys.brand)
   }
   render(){
     this.$parentID.insertAdjacentHTML('afterbegin',getHTML())
   }
-  getMinMax(key:DataKeys):number[]{
-    let max = this.productArr.reduce((acc,e)=>{
+  getMinMax(data:IProduct[],key:DataKeys):number[]{
+    let max = data.reduce((acc,e)=>{
       return acc<e[key]?e[key]:acc
-    },this.productArr[0][key])
-    let min = this.productArr.reduce((acc,e)=>{
+    },data[0][key])
+    let min = data.reduce((acc,e)=>{
       return acc<e[key]?acc:e[key]
-    },this.productArr[0][key])
+    },data[0][key])
     console.log([min,max])
     return [min as number,max as number]
   }
@@ -75,8 +79,20 @@ export class SideFilter{
     this.callback(this.getFilteredData())
   }
   updateCheckBoxSections(){
-    this.categoryCheck.pushFilteredData()
+    //this.categoryCheck.pushFilteredData()
     this.categoryCheck.updateList()
+    //this.brandCheck.pushFilteredData()
+    this.brandCheck.updateList()
+  }
+  updatePriceAndStockRange(){
+    this.priceInput.setRangeValue(
+      this.getMinMax(this.getFilteredData(),DataKeys.price)[0],
+      this.getMinMax(this.getFilteredData(),DataKeys.price)[1]
+    )
+    this.stockInput.setRangeValue(
+      this.getMinMax(this.getFilteredData(),DataKeys.stock)[0],
+      this.getMinMax(this.getFilteredData(),DataKeys.stock)[1]
+    )
   }
   testRemove(){
     window.removeEventListener('price',this.priceEventHandler)
@@ -84,7 +100,7 @@ export class SideFilter{
     console.log('remove window event')
   }
   getKeyFilterData(key:DataKeys,min:number,max:number):IProduct[]{
-    return this.productArr.filter(e=>e[key]>min&&e[key]<max)
+    return this.productArr.filter(e=>e[key]>=min&&e[key]<=max)
   }
   getFilteredData():IProduct[]{ // моя гордость))
     let map =  Object.values(this.arrayOfDataAllFilters).flat(1).reduce((acc,e)=>{
@@ -110,6 +126,7 @@ function getHTML(){
   return `
   <div class="side-filter">
     <div class="side-filter__category"></div>
+    <div class="side-filter__brand"></div>
     <div class="side-filter__price"></div>
     <div class="side-filter__stock"></div>
   </div>
