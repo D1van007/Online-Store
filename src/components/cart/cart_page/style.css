@@ -14,7 +14,7 @@
     width: 15%;
     background-color:antiquewhite;
 }
-.product__item {
+.shopping-cart >.product__item {
     display: flex;
 }
 .product__item__img {

@@ -19,4 +19,11 @@ interface IDataProducts{
   total: number
 }
 
-export {IDataProducts, IProduct}
+enum DataKeys{
+  brand='brand',
+  category ='category',
+  price = 'price',
+  stock = 'stock'
+}
+
+export {IDataProducts, IProduct, DataKeys}

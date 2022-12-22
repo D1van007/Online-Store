@@ -1,6 +1,5 @@
 import { DubleRange } from "../duble_range/duble_range";
-import { IProduct } from "../../types";
-
+import { IProduct, DataKeys } from "../../types";
 type Callback = (data:IProduct[])=>void
 
 type DataArrays = {
@@ -29,13 +28,13 @@ export class SideFilter{
     this.productArr = data
     this.callback = callback
     this.priceInput = new DubleRange(this.$iputPriceContainer,{
-      min: this.getMinMaxPrice()[0],
-      max: this.getMinMaxPrice()[1],
+      min: this.getMinMax(DataKeys.price)[0],
+      max: this.getMinMax(DataKeys.price)[1],
       eventName: 'price'
     })
     this.stockInput = new DubleRange(this.$iputStockContainer,{
-      min: this.getMinMaxStock()[0],
-      max: this.getMinMaxStock()[1],
+      min: this.getMinMax(DataKeys.stock)[0],
+      max: this.getMinMax(DataKeys.stock)[1],
       eventName: 'stock'
     })
     this.addDubleRangeTracker()
@@ -43,38 +42,28 @@ export class SideFilter{
   render(){
     this.$parentID.insertAdjacentHTML('afterbegin',getHTML())
   }
-  getMinMaxPrice():number[]{
+  getMinMax(key:DataKeys):number[]{
     let max = this.productArr.reduce((acc,e)=>{
-      return acc<e.price?e.price:acc
-    },this.productArr[0].price)
+      return acc<e[key]?e[key]:acc
+    },this.productArr[0][key])
     let min = this.productArr.reduce((acc,e)=>{
-      return acc<e.price?acc:e.price
-    },this.productArr[0].price)
+      return acc<e[key]?acc:e[key]
+    },this.productArr[0][key])
     console.log([min,max])
-    return [min,max]
-  }
-  getMinMaxStock():number[]{
-    let max = this.productArr.reduce((acc,e)=>{
-      return acc<e.stock?e.stock:acc
-    },this.productArr[0].stock)
-    let min = this.productArr.reduce((acc,e)=>{
-      return acc<e.stock?acc:e.stock
-    },this.productArr[0].stock)
-    console.log([min,max])
-    return [min,max]
+    return [min as number,max as number]
   }
   addDubleRangeTracker(){
     window.addEventListener('price',this.priceEventHandler)
     window.addEventListener('stock',this.stockEventHandler)
   }
   priceEventHandler = (e:any)=>{
-    let data = this.getPriceFilerData(e.detail.result[0],e.detail.result[1])
+    let data = this.getKeyFilterData(DataKeys.price,e.detail.result[0],e.detail.result[1])
     this.arrayOfDataAllFilters.price = data
-    //console.log(this.getFilteredData())
+    //console.log(testClass.print())
     this.callback(this.getFilteredData())
   }
   stockEventHandler = (e:any)=>{
-    let data = this.getStockFilerData(e.detail.result[0],e.detail.result[1])
+    let data = this.getKeyFilterData(DataKeys.stock,e.detail.result[0],e.detail.result[1])
     this.arrayOfDataAllFilters.stock = data
     this.callback(this.getFilteredData())
   }
@@ -83,13 +72,8 @@ export class SideFilter{
     window.removeEventListener('stock',this.stockEventHandler)
     console.log('remove window event')
   }
-  getPriceFilerData(min:number,max:number):IProduct[]{
-    //console.log(this.main)
-    return this.productArr.filter(e=>e.price>min&&e.price<max)
-  }
-  getStockFilerData(min:number,max:number):IProduct[]{
-    //console.log(this.main)
-    return this.productArr.filter(e=>e.stock>min&&e.stock<max)
+  getKeyFilterData(key:DataKeys,min:number,max:number):IProduct[]{
+    return this.productArr.filter(e=>e[key]>min&&e[key]<max)
   }
   getFilteredData():IProduct[]{ // моя гордость))
     let map =  Object.values(this.arrayOfDataAllFilters).flat(1).reduce((acc,e)=>{
