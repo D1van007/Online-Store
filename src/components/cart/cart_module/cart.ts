@@ -1,21 +1,25 @@
 import { IProduct } from "../../../types";
 import { ItemCart } from "./item_cart";
 import { SumCart } from "./sum_cart";
+import { CartLocalStor } from "../../header/cart_local";
 
 export class Cart {
     main : HTMLElement
     cartContent : HTMLElement | null
-    data : IProduct[]
+    dataProducts : IProduct[]
     productList : HTMLUListElement
     numbList : NodeList
+    cartLocalStor: CartLocalStor
     constructor (selector: string) {
         this.main = document.querySelector(selector)!
         this.cartContent = null
         // this.creatCartContent ()
-        this.data = this.getLocalArr ()
+        this.cartLocalStor = new CartLocalStor
+        this.dataProducts = this.cartLocalStor.getLocalDataProducts()
         // this.render()
         this.productList = this.main.querySelector('.shopping-cart_list')!
         this.numbList = document.querySelectorAll('.number__item')
+        this.cartLocalStor = new CartLocalStor
         // this.renderSumInCart ()
         // this.renderItemInCart ()
     }
@@ -24,25 +28,21 @@ export class Cart {
         this.cartContent.classList.add('cart_content')
         this.main.prepend(this.cartContent)
     }
-    getLocalArr () {
-        return JSON.parse(localStorage.getItem('cart_item')!);
-    }
     render () {
         if(this.cartContent)
         this.cartContent.innerHTML = createHTMLParents ()
     }
     renderItemInCart () {
         if (JSON.parse(localStorage.getItem('cart_item')!)){
-        this.data.forEach((e, index) => {
-            if (!JSON.parse(localStorage.getItem(`id${e.id}-amount`)!))
-            {localStorage.setItem(`id${e.id}-amount`, JSON.stringify(1))}
+        this.dataProducts.forEach((e, index) => {
+            if (!JSON.parse(localStorage.getItem(`productAmount-id${e.id}`)!))
+            {localStorage.setItem(`productAmount-id${e.id}`, JSON.stringify(1))}
             let itemCart = new ItemCart(e, this.productList, index )
         })}
     }
     renderSumInCart () {
             let productSum : HTMLElement = document.querySelector('.summary-cart')!
             let sumCart = new SumCart(productSum)
-
         }
 
     totalProducts () {
@@ -60,20 +60,7 @@ export class Cart {
     }
     }
 
-    totalPrice () {
-        if (JSON.parse(localStorage.getItem('cart_item')!)){
-        if (JSON.parse(localStorage.getItem(`cart_item`)!).length>0) {
-        const amountPriceListArr = Array.from(document.querySelectorAll('.product__item__sum'))
-        const amountPriceListArrValue: number[] = []
-        amountPriceListArr.forEach((e:Element) => amountPriceListArrValue.push(Number(e.textContent)))
-        const amountSum = amountPriceListArrValue.reduce((sum, e) => {
-            return sum + e
-        })
-        localStorage.setItem('totalPrice', JSON.stringify(amountSum))
-        const amountSumPrice= document.getElementById('amountSum__price')!
-        amountSumPrice.textContent = `Total: € ${amountSum}`
-    }
-    }}
+
 
     renderItemNumb () {
         this.numbList = document.querySelectorAll('.number__item')

@@ -18,7 +18,7 @@ export class ItemCart {
         this.dataItem = dataItem
         this.index = index
         this.selectorList = selectorList
-        this.value = JSON.parse(localStorage.getItem(`id${dataItem.id}-amount`)!)
+        this.value = JSON.parse(localStorage.getItem(`productAmount-id${dataItem.id}`)!)
         this.render () 
         this.productItemID = document.getElementById(this.dataItem.id.toString())!
         this.amountContent = document.getElementById(`amount_content${dataItem.id}`)!
@@ -45,7 +45,7 @@ export class ItemCart {
             if((<HTMLElement> event.target).matches('.line1')){
                 this.value += 1
                 this.amountValue.textContent = this.value.toString()
-                localStorage.setItem(`id${this.dataItem.id}-amount`, JSON.stringify(this.value));
+                localStorage.setItem(`productAmount-id${this.dataItem.id}`, JSON.stringify(this.value));
             }
             else if((<HTMLElement> event.target).matches('.line3')){
                 this.value -= 1
@@ -62,15 +62,15 @@ export class ItemCart {
 
                     this.cart.renderItemNumb()
 
-                    localStorage.removeItem(`id${this.dataItem.id}-amount`)
+                    localStorage.removeItem(`productAmount-id${this.dataItem.id}`)
                 }
                 else {this.amountValue.textContent = this.value.toString()
-                localStorage.setItem(`id${this.dataItem.id}-amount`, JSON.stringify(this.value));
+                localStorage.setItem(`productAmount-id${this.dataItem.id}`, JSON.stringify(this.value));
                 }
             }
             this.productItemSum.textContent = `${this.value * this.dataItem.price}`
             this.cart.totalProducts()
-            this.cart.totalPrice()
+            this.cartLocalStor.setTotalPrice()
             // console.log(this.cartLocalStor)
             this.cartLocalStor.drawValueCart()
 

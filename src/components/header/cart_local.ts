@@ -13,7 +13,6 @@ export class CartLocalStor {
     setAddTotalProducts () {
         this.totalProductsFromLocal = this.getLocalTotalProducts ()
         if(this.totalProductsFromLocal){ 
-            // console.log(this.getLocalTotalProducts ())
           localStorage.setItem('totalProducts',JSON.stringify(this.getLocalTotalProducts () + 1))
           this.drawValueCart ()
       } else {
@@ -21,16 +20,7 @@ export class CartLocalStor {
         this.drawValueCart ()
       }
     }
-    // setRemoveTotalProducts () {
-    //     this.totalProductsFromLocal = this.getLocalTotalProducts ()
-    //     if(this.totalProductsFromLocal > 1){
-    //         localStorage.setItem('totalProducts',JSON.stringify(this.getLocalTotalProducts () - JSON.parse(localStorage.getItem(`id${this.$id.id}-amount`))))
-    //         this.drawValueCart ()
-    //     } else {
-    //         localStorage.setItem('totalProducts',JSON.stringify(0))
-    //         this.drawValueCart () 
-    //     }
-    // }
+
     getLocalTotalProducts () {
         return JSON.parse(localStorage.getItem('totalProducts')!)
     }
@@ -47,11 +37,30 @@ export class CartLocalStor {
         const index = cartLocal.findIndex((e: IProduct) => e.id.toString() === element.id);
         if (index !== -1) {
             cartLocal.splice(index, 1);
-
-        // }
-    localStorage.setItem('cart_item', JSON.stringify(cartLocal))   
+        localStorage.setItem('cart_item', JSON.stringify(cartLocal))   
+        }
+    }   
+    setTotalPrice () {
+        if (JSON.parse(localStorage.getItem('cart_item')!)) {
+            const dataProducts = this.getLocalDataProducts ()
+            const totalPriceValue = dataProducts.reduce((sum: number, e: { id: number; price: number }) => {
+                let keysLocal = Object.keys(localStorage);
+                keysLocal.forEach(el => {
+                    if (e.id == +el.slice(16)) {
+                        sum = sum + (e.price * Number(localStorage.getItem(el))!);
+                    }
+                })
+                return sum
+                }, 0)
+            localStorage.setItem('totalPrice', JSON.stringify(totalPriceValue))
+            const totalPriceCartDOM = document.getElementById('amountSum__price')
+            const totalPriceHeaderDOM = document.getElementById('total-price')!
+            totalPriceHeaderDOM.textContent = `Total: € ${totalPriceValue}`
+            if(totalPriceCartDOM) {
+            totalPriceCartDOM.textContent = `Total: € ${totalPriceValue}`
+            }
+        }
     }
-}
 
 
 }
