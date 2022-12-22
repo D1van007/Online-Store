@@ -1,5 +1,7 @@
 import { DubleRange } from "../duble_range/duble_range";
 import { IProduct, DataKeys } from "../../types";
+import { CheckboxSection } from "./checkbox_section";
+
 type Callback = (data:IProduct[])=>void
 
 type DataArrays = {
@@ -15,16 +17,19 @@ export class SideFilter{
   stockInput: DubleRange
   $iputPriceContainer: HTMLElement
   $iputStockContainer: HTMLElement
+  $categoryContainer: HTMLElement
   productArr: IProduct[]
   arrayOfDataAllFilters: DataArrays = {}
   callback:Callback
   main:any //test
+  categoryCheck:CheckboxSection
   constructor(selector:string,data:IProduct[],callback:Callback,main:any){
     this.main = main //test
     this.$parentID = document.getElementById(selector)!
     this.render()
     this.$iputPriceContainer = this.$parentID.querySelector('.side-filter__price')!
     this.$iputStockContainer = this.$parentID.querySelector('.side-filter__stock')!
+    this.$categoryContainer = this.$parentID.querySelector('.side-filter__category')!
     this.productArr = data
     this.callback = callback
     this.priceInput = new DubleRange(this.$iputPriceContainer,{
@@ -38,6 +43,7 @@ export class SideFilter{
       eventName: 'stock'
     })
     this.addDubleRangeTracker()
+    this.categoryCheck = new CheckboxSection(this.$categoryContainer,this.productArr,this,DataKeys.category)
   }
   render(){
     this.$parentID.insertAdjacentHTML('afterbegin',getHTML())
@@ -59,13 +65,18 @@ export class SideFilter{
   priceEventHandler = (e:any)=>{
     let data = this.getKeyFilterData(DataKeys.price,e.detail.result[0],e.detail.result[1])
     this.arrayOfDataAllFilters.price = data
-    //console.log(testClass.print())
+    this.updateCheckBoxSections()
     this.callback(this.getFilteredData())
   }
   stockEventHandler = (e:any)=>{
     let data = this.getKeyFilterData(DataKeys.stock,e.detail.result[0],e.detail.result[1])
     this.arrayOfDataAllFilters.stock = data
+    this.updateCheckBoxSections()
     this.callback(this.getFilteredData())
+  }
+  updateCheckBoxSections(){
+    this.categoryCheck.pushFilteredData()
+    this.categoryCheck.updateList()
   }
   testRemove(){
     window.removeEventListener('price',this.priceEventHandler)
@@ -98,6 +109,7 @@ export class SideFilter{
 function getHTML(){
   return `
   <div class="side-filter">
+    <div class="side-filter__category"></div>
     <div class="side-filter__price"></div>
     <div class="side-filter__stock"></div>
   </div>
