@@ -43,25 +43,20 @@ export class ItemCart {
         this.productItemID.addEventListener('click', (event) => {
             console.log(this)
             if((<HTMLElement> event.target).matches('.line1')){
+                if (this.value >= this.dataItem.stock){
+                    return
+                } else {
                 this.value += 1
                 this.amountValue.textContent = this.value.toString()
                 localStorage.setItem(`productAmount-id${this.dataItem.id}`, JSON.stringify(this.value));
+                }
             }
             else if((<HTMLElement> event.target).matches('.line3')){
                 this.value -= 1
                 if (this.value < 1) {
                     this.cartLocalStor.removeItemInCart (this.productItemID)
-                    // const arrLocal = JSON.parse(localStorage.getItem('cart_item')!);
-                    // const index = arrLocal.findIndex((e: IProduct) => e.id === this.dataItem.id);
-                    //     if (index !== -1) {
-                    //         arrLocal.splice(index, 1);
-                    //     }
-                    // localStorage.setItem('cart_item', JSON.stringify(arrLocal))   
-
                     this.productItemID.remove()
-
                     this.cart.renderItemNumb()
-
                     localStorage.removeItem(`productAmount-id${this.dataItem.id}`)
                 }
                 else {this.amountValue.textContent = this.value.toString()
@@ -90,12 +85,13 @@ function createHTMLCartItem (dataItem : IProduct, index: number, amountValue: nu
         <h3 class="product__item__title">${dataItem.title}</h3>
         <p class="product__item__description">${dataItem.description}</p>
             <div class="product__item__description-second">
+                <p class="product__item__price">Price: €${dataItem.price}</p>
                 <p class="product__item__rating">Rating: ${dataItem.rating}</p>
                 <p class="product__item__discount">Discount: ${dataItem.discountPercentage}</p>
             </div> 
     </div>    
     <div>
-        <p class="product__item__price">Price: €${dataItem.price}</p>
+        <p class="product__item__price">Stock: ${dataItem.stock}</p>
         <div id="amount_content${dataItem.id}" class="amount_content">
             <div class="add-value_circle value_circle">
                 <div class="circle__line line1">+</div>
