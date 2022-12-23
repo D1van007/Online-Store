@@ -5,13 +5,13 @@ import { CartPage } from "../cart/cart_page";
 
 export class Router{
   loader:Loader
-  galleryFilter:ProductsPage|null
+  productPage:ProductsPage|null
   isNewPage:boolean = true
   url:URL
   cartPage : CartPage | null
   constructor(){
     this.loader = new Loader()
-    this.galleryFilter = null
+    this.productPage = null
     this.cartPage = null
     this.url = new URL(window.location.href)
     this.historyEventTarcker()
@@ -30,10 +30,10 @@ export class Router{
   historyEventHendler(){
     setTimeout(async()=>{ //это костыль
       this.isNewPage = this.isNewPageHandler()
-      if(this.galleryFilter){ //?????? test
-        this.galleryFilter.sideFilter?.testRemove()
-        this.galleryFilter.sideFilter = null
-      }  //?????? test
+      if(this.productPage){ 
+        this.productPage.sideFilter?.testRemove() //без этого сборщий мусора не хочет удалять экземпляр
+        this.productPage.sideFilter = null
+      }
       this.urlUpdate()
       this.clearMain()
       await this.newPageRoute()
@@ -43,7 +43,7 @@ export class Router{
   async newPageRoute(){
     if(this.isNewPage){
       if(this.url.pathname == '/'){
-        await this.loadAndCreateGallery()
+        await this.loadAndCreateProductPage()
       }
       else if(this.url.pathname == '/cart'){
         this.cartPage = new CartPage()
@@ -64,16 +64,16 @@ export class Router{
 
   }
 
-  async loadAndCreateGallery(){
+  async loadAndCreateProductPage(){
     let data = await this.loader.load()
-    this.galleryFilter = new ProductsPage('main',data)
+    this.productPage = new ProductsPage('main',data)
   }
 
   async createItemPage(){
-    await this.loadAndCreateGallery()
+    await this.loadAndCreateProductPage()
     let $main = document.getElementById('main')!
     $main.innerHTML = ''
-    let productItemsArr = this.galleryFilter?.catalog.productsArr
+    let productItemsArr = this.productPage?.catalog.productsArr
     let id = parseInt(this.url.pathname.replace(/[^\d]/g, ''))
     productItemsArr = productItemsArr?.filter(e=>e.id == id)
     if(productItemsArr)
