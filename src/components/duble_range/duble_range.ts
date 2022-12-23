@@ -47,7 +47,6 @@ export class DubleRange{
   removeListeners(){
     this.firstInputDOM.removeEventListener('change', this.changeEventHadler)
     this.secondInputDOM.removeEventListener('change', this.changeEventHadler)
-    console.log('listeners removed')
   }
   customEvent(){
     let dubleevent = new CustomEvent(this.options.eventName,{

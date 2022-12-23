@@ -61,7 +61,6 @@ export class SideFilter{
     let min = data.reduce((acc,e)=>{
       return acc<e[key]?acc:e[key]
     },data[0][key])
-    console.log([min,max])
     return [min as number,max as number]
   }
   addDubleRangeTracker(){
@@ -93,7 +92,6 @@ export class SideFilter{
   testRemove(){
     window.removeEventListener('price',this.priceEventHandler)
     window.removeEventListener('stock',this.stockEventHandler)
-    console.log('remove window event')
   }
   getKeyFilterData(key:DataKeys,min:number,max:number):IProduct[]{
     return this.productData.filter(e=>e[key]>=min&&e[key]<=max)

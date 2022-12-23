@@ -14,15 +14,4 @@ document.querySelector('.cart-link')?.addEventListener('click',(e:Event)=>{
   eventedPushState({},'','/cart')
 })
 
-class TestClass{
-  value:number = 50
-  constructor(){
-
-  }
-  print(){
-    console.log(this.value)
-  }
-}
-
-export const testClass = new TestClass()
 

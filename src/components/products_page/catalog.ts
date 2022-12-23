@@ -18,7 +18,6 @@ export class Catalog{
   createContainers():HTMLUListElement{
     this.catalogContainerDOM = document.createElement('div')
     this.catalogContainerDOM.classList.add('catalog')
-    console.log(this.parentDOM)
     this.parentDOM.insertAdjacentElement('beforeend',this.catalogContainerDOM)
     let productList = document.createElement('ul')
     productList.classList.add('product__list')

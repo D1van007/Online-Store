@@ -50,7 +50,6 @@ export class ProductsPage{
   inputHandler(){
     let filterData = this.searchDataFilter(this.searchDOM.value)
     if (this.sideFilter){
-      //console.log(filterData)
       this.sideFilter.arrayOfDataAllFilters.search = filterData
       this.sideFilterHandler(this.sideFilter.getFilteredData())
       this.sideFilter.updateCheckBoxSections()
@@ -64,8 +63,7 @@ export class ProductsPage{
   searchDataFilter(value:string):IProduct[]{
     return this.data.filter(e=>e.title.toLocaleLowerCase().includes(value.toLocaleLowerCase()))
   }
-  sideFilterHandler(data:IProduct[]){ // тестим
-    console.log('раз')
+  sideFilterHandler(data:IProduct[]){
     this.currentData = data
     this.sortHandler()
     this.rerenderCatalog()
