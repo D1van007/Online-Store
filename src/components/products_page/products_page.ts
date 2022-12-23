@@ -25,7 +25,7 @@ export class ProductsPage{
     this.totalCountDOM = this.containerDOM.querySelector('.search-bar__total')!
     this.searchInput()
     this.catalog = new Catalog('products-page',this.data)
-    this.sideFilter = new SideFilter('products-page',this.data,(data)=>this.sideFilterHandler(data),this)
+    this.sideFilter = new SideFilter('products-page',this.data,(data)=>this.sideFilterHandler(data))
     this.sortInput()
     this.hrefParamsHendler()
     this.inputHandler() //пушим данные в sideFilter.arrayOfDataAllFilters чтоб не был пустым
