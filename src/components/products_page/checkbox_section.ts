@@ -4,37 +4,37 @@ import { SideFilter } from "./side_filter";
 
 export class CheckboxSection{
   data:IProduct[]
-  $container:HTMLElement
-  $ulList:HTMLUListElement
+  containerDOM:HTMLElement
+  listContainerDOM:HTMLUListElement
   parent:SideFilter
   keyName:DataKeys
-  $listArr:NodeListOf<HTMLElement>
+  listArrayDOM:NodeListOf<HTMLElement>
   constructor(selector:HTMLElement,data:IProduct[],parent:SideFilter,keyName:DataKeys){
-    this.$container = selector
+    this.containerDOM = selector
     this.data = data
     this.parent = parent
     this.keyName = keyName
-    this.$ulList = this.createAndReturnUl()
+    this.listContainerDOM = this.createAndReturnUl()
     this.renderItems()
-    this.$listArr = this.$ulList.querySelectorAll('.checkbox-list__item')
+    this.listArrayDOM = this.listContainerDOM.querySelectorAll('.checkbox-list__item')
     this.checkboxEventTracker()
   }
   createAndReturnUl():HTMLUListElement{
     let ul = document.createElement('ul')
     ul.classList.add('checkbox-list')
-    this.$container.insertAdjacentElement('beforeend',ul)
+    this.containerDOM.insertAdjacentElement('beforeend',ul)
     return ul
   }
   renderItems(){
     this.getMapByKey(this.data).forEach((value,key)=>{
-      this.$ulList.insertAdjacentHTML('beforeend',itemHTML(key,this.getRandomId(),value.length))
+      this.listContainerDOM.insertAdjacentHTML('beforeend',itemHTML(key,this.getRandomId(),value.length))
     })
   }
   getRandomId(){
     return Math.round(Math.random()*Date.now())
   }
   checkboxEventTracker(){
-    this.$ulList.addEventListener('click',(e)=>{
+    this.listContainerDOM.addEventListener('click',(e)=>{
       if(e.target instanceof HTMLInputElement){
         this.pushFilteredData()
         this.parent.updateCheckBoxSections()
@@ -46,7 +46,7 @@ export class CheckboxSection{
     let data = Array.from(this.data)
     let resultData:IProduct[] = []
     let isAnyCheck:boolean = false
-    this.$listArr.forEach(e=>{
+    this.listArrayDOM.forEach(e=>{
       let input = e.firstElementChild as HTMLInputElement
       if(input.checked){
         let current = data.filter(e=>e[this.keyName]==input.name)
@@ -63,7 +63,7 @@ export class CheckboxSection{
   }
   updateList(){
     let currentData = this.getMapByKey(this.parent.getFilteredData())
-    this.$listArr.forEach(e=>{
+    this.listArrayDOM.forEach(e=>{
       let input = e.firstElementChild as HTMLInputElement
       if(currentData.has(input.value)){
         e.children[2].textContent = (currentData.get(input.value) as IProduct[]).length.toString()+' /'

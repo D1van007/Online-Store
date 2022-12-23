@@ -23,6 +23,7 @@
 .catalog{
   grid-column-start: 2;
   grid-column-end: 4;
+  min-height: 100vh;
 }
 .product__list{
   display: grid;
