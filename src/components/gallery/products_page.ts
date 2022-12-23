@@ -1,53 +1,54 @@
 import { IProduct } from "../../types";
-import { Gallery } from "../gallery/gallery";
+import { Gallery } from "./gallery";
 import './gallery.css'
 import { SideFilter } from "./side_filter";
 
 
-export class GalleryFilter{
+export class ProductsPage{
   data: IProduct[]
   currentData: IProduct[]
-  $parentId: HTMLElement
-  $id:HTMLDivElement
-  $search:HTMLInputElement
-  $sort:HTMLInputElement
+  mainDOM: HTMLElement
+  containerDOM:HTMLDivElement
+  searchDOM:HTMLInputElement
+  sortDOM:HTMLInputElement
   totalCountDOM:HTMLElement
-  gallery: Gallery
+  catalog: Gallery
   sideFilter:SideFilter|null
   constructor(selector:string, data:IProduct[]){
-    this.$parentId = document.getElementById(selector)!
+    this.mainDOM = document.getElementById(selector)!
     this.data = data
     this.currentData = this.data
-    this.$id = this.render()
+    this.containerDOM = this.createAndReturnContainer()
     this.renderContent()
-    this.$search = this.$id.querySelector('.gellery__filter__search-bar')!
-    this.$sort = this.$id.querySelector('.gellery__filter__sort-bar')!
-    this.totalCountDOM = this.$id.querySelector('.gellery__filter__total')!
+    this.searchDOM = this.containerDOM.querySelector('.search-bar__search-bar')!
+    this.sortDOM = this.containerDOM.querySelector('.search-bar__sort-bar')!
+    this.totalCountDOM = this.containerDOM.querySelector('.search-bar__total')!
     this.searchInput()
-    this.gallery = new Gallery('main',this.data)
-    this.sideFilter = new SideFilter('main',this.data,(data)=>this.sideFilterHandler(data),this)
+    this.catalog = new Gallery('products-page',this.data)
+    this.sideFilter = new SideFilter('products-page',this.data,(data)=>this.sideFilterHandler(data),this)
     this.sortInput()
     this.hrefParamsHendler()
     this.inputHandler() //пушим данные в sideFilter.arrayOfDataAllFilters чтоб не был пустым
     this.renderTotalCount()
   }
-  render():HTMLDivElement{
-    let filterContainer = document.createElement('div')
-    filterContainer.classList.add('gellery__filter')
-    this.$parentId.insertAdjacentElement('afterbegin',filterContainer)
-    return filterContainer
+  createAndReturnContainer():HTMLDivElement{
+    let container = document.createElement('div')
+    container.classList.add('products-page')
+    container.id = 'products-page'
+    this.mainDOM.insertAdjacentElement('afterbegin',container)
+    return container
   }
   renderContent(){
-    this.$id.innerHTML = renderHTML()
+    this.containerDOM.innerHTML = renderHTML()
   }
   renderTotalCount(){
     this.totalCountDOM.textContent = ` count: ${this.currentData.length}`
   }
   searchInput(){
-    this.$search.addEventListener('input', this.inputHandler.bind(this))
+    this.searchDOM.addEventListener('input', this.inputHandler.bind(this))
   }
   inputHandler(){
-    let filterData = this.searchDataFilter(this.$search.value)
+    let filterData = this.searchDataFilter(this.searchDOM.value)
     if (this.sideFilter){
       //console.log(filterData)
       this.sideFilter.arrayOfDataAllFilters.search = filterData
@@ -57,8 +58,8 @@ export class GalleryFilter{
     }
   }
   rerenderGallery(){
-    this.gallery.destroy()
-    this.gallery = new Gallery('main',this.currentData)
+    this.catalog.destroy()
+    this.catalog = new Gallery('main',this.currentData)
   }
   searchDataFilter(value:string):IProduct[]{
     return this.data.filter(e=>e.title.toLocaleLowerCase().includes(value.toLocaleLowerCase()))
@@ -71,21 +72,21 @@ export class GalleryFilter{
     this.renderTotalCount()
   }
   sortInput(){
-    this.$sort.addEventListener('change',()=>{
+    this.sortDOM.addEventListener('change',()=>{
       this.sortHandler()
       this.inputHandler()
     })
   }
-  hrefParamsHendler(){
+  hrefParamsHendler(){// тестовая
     let url = new URL(window.location.href)
     let params = url.searchParams
     if(params.has('search')){
-      this.$search.value = params.get('search')!
+      this.searchDOM.value = params.get('search')!
       this.inputHandler()
     }
   }
   sortHandler(){
-    switch (this.$sort.value) {
+    switch (this.sortDOM.value) {
       case 'raitingASC':
         this.currentData = this.currentData.sort((a,b)=>a.rating-b.rating)
         break;
@@ -110,15 +111,17 @@ export class GalleryFilter{
 
 function renderHTML():string{
   return `
-    <input class = "gellery__filter__search-bar" placeholder="Enter some text" name="name" />
-    <select class = "gellery__filter__sort-bar">
-      <option value="raitingASC">Sort by raiting ASC</option>
-      <option value="raitingDESC">Sort by raiting DESC</option>
-      <option value="priceASC">Sort by price ASC</option>
-      <option value="priceDESC">Sort by price DESC</option>
-      <option value="discountASC">Sort by discount ASC</option>
-      <option value="discountDESC">Sort by discount DESC</option>
-    </select>
-    <span class="gellery__filter__total"></span>
+    <div class="search-bar">
+      <input class = "search-bar__search-bar" placeholder="Enter some text" name="name" />
+      <select class = "search-bar__sort-bar">
+        <option value="raitingASC">Sort by raiting ASC</option>
+        <option value="raitingDESC">Sort by raiting DESC</option>
+        <option value="priceASC">Sort by price ASC</option>
+        <option value="priceDESC">Sort by price DESC</option>
+        <option value="discountASC">Sort by discount ASC</option>
+        <option value="discountDESC">Sort by discount DESC</option>
+      </select>
+      <span class="search-bar__total"></span>
+    </div>  
   `
 }

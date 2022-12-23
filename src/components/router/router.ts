@@ -1,13 +1,13 @@
 import { eventedPushState } from "./events_history";
 import { Loader } from "../loader/loader";
 import { IDataProducts } from "../../types";
-import { GalleryFilter } from "../gallery/gallery_filter";
+import { ProductsPage } from "../gallery/products_page";
 import { CartPage } from "../cart/cart_page";
 
 
 export class Router{
   loader:Loader
-  galleryFilter:GalleryFilter|null
+  galleryFilter:ProductsPage|null
   isNewPage:boolean = true
   url:URL
   cartPage : CartPage | null
@@ -68,14 +68,14 @@ export class Router{
 
   async loadAndCreateGallery(){
     let data = await this.loader.load()
-    this.galleryFilter = new GalleryFilter('main',data)
+    this.galleryFilter = new ProductsPage('main',data)
   }
 
   async createItemPage(){
     await this.loadAndCreateGallery()
     let $main = document.getElementById('main')!
     $main.innerHTML = ''
-    let productItemsArr = this.galleryFilter?.gallery.productsArr
+    let productItemsArr = this.galleryFilter?.catalog.productsArr
     let id = parseInt(this.url.pathname.replace(/[^\d]/g, ''))
     productItemsArr = productItemsArr?.filter(e=>e.id == id)
     if(productItemsArr)
