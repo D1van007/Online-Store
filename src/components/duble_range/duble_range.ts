@@ -7,73 +7,73 @@ type DubleRangeOptions = {
 }
 
 export class DubleRange{
-  $parent:HTMLElement
+  parentDOM:HTMLElement
   options: DubleRangeOptions
-  $container:HTMLElement
-  $firstInput:HTMLInputElement
-  $secondInput:HTMLInputElement
-  $rightInfo:HTMLElement
-  $leftInfo:HTMLElement
+  containerDOM:HTMLElement
+  firstInputDOM:HTMLInputElement
+  secondInputDOM:HTMLInputElement
+  firstInfoDOM:HTMLElement
+  secondInfoDOM:HTMLElement
   constructor(selector:HTMLElement,options:DubleRangeOptions){
-    this.$parent = selector
+    this.parentDOM = selector
     this.options = options
     this.render()
-    this.$container = this.$parent.querySelector('.duble-range')!
-    this.$firstInput = this.$container.querySelector('.duble-range__i1')!
-    this.$secondInput = this.$container.querySelector('.duble-range__i2')!
-    this.$leftInfo = this.$container.querySelector('.info__left')!
-    this.$rightInfo = this.$container.querySelector('.info__right')!
+    this.containerDOM = this.parentDOM.querySelector('.duble-range')!
+    this.firstInputDOM = this.containerDOM.querySelector('.duble-range__i1')!
+    this.secondInputDOM = this.containerDOM.querySelector('.duble-range__i2')!
+    this.secondInfoDOM = this.containerDOM.querySelector('.info__left')!
+    this.firstInfoDOM = this.containerDOM.querySelector('.info__right')!
     this.renderInfoCurrentValue()
     this.drEventsTracker()
   }
   render(){
-    this.$parent.innerHTML = getdubleRangeHTML(this.options)
+    this.parentDOM.innerHTML = getdubleRangeHTML(this.options)
   }
   drEventsTracker(){
-    this.$firstInput.addEventListener('input',()=>{
+    this.firstInputDOM.addEventListener('input',()=>{
       this.setBackgroundGradient()
       this.renderInfoCurrentValue()
     })
-    this.$secondInput.addEventListener('input',()=>{
+    this.secondInputDOM.addEventListener('input',()=>{
       this.setBackgroundGradient()
       this.renderInfoCurrentValue()
     })
-    this.$firstInput.addEventListener('change', this.changeEventHadler)
-    this.$secondInput.addEventListener('change',this.changeEventHadler)
+    this.firstInputDOM.addEventListener('change', this.changeEventHadler)
+    this.secondInputDOM.addEventListener('change',this.changeEventHadler)
   }
   changeEventHadler = ()=>{
     this.customEvent()
   }
   removeListeners(){
-    this.$firstInput.removeEventListener('change', this.changeEventHadler)
-    this.$secondInput.removeEventListener('change', this.changeEventHadler)
+    this.firstInputDOM.removeEventListener('change', this.changeEventHadler)
+    this.secondInputDOM.removeEventListener('change', this.changeEventHadler)
     console.log('listeners removed')
   }
   customEvent(){
     let dubleevent = new CustomEvent(this.options.eventName,{
       detail: {
-          result: [+this.$firstInput.value,+this.$secondInput.value].sort((a,b)=>a-b)
+          result: [+this.firstInputDOM.value,+this.secondInputDOM.value].sort((a,b)=>a-b)
       }
     })
     window.dispatchEvent(dubleevent)
   }
   renderInfoCurrentValue(){
-    this.$leftInfo.style.left = `${((this.getPercent(this.$firstInput)/100)*this.$firstInput.offsetWidth)*0.9}px`
-    this.$leftInfo.textContent = `${Math.round(Number(this.$firstInput.value))}`
-    this.$rightInfo.style.left = `${((this.getPercent(this.$secondInput)/100)*this.$secondInput.offsetWidth)*0.9}px`
-    this.$rightInfo.textContent = `${Math.round(Number(this.$secondInput.value))}`
+    this.secondInfoDOM.style.left = `${((this.getPercent(this.firstInputDOM)/100)*this.firstInputDOM.offsetWidth)*0.9}px`
+    this.secondInfoDOM.textContent = `${Math.round(Number(this.firstInputDOM.value))}`
+    this.firstInfoDOM.style.left = `${((this.getPercent(this.secondInputDOM)/100)*this.secondInputDOM.offsetWidth)*0.9}px`
+    this.firstInfoDOM.textContent = `${Math.round(Number(this.secondInputDOM.value))}`
   }
   setBackgroundGradient(){
-    let minMaxArr = [this.getPercent(this.$firstInput),this.getPercent(this.$secondInput)].sort((a,b)=>a-b)
-    this.$firstInput.style.background = `linear-gradient(90deg, rgb(119, 157, 179) ${minMaxArr[0]}%, rgb(174, 175, 85) ${minMaxArr[0]}%, 
+    let minMaxArr = [this.getPercent(this.firstInputDOM),this.getPercent(this.secondInputDOM)].sort((a,b)=>a-b)
+    this.firstInputDOM.style.background = `linear-gradient(90deg, rgb(119, 157, 179) ${minMaxArr[0]}%, rgb(174, 175, 85) ${minMaxArr[0]}%, 
     rgb(174, 175, 85) ${minMaxArr[1]}%, rgb(119, 157, 179) ${minMaxArr[1]}%)`
   }
   getPercent(elem:HTMLInputElement):number{
     return Number(elem.value)/Number(elem.max)*100
   }
   setRangeValue(min:number,max:number){
-    this.$firstInput.value = min.toString()
-    this.$secondInput.value = max.toString()
+    this.firstInputDOM.value = min.toString()
+    this.secondInputDOM.value = max.toString()
     this.setBackgroundGradient()
     this.renderInfoCurrentValue()
     //this.customEvent()
