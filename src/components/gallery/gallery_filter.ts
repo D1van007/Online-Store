@@ -11,6 +11,7 @@ export class GalleryFilter{
   $id:HTMLDivElement
   $search:HTMLInputElement
   $sort:HTMLInputElement
+  totalCountDOM:HTMLElement
   gallery: Gallery
   sideFilter:SideFilter|null
   constructor(selector:string, data:IProduct[]){
@@ -21,11 +22,14 @@ export class GalleryFilter{
     this.renderContent()
     this.$search = this.$id.querySelector('.gellery__filter__search-bar')!
     this.$sort = this.$id.querySelector('.gellery__filter__sort-bar')!
+    this.totalCountDOM = this.$id.querySelector('.gellery__filter__total')!
     this.searchInput()
     this.gallery = new Gallery('main',this.data)
     this.sideFilter = new SideFilter('main',this.data,(data)=>this.sideFilterHandler(data),this)
     this.sortInput()
     this.hrefParamsHendler()
+    this.inputHandler() //пушим данные в sideFilter.arrayOfDataAllFilters чтоб не был пустым
+    this.renderTotalCount()
   }
   render():HTMLDivElement{
     let filterContainer = document.createElement('div')
@@ -36,23 +40,35 @@ export class GalleryFilter{
   renderContent(){
     this.$id.innerHTML = renderHTML()
   }
-  
+  renderTotalCount(){
+    this.totalCountDOM.textContent = ` count: ${this.currentData.length}`
+  }
   searchInput(){
     this.$search.addEventListener('input', this.inputHandler.bind(this))
   }
   inputHandler(){
-    this.gallery.destroy()
     let filterData = this.searchDataFilter(this.$search.value)
-    this.gallery = new Gallery('main',filterData)
+    if (this.sideFilter){
+      //console.log(filterData)
+      this.sideFilter.arrayOfDataAllFilters.search = filterData
+      this.sideFilterHandler(this.sideFilter.getFilteredData())
+      this.sideFilter.updateCheckBoxSections()
+      this.sideFilter.updatePriceAndStockRange()
+    }
+  }
+  rerenderGallery(){
+    this.gallery.destroy()
+    this.gallery = new Gallery('main',this.currentData)
   }
   searchDataFilter(value:string):IProduct[]{
-    return this.currentData.filter(e=>e.title.toLocaleLowerCase().includes(value.toLocaleLowerCase()))
+    return this.data.filter(e=>e.title.toLocaleLowerCase().includes(value.toLocaleLowerCase()))
   }
   sideFilterHandler(data:IProduct[]){ // тестим
     console.log('раз')
     this.currentData = data
     this.sortHandler()
-    this.inputHandler()
+    this.rerenderGallery()
+    this.renderTotalCount()
   }
   sortInput(){
     this.$sort.addEventListener('change',()=>{
@@ -103,5 +119,6 @@ function renderHTML():string{
       <option value="discountASC">Sort by discount ASC</option>
       <option value="discountDESC">Sort by discount DESC</option>
     </select>
+    <span class="gellery__filter__total"></span>
   `
 }

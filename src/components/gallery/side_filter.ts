@@ -8,7 +8,8 @@ type DataArrays = {
   price?:IProduct[],
   stock?:IProduct[],
   category?:IProduct[],
-  brand?:IProduct[]
+  brand?:IProduct[],
+  search?:IProduct[]
 }
 
 export class SideFilter{
@@ -53,6 +54,9 @@ export class SideFilter{
     this.$parentID.insertAdjacentHTML('afterbegin',getHTML())
   }
   getMinMax(data:IProduct[],key:DataKeys):number[]{
+     if(data.length == 0){
+      return [0,0]
+     }
     let max = data.reduce((acc,e)=>{
       return acc<e[key]?e[key]:acc
     },data[0][key])
@@ -85,14 +89,10 @@ export class SideFilter{
     this.brandCheck.updateList()
   }
   updatePriceAndStockRange(){
-    this.priceInput.setRangeValue(
-      this.getMinMax(this.getFilteredData(),DataKeys.price)[0],
-      this.getMinMax(this.getFilteredData(),DataKeys.price)[1]
-    )
-    this.stockInput.setRangeValue(
-      this.getMinMax(this.getFilteredData(),DataKeys.stock)[0],
-      this.getMinMax(this.getFilteredData(),DataKeys.stock)[1]
-    )
+    let priceMinMax = this.getMinMax(this.getFilteredData(),DataKeys.price)
+    let stockMinMax = this.getMinMax(this.getFilteredData(),DataKeys.stock)
+    this.priceInput.setRangeValue(priceMinMax[0],priceMinMax[1])
+    this.stockInput.setRangeValue(stockMinMax[0],stockMinMax[1])
   }
   testRemove(){
     window.removeEventListener('price',this.priceEventHandler)
