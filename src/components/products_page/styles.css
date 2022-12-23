@@ -1,3 +1,29 @@
+.products-page{
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(3,1fr);
+  grid-template-rows: min-content 1fr;
+}
+.side-filter{
+  min-height: min-content;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  border-top: 5px solid rgb(170, 68, 68);
+}
+.search-bar{
+  background-color: rgb(170, 68, 68);
+  padding: 20px;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  grid-column-start: 2;
+  grid-column-end: 4;
+}
+.catalog{
+  grid-column-start: 2;
+  grid-column-end: 4;
+}
 .product__list{
   display: grid;
   grid-template-columns: repeat(4,1fr);
@@ -20,6 +46,7 @@
 }
 
 .search-bar{
+  box-sizing: border-box;
   background-color: rgb(170, 68, 68);
   padding: 20px;
 }
@@ -32,6 +59,7 @@
   height: 150px;
   overflow-y: scroll;
   border: 1px solid rgb(179, 179, 179);
+  padding: 0;
 }
 
 .checkbox-list__item{

@@ -1,7 +1,5 @@
-import { eventedPushState } from "./events_history";
 import { Loader } from "../loader/loader";
-import { IDataProducts } from "../../types";
-import { ProductsPage } from "../gallery/products_page";
+import { ProductsPage } from "../products_page/products_page";
 import { CartPage } from "../cart/cart_page";
 
 

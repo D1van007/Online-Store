@@ -1,6 +1,6 @@
 import { IProduct } from "../../types";
-import { Gallery } from "./gallery";
-import './gallery.css'
+import { Catalog } from "./catalog";
+import './styles.css'
 import { SideFilter } from "./side_filter";
 
 
@@ -12,7 +12,7 @@ export class ProductsPage{
   searchDOM:HTMLInputElement
   sortDOM:HTMLInputElement
   totalCountDOM:HTMLElement
-  catalog: Gallery
+  catalog: Catalog
   sideFilter:SideFilter|null
   constructor(selector:string, data:IProduct[]){
     this.mainDOM = document.getElementById(selector)!
@@ -24,7 +24,7 @@ export class ProductsPage{
     this.sortDOM = this.containerDOM.querySelector('.search-bar__sort-bar')!
     this.totalCountDOM = this.containerDOM.querySelector('.search-bar__total')!
     this.searchInput()
-    this.catalog = new Gallery('products-page',this.data)
+    this.catalog = new Catalog('products-page',this.data)
     this.sideFilter = new SideFilter('products-page',this.data,(data)=>this.sideFilterHandler(data),this)
     this.sortInput()
     this.hrefParamsHendler()
@@ -57,9 +57,9 @@ export class ProductsPage{
       this.sideFilter.updatePriceAndStockRange()
     }
   }
-  rerenderGallery(){
+  rerenderCatalog(){
     this.catalog.destroy()
-    this.catalog = new Gallery('main',this.currentData)
+    this.catalog = new Catalog('products-page',this.currentData)
   }
   searchDataFilter(value:string):IProduct[]{
     return this.data.filter(e=>e.title.toLocaleLowerCase().includes(value.toLocaleLowerCase()))
@@ -68,7 +68,7 @@ export class ProductsPage{
     console.log('раз')
     this.currentData = data
     this.sortHandler()
-    this.rerenderGallery()
+    this.rerenderCatalog()
     this.renderTotalCount()
   }
   sortInput(){
