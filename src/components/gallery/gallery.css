@@ -1,4 +1,4 @@
-.product__list{
+.product_list{
   display: grid;
   grid-template-columns: repeat(4,1fr);
   grid-gap: 5px;
@@ -6,7 +6,7 @@
   margin: 0;
   padding: 0;
 }
-.product__item{
+.product_item{
   background-size: cover;
   list-style: none;
   color: rgb(65, 131, 65);
@@ -15,7 +15,7 @@
   cursor: pointer;
 }
 
-.product__item__title{
+.product_item__title{
   background-color: rgba(224, 224, 224, 0.5);
 }
 

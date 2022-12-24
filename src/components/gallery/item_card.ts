@@ -1,101 +1,99 @@
 import { eventedPushState } from "../router/events_history"
-import { CartLocalStor } from "../header/cart_local"
+import { LocalCart } from "../cart/cart_module/localCart"
 import { IProduct } from "../../types"
 
-export class ItemCard{
-  $parentSelector:HTMLElement
-  id:number
-  product:IProduct
-  $id:HTMLElement
-  $main:HTMLElement
-  $addToCartButton:HTMLButtonElement
-  $allCartButton: HTMLCollection
-  cartLocalStor : CartLocalStor
-  cartProductsInLocal:IProduct[] = []
+export class ItemCard {
+  selector: HTMLElement
+  id: number
+  product: IProduct
+  productDOM: HTMLElement
+  parentConteinerDOM: HTMLElement
+  addToCartBtn: HTMLButtonElement
+  localCart: LocalCart
+  cartProducts: IProduct[] = []
 
-  constructor(id:number, product:IProduct, $selector:HTMLElement){
-    this.$parentSelector = $selector
-    this.$main = document.getElementById('main')!
+  constructor(id: number, product: IProduct, selector: HTMLElement) {
+    this.selector = selector
+    this.parentConteinerDOM = document.getElementById('main')!
     this.id = id
     this.product = product
-    this.render()
-    this.$id = document.getElementById(this.id.toString())!
-    this.$addToCartButton = this.$id.querySelector('.btn_from-to-cart')!
-    this.itemEventTracker()
-    this.cartProductsInLocal = JSON.parse(window.localStorage.getItem('cart_item') as string)
-    this.cartLocalStor = new CartLocalStor()
-    this.$allCartButton = document.getElementsByClassName('btn_from-to-cart')!
+    this.renderProduct()
+    this.productDOM = document.getElementById(this.id.toString())!
+    this.addToCartBtn = this.productDOM.querySelector('.btn_from-to-cart')!
+    this.productEventTracker()
+    this.cartProducts = JSON.parse(window.localStorage.getItem('products_inCart') as string)
+    this.localCart = new LocalCart()
   }
-  render(){
-    this.$parentSelector.insertAdjacentHTML('beforeend',renderHTML(this.id,this.product))
-  }
-
-  selfPageRender(){
-    this.$main.innerHTML = selfPageHTML(this.product)
+  renderProduct() {
+    this.selector.insertAdjacentHTML('beforeend', renderHTML(this.id, this.product))
   }
 
-  itemEventTracker(){
-    this.$id.addEventListener('click',(e)=>{
-      if (e.target ===this.$addToCartButton && this.$addToCartButton.classList.contains('add-to-cart')){
-        this.$addToCartButton.classList.add('remove-from-cart')
-        this.$addToCartButton.classList.remove('add-to-cart')
-        this.$addToCartButton.textContent = 'Remove cart'
-        this.addToLocal()
-        this.cartLocalStor.setAddTotalProducts ()
-        if (!JSON.parse(localStorage.getItem(`productAmount-id${this.$id.id}`)!)) {
-          localStorage.setItem(`productAmount-id${this.$id.id}`, JSON.stringify(1))
+  selfPageRender() {
+    this.parentConteinerDOM.innerHTML = selfPageHTML(this.product)
+  }
+
+  productEventTracker() {
+    this.productDOM.addEventListener('click', (e) => {
+      if (e.target === this.addToCartBtn) {
+        if (this.addToCartBtn.classList.contains('add-to-cart')) {
+          this.addToCartBtn.classList.add('remove-from-cart')
+          this.addToCartBtn.classList.remove('add-to-cart')
+          this.addToCartBtn.textContent = 'Remove cart'
+          this.setLocalProductsInCart()
+          if (!JSON.parse(localStorage.getItem(`productAmount-id${this.productDOM.id}`)!)) {
+            localStorage.setItem(`productAmount-id${this.productDOM.id}`, JSON.stringify(1))
+          }
+        } else if (this.addToCartBtn.classList.contains('remove-from-cart')) {
+          this.addToCartBtn.classList.remove('remove-from-cart')
+          this.addToCartBtn.classList.add('add-to-cart')
+          this.addToCartBtn.textContent = 'Add cart'
+          this.localCart.removeProducrFromCart(this.productDOM)
+          localStorage.removeItem(`productAmount-id${this.productDOM.id}`)
         }
-      } else if (e.target===this.$addToCartButton && this.$addToCartButton.classList.contains('remove-from-cart')){
-        this.$addToCartButton.classList.remove('remove-from-cart')
-        this.$addToCartButton.classList.add('add-to-cart')
-        this.$addToCartButton.textContent = 'Add cart'
-        this.cartLocalStor.removeItemInCart (this.$id)
-        localStorage.setItem('totalProducts',JSON.stringify(this.cartLocalStor.getLocalTotalProducts () - JSON.parse(localStorage.getItem(`productAmount-id${this.$id.id}`)!)))
-        localStorage.removeItem(`productAmount-id${this.$id.id}`)
-        this.cartLocalStor.drawValueCart ()
-      }  
-      else {
-        eventedPushState({},'',`/product${this.id}`)
+        this.localCart.setTotalPrice()
+        this.localCart.setTotalProducts()
       }
-      this.cartLocalStor.setTotalPrice()
+      else {
+        eventedPushState({}, '', `/product${this.id}`)
+      }
     })
   }
 
-  addToLocal(){
-    if(localStorage.getItem('cart_item')){
-      this.cartProductsInLocal = this.cartLocalStor.getLocalDataProducts ()
-      if(!this.cartProductsInLocal.some(e=>e.id==this.id )){    
-        this.cartProductsInLocal.push(this.product)
-        localStorage.setItem('cart_item',JSON.stringify(this.cartProductsInLocal))
+  setLocalProductsInCart() {
+    if (localStorage.getItem('products_inCart')) {
+      this.cartProducts = this.localCart.getLocalCartProducts()
+      if (!this.cartProducts.some(e => e.id == this.id)) {
+        this.cartProducts.push(this.product)
+        localStorage.setItem('products_inCart', JSON.stringify(this.cartProducts))
       }
-    }else{
-      this.cartProductsInLocal = []
-      this.cartProductsInLocal.push(this.product)
-      localStorage.setItem('cart_item',JSON.stringify(this.cartProductsInLocal))
+    } else {
+      this.cartProducts = []
+      this.cartProducts.push(this.product)
+      localStorage.setItem('products_inCart', JSON.stringify(this.cartProducts))
     }
   }
 }
 
-function renderHTML(id:number,data:IProduct):string{
-  let arrLocal = JSON.parse(localStorage.getItem('cart_item')!)
-  if (arrLocal && arrLocal.some((e: { id: number })=>e.id==id)){
-  return `
-  <li class="product__item" id = "${id}" style = "background-image: url(${data.images[0]});">
-    <h3 class="product__item__title">${data.title}</h3>
-    <div class="product__item__price">${data.price}</div>
+function renderHTML(id: number, data: IProduct): string {
+  let productsInCart = JSON.parse(localStorage.getItem('products_inCart')!)
+  if (productsInCart && productsInCart.some((e: { id: number }) => e.id == id)) {
+    return `
+  <li class="product_item" id = "${id}" style = "background-image: url(${data.images[0]});">
+    <h3 class="product_item__title">${data.title}</h3>
+    <div class="product_item__price">${data.price}</div>
     <button id = "btn_cart-${id}" class="remove-from-cart btn_from-to-cart">Remove cart</button>
   </li>
   `
-} else {
-  return `
-  <li class="product__item" id = "${id}" style = "background-image: url(${data.images[0]});">
-  <h3 class="product__item__title">${data.title}</h3>
-  <div class="product__item__price">${data.price}</div>
+  } else {
+    return `
+  <li class="product_item" id = "${id}" style = "background-image: url(${data.images[0]});">
+  <h3 class="product_item__title">${data.title}</h3>
+  <div class="product_item__price">${data.price}</div>
   <button id = "btn_cart-${id}" class="add-to-cart btn_from-to-cart">Add cart</button>
 </li>
 `}
 }
 
-function selfPageHTML(data:IProduct){
+function selfPageHTML(data: IProduct) {
   return `<h1>NAME:${data.title} ID:${data.id}</h1>`
 }

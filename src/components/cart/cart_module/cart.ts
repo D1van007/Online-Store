@@ -1,86 +1,49 @@
 import { IProduct } from "../../../types";
-import { ItemCart } from "./item_cart";
-import { SumCart } from "./sum_cart";
-import { CartLocalStor } from "../../header/cart_local";
+import { ProductInCart } from "./productCart";
+import { TotalBuy } from "./totalBuyCart";
+import { LocalCart } from "./localCart";
 
 export class Cart {
-    main : HTMLElement
-    cartContent : HTMLElement | null
-    dataProducts : IProduct[]
-    productList : HTMLUListElement
-    numbList : NodeList
-    cartLocalStor: CartLocalStor
-    constructor (selector: string) {
-        this.main = document.querySelector(selector)!
-        this.cartContent = null
-        // this.creatCartContent ()
-        this.cartLocalStor = new CartLocalStor
-        this.dataProducts = this.cartLocalStor.getLocalDataProducts()
-        // this.render()
-        this.productList = this.main.querySelector('.shopping-cart_list')!
-        this.numbList = document.querySelectorAll('.number__item')
-        this.cartLocalStor = new CartLocalStor
-        // this.renderSumInCart ()
-        // this.renderItemInCart ()
+    parentConteiner: HTMLElement
+    cartConteiner: HTMLElement | null
+    dataProducts: IProduct[]
+    localCart: LocalCart
+    constructor(selector: string) {
+        this.parentConteiner = document.querySelector(selector)!
+        this.cartConteiner = null
+        this.localCart = new LocalCart()
+        this.dataProducts = this.localCart.getLocalCartProducts()
+        this.renderCartContent()
     }
-    creatCartContent () {
-        this.cartContent = document.createElement('div');
-        this.cartContent.classList.add('cart_content')
-        this.main.prepend(this.cartContent)
-    }
-    render () {
-        if(this.cartContent)
-        this.cartContent.innerHTML = createHTMLParents ()
-    }
-    renderItemInCart () {
-        if (JSON.parse(localStorage.getItem('cart_item')!)){
-        this.dataProducts.forEach((e, index) => {
-            if (!JSON.parse(localStorage.getItem(`productAmount-id${e.id}`)!))
-            {localStorage.setItem(`productAmount-id${e.id}`, JSON.stringify(1))}
-            let itemCart = new ItemCart(e, this.productList, index )
-        })}
-    }
-    renderSumInCart () {
-            let productSum : HTMLElement = document.querySelector('.summary-cart')!
-            let sumCart = new SumCart(productSum)
+
+    renderCartContent() {
+        if (JSON.parse(localStorage.getItem('products_inCart')!) && JSON.parse(localStorage.getItem('products_inCart')!).length > 0) {
+            this.cartConteiner = document.createElement('div');
+            this.cartConteiner.classList.add('cart_conteiner')
+            this.parentConteiner.prepend(this.cartConteiner)
+            this.cartConteiner.innerHTML = createHTMLConteiner()
+            this.renderProductList()
+            this.renderTotalBuy()
         }
-
-    totalProducts () {
-        if (JSON.parse(localStorage.getItem('cart_item')!)){
-        if (JSON.parse(localStorage.getItem(`cart_item`)!).length>0) {
-        const amountItemsListArr = Array.from(document.querySelectorAll('.amount_value'))
-        const amountItemsListArrValue: number[] = []
-        amountItemsListArr.forEach((e:Element) => amountItemsListArrValue.push(Number(e.textContent)))
-        const amountSum = amountItemsListArrValue.reduce((sum, e) => {
-            return sum + e
-        })
-        localStorage.setItem('totalProducts', JSON.stringify(amountSum))
-        const amountSumItems= document.getElementById('amountSum__items')!
-        amountSumItems.textContent = `Products: ${amountSum}`}
     }
-    }
-
-
-
-    renderItemNumb () {
-        this.numbList = document.querySelectorAll('.number__item')
-        this.numbList.forEach((e, index) => {
-            e.textContent = (index + 1).toString()
+    renderProductList() {
+        let productListDOM: HTMLUListElement = document.querySelector('.products-cart_list')!
+        this.dataProducts.forEach((e, index) => {
+            if (!JSON.parse(localStorage.getItem(`productAmount-id${e.id}`)!)) { localStorage.setItem(`productAmount-id${e.id}`, JSON.stringify(1)) }
+            let itemCart = new ProductInCart(e, productListDOM, index)
         })
     }
-
-    clearCart () {
-        document.querySelector('.cart_content')!.remove()
-        localStorage.setItem('totalProducts',JSON.stringify(0))
+    renderTotalBuy() {
+        let productsTotalBuy: HTMLElement = document.querySelector('.total-cart_content')!
+        let totalBuy = new TotalBuy(productsTotalBuy)
     }
-
 }
-function createHTMLParents() {
- return ` 
-    <div class="shopping-cart">
-        <ul class="shopping-cart_list">
+function createHTMLConteiner() {
+    return ` 
+    <div class="products-cart_content">
+        <ul class="products-cart_list">
         </ul>
     </div>
-    <div class="summary-cart"></div>`
+    <div class="total-cart_content"></div>`
 }
 

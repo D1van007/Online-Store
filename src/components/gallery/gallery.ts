@@ -21,7 +21,7 @@ export class Gallery{
     this.$id.classList.add('gallery')
     this.$parentId.insertAdjacentElement('beforeend',this.$id)
     let productList = document.createElement('ul')
-    productList.classList.add('product__list')
+    productList.classList.add('product_list')
     this.$id.insertAdjacentElement('beforeend',productList)
     return productList
   }

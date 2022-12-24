@@ -3,7 +3,7 @@ import { Loader } from "../loader/loader";
 import { IDataProducts } from "../../types";
 import { GalleryFilter } from "../gallery/gallery_filter";
 import { CartPage } from "../cart/cart_page";
-import { Header } from "../header";
+import { Header } from "../header/header";
 
 
 export class Router{
