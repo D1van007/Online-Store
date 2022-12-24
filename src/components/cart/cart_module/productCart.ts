@@ -15,14 +15,14 @@ export class ProductInCart {
     this.dataProduct = dataProduct;
     this.index = index;
     this.selectorList = selectorList;
-    this.productAmount = JSON.parse(localStorage.getItem(`productAmount-id${dataProduct.id}`) as string) ;
+    this.productAmount = JSON.parse(localStorage.getItem(`productAmount-id${dataProduct.id}`) as string);
     this.renderProduct();
     this.productItemID = document.getElementById(this.dataProduct.id.toString()) as HTMLElement;
     this.amountContentDOM = document.getElementById(`amount-change_content${dataProduct.id}`) as HTMLElement;
     this.amountProductDOM = document.getElementById(`amount-product${dataProduct.id}`) as HTMLElement;
     this.totalPriceProductDOM = document.getElementById(`product_item__total-price${dataProduct.id}`) as HTMLElement;
-    this.changeAmount();
     this.localCart = new LocalCart();
+    this.changeAmount();
   }
 
   renderProduct() {
@@ -66,10 +66,7 @@ export class ProductInCart {
       }
       this.totalPriceProductDOM.textContent = `Total: €${this.productAmount * this.dataProduct.price}`;
 
-      if (
-        JSON.parse(this.localCart.getLocalCartProducts()).length === 0 ||
-        !JSON.parse(this.localCart.getLocalCartProducts())
-      ) {
+      if (this.localCart.getLocalCartProducts().length === 0 || !this.localCart.getLocalCartProducts()) {
         this.clearCart();
       }
       this.localCart.setTotalPrice();
