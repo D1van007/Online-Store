@@ -5,6 +5,7 @@ export class TotalBuy {
         this.selectorParentsSum = selectorParentsSum
         this.renderTotalBuy()
     }
+    
     renderTotalBuy() {
         this.selectorParentsSum.insertAdjacentHTML("beforeend", createHTMLTotalBuy())
     }

@@ -6,13 +6,13 @@ import { LocalCart } from "./localCart";
 export class Cart {
     parentConteiner: HTMLElement
     cartConteiner: HTMLElement | null
-    dataProducts: IProduct[]
+    productInCart: IProduct[]
     localCart: LocalCart
     constructor(selector: string) {
         this.parentConteiner = document.querySelector(selector)!
         this.cartConteiner = null
         this.localCart = new LocalCart()
-        this.dataProducts = this.localCart.getLocalCartProducts()
+        this.productInCart = this.localCart.getLocalCartProducts()
         this.renderCartContent()
     }
 
@@ -22,18 +22,18 @@ export class Cart {
             this.cartConteiner.classList.add('cart_conteiner')
             this.parentConteiner.prepend(this.cartConteiner)
             this.cartConteiner.innerHTML = createHTMLConteiner()
-            this.renderProductList()
-            this.renderTotalBuy()
+            this.renderCartProductList()
+            this.renderCartTotalBuy()
         }
     }
-    renderProductList() {
+    renderCartProductList() {
         let productListDOM: HTMLUListElement = document.querySelector('.products-cart_list')!
-        this.dataProducts.forEach((e, index) => {
+        this.productInCart.forEach((e, index) => {
             if (!JSON.parse(localStorage.getItem(`productAmount-id${e.id}`)!)) { localStorage.setItem(`productAmount-id${e.id}`, JSON.stringify(1)) }
             let itemCart = new ProductInCart(e, productListDOM, index)
         })
     }
-    renderTotalBuy() {
+    renderCartTotalBuy() {
         let productsTotalBuy: HTMLElement = document.querySelector('.total-cart_content')!
         let totalBuy = new TotalBuy(productsTotalBuy)
     }

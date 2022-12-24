@@ -1,7 +1,6 @@
 import { Cart } from '../cart_module/cart';
 import { LocalCart } from '../cart_module/localCart';
 import './style.css'
-// const content = new Content();
 
 export class CartPage {
     cart: Cart

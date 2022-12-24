@@ -1,29 +1,25 @@
-// import { IProduct } from "../../../types";
-// import { ItemCart } from "./item_cart";
-// import { SumCart } from "./sum_cart";
 import './style.css'
 export class Header {
-    body: HTMLElement
+    bodyDOM: HTMLElement
     headerConteiner: HTMLElement | null
-
     constructor(selector: string) {
-        this.body = document.querySelector(selector)!
+        this.bodyDOM = document.querySelector(selector)!
         this.headerConteiner = null
         this.creatHeaderConteiner()
-        this.render()
+        this.renderHeader()
     }
+
     creatHeaderConteiner() {
         this.headerConteiner = document.createElement('header');
         this.headerConteiner.classList.add('header')
-        this.body.prepend(this.headerConteiner)
-
+        this.bodyDOM.prepend(this.headerConteiner)
     }
-    render() {
+    renderHeader() {
         if (this.headerConteiner)
             this.headerConteiner.innerHTML = createHTMLHeaderConteiner()
     }
-
 }
+
 function createHTMLHeaderConteiner() {
     let cartTotal = JSON.parse(localStorage.getItem('totalProductsLocal')!) | 0
     let cartPrice = JSON.parse(localStorage.getItem('totalPriceLocal')!) | 0

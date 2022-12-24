@@ -11,7 +11,6 @@ export class ItemCard {
   addToCartBtn: HTMLButtonElement
   localCart: LocalCart
   cartProducts: IProduct[] = []
-
   constructor(id: number, product: IProduct, selector: HTMLElement) {
     this.selector = selector
     this.parentConteinerDOM = document.getElementById('main')!
@@ -24,14 +23,13 @@ export class ItemCard {
     this.cartProducts = JSON.parse(window.localStorage.getItem('products_inCart') as string)
     this.localCart = new LocalCart()
   }
+
   renderProduct() {
     this.selector.insertAdjacentHTML('beforeend', renderHTML(this.id, this.product))
   }
-
   selfPageRender() {
     this.parentConteinerDOM.innerHTML = selfPageHTML(this.product)
   }
-
   productEventTracker() {
     this.productDOM.addEventListener('click', (e) => {
       if (e.target === this.addToCartBtn) {
@@ -58,7 +56,6 @@ export class ItemCard {
       }
     })
   }
-
   setLocalProductsInCart() {
     if (localStorage.getItem('products_inCart')) {
       this.cartProducts = this.localCart.getLocalCartProducts()

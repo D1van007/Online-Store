@@ -3,7 +3,6 @@ import { IProduct } from "../../../types"
 export class LocalCart {
     totalProductsFromLocal: number
     cartIcon: HTMLElement
-
     constructor() {
         this.totalProductsFromLocal = JSON.parse(localStorage.getItem('totalProducts')!)
         this.cartIcon = document.querySelector('#total-products')!
@@ -65,7 +64,4 @@ export class LocalCart {
             }
         }
     }
-
-
-
 }

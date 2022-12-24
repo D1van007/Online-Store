@@ -24,6 +24,7 @@ export class ProductInCart {
         this.changeAmount()
         this.localCart = new LocalCart()
     }
+    
     renderProduct() {
         this.selectorList.insertAdjacentHTML("beforeend", createHTMLCartItem(this.dataProduct, this.index, this.productAmount))
     }
@@ -38,7 +39,6 @@ export class ProductInCart {
         localStorage.setItem('totalProducts', JSON.stringify(0))
         document.querySelector('.cart_conteiner')!.remove()
     }
-
     changeAmount() {
         this.productItemID.addEventListener('click', (event) => {
             if ((<HTMLElement>event.target).matches('.line1')) {
