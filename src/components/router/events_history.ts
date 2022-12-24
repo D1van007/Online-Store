@@ -1,5 +1,5 @@
 export function eventedPushState(state:any, title:string, url:string) {
-  var pushChangeEvent = new CustomEvent("onpushstate", {
+  const pushChangeEvent = new CustomEvent("onpushstate", {
       detail: {
           state,
           title,

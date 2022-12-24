@@ -1,4 +1,5 @@
-import { IDataProducts,IProduct } from "../../types";
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { IProduct } from "../../types";
 import { ItemCard } from "./item_card";
 import './gallery.css'
 
@@ -8,7 +9,6 @@ export class Gallery{
   $id: HTMLElement|null
   $productList
   productsArr:ItemCard[]=[]
-  //isBigCard:boolean
   constructor(selector:string, data:IProduct[]){
     this.$parentId = document.getElementById(selector)!
     this.$id = null
@@ -20,7 +20,7 @@ export class Gallery{
     this.$id = document.createElement('div')
     this.$id.classList.add('gallery')
     this.$parentId.insertAdjacentElement('beforeend',this.$id)
-    let productList = document.createElement('ul')
+    const productList = document.createElement('ul')
     productList.classList.add('product_list')
     this.$id.insertAdjacentElement('beforeend',productList)
     return productList
@@ -28,7 +28,7 @@ export class Gallery{
   renderProducts(){
     if(this.data.length>0){
       this.data.forEach(e=>{
-        let card = new ItemCard(e.id,e,this.$productList)
+        const card = new ItemCard(e.id,e,this.$productList)
         this.productsArr.push(card)
       })
     }

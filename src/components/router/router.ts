@@ -1,6 +1,5 @@
-import { eventedPushState } from "./events_history";
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Loader } from "../loader/loader";
-import { IDataProducts } from "../../types";
 import { GalleryFilter } from "../gallery/gallery_filter";
 import { CartPage } from "../cart/cart_page";
 import { Header } from "../header/header";
@@ -9,7 +8,7 @@ import { Header } from "../header/header";
 export class Router{
   loader:Loader
   galleryFilter:GalleryFilter|null
-  isNewPage:boolean = true
+  isNewPage = true
   url:URL
   cartPage : CartPage | null
   header : Header | null
@@ -58,7 +57,7 @@ export class Router{
   }
 
   async getProductRouteList(){
-    let data = await this.loader.load()
+    const data = await this.loader.load()
     return data.reduce((acc:string[],e)=>{
       acc.push(`/product${e.id}`)
       return acc
@@ -67,16 +66,16 @@ export class Router{
   }
 
   async loadAndCreateGallery(){
-    let data = await this.loader.load()
+    const data = await this.loader.load()
     this.galleryFilter = new GalleryFilter('main',data)
   }
 
   async createItemPage(){
     await this.loadAndCreateGallery()
-    let $main = document.getElementById('main')!
+    const $main = document.getElementById('main')!
     $main.innerHTML = ''
     let productItemsArr = this.galleryFilter?.gallery.productsArr
-    let id = parseInt(this.url.pathname.replace(/[^\d]/g, ''))
+    const id = parseInt(this.url.pathname.replace(/[^\d]/g, ''))
     productItemsArr = productItemsArr?.filter(e=>e.id == id)
     if(productItemsArr)
     productItemsArr[0].selfPageRender()
@@ -87,13 +86,13 @@ export class Router{
   }
 
   isNewPageHandler():boolean{
-    let newUrl = new URL(window.location.href)
+    const newUrl = new URL(window.location.href)
     return !(this.url.pathname == newUrl.pathname)
   }
 
   clearMain(){
     if(this.isNewPage){
-      let $main = document.getElementById('main')!
+      const $main = document.getElementById('main')!
       $main.innerHTML = ''
     }
   }

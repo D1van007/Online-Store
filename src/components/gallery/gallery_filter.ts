@@ -23,7 +23,7 @@ export class GalleryFilter{
     this.hrefParamsHendler()
   }
   render():HTMLDivElement{
-    let filterContainer = document.createElement('div')
+    const filterContainer = document.createElement('div')
     filterContainer.classList.add('gellery__filter')
     this.$parentId.insertAdjacentElement('afterbegin',filterContainer)
     return filterContainer
@@ -37,7 +37,7 @@ export class GalleryFilter{
   }
   inputHandler(){
     this.gallery.destroy()
-    let filterData = this.searchDataFilter(this.$search.value)
+    const filterData = this.searchDataFilter(this.$search.value)
     this.gallery = new Gallery('main',filterData)
   }
   searchDataFilter(value:string):IProduct[]{
@@ -51,8 +51,8 @@ export class GalleryFilter{
     })
   }
   hrefParamsHendler(){
-    let url = new URL(window.location.href)
-    let params = url.searchParams
+    const url = new URL(window.location.href)
+    const params = url.searchParams
     if(params.has('search')){
       this.$search.value = params.get('search')!
       this.inputHandler()

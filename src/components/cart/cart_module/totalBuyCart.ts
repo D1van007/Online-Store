@@ -1,18 +1,17 @@
-
 export class TotalBuy {
-    selectorParentsSum: HTMLElement
-    constructor(selectorParentsSum: HTMLElement) {
-        this.selectorParentsSum = selectorParentsSum
-        this.renderTotalBuy()
-    }
-    
-    renderTotalBuy() {
-        this.selectorParentsSum.insertAdjacentHTML("beforeend", createHTMLTotalBuy())
-    }
+  selectorParentsSum: HTMLElement;
+  constructor(selectorParentsSum: HTMLElement) {
+    this.selectorParentsSum = selectorParentsSum;
+    this.renderTotalBuy();
+  }
+
+  renderTotalBuy() {
+    this.selectorParentsSum.insertAdjacentHTML('beforeend', createHTMLTotalBuy());
+  }
 }
 
 function createHTMLTotalBuy() {
-    return `
+  return `
     <p id="total-cart_product" class="total-cart_product">Products: 0</p>
     <p id="total-cart_price" class="total-cart_price">Total: €</p>
     <form>
@@ -26,5 +25,5 @@ function createHTMLTotalBuy() {
             <input type="submit" value="Buy Now" />
         </div>
     </form>
-`
+`;
 }
