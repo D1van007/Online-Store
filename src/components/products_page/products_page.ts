@@ -1,7 +1,8 @@
-import { IProduct } from "../../types";
+import { IProduct, DataKeys } from "../../types";
 import { Catalog } from "./catalog";
 import './styles.css'
 import { SideFilter } from "./side_filter";
+import { searchHandler } from "../search_handler/search_handler";
 
 
 export class ProductsPage{
@@ -27,9 +28,10 @@ export class ProductsPage{
     this.catalog = new Catalog('products-page',this.data)
     this.sideFilter = new SideFilter('products-page',this.data,(data)=>this.sideFilterHandler(data))
     this.sortInput()
-    this.hrefParamsHendler()
+    //this.hrefParamsHendler()
     this.inputHandler() //пушим данные в sideFilter.arrayOfDataAllFilters чтоб не был пустым
     this.renderTotalCount()
+    this.updateSearchParamsFromURL()
   }
   createAndReturnContainer():HTMLDivElement{
     let container = document.createElement('div')
@@ -45,8 +47,16 @@ export class ProductsPage{
     this.totalCountDOM.textContent = ` count: ${this.currentData.length}`
   }
   searchInput(){
-    this.searchDOM.addEventListener('input', this.inputHandler.bind(this))
+    this.searchDOM.addEventListener('input', ()=>{
+      if(this.searchDOM.value){
+        searchHandler.addParams('search', this.searchDOM.value) //тестим
+      }else{
+        searchHandler.deleteParams('search')
+      }
+      this.inputHandler()
+    })
   }
+  
   inputHandler(){
     let filterData = this.searchDataFilter(this.searchDOM.value)
     if (this.sideFilter){
@@ -58,6 +68,7 @@ export class ProductsPage{
   }
   rerenderCatalog(){
     this.catalog.destroy()
+    console.log('отрисовка каталога')
     this.catalog = new Catalog('products-page',this.currentData)
   }
   searchDataFilter(value:string):IProduct[]{
@@ -71,18 +82,12 @@ export class ProductsPage{
   }
   sortInput(){
     this.sortDOM.addEventListener('change',()=>{
+      searchHandler.addParams('sort', this.sortDOM.value) //тестим
       this.sortHandler()
       this.inputHandler()
     })
   }
-  hrefParamsHendler(){// тестовая
-    let url = new URL(window.location.href)
-    let params = url.searchParams
-    if(params.has('search')){
-      this.searchDOM.value = params.get('search')!
-      this.inputHandler()
-    }
-  }
+  
   sortHandler(){
     switch (this.sortDOM.value) {
       case 'raitingASC':
@@ -105,6 +110,62 @@ export class ProductsPage{
       break;
     }
   }
+  //тестовый метод, обновляет сострояния фильтров по данным из URL
+  updateSearchParamsFromURL(){
+    if(searchHandler.currentUrl.pathname == '/'){
+      let searchParams = searchHandler.currentUrl.searchParams
+      if(searchParams.has(DataKeys.price)){
+        let value = searchParams.get(DataKeys.price) as string
+        let arr = JSON.parse(value)
+        this.sideFilter?.priceInput.setRangeValue(arr[0],arr[1],true)
+      }else{
+        let arr = this.sideFilter?.priceInput.default!
+        this.sideFilter?.priceInput.setRangeValue(arr[0],arr[1],true)
+      }
+
+      if(searchParams.has(DataKeys.stock)){
+        let value = searchParams.get(DataKeys.stock) as string
+        let arr = JSON.parse(value)
+        this.sideFilter?.stockInput.setRangeValue(arr[0],arr[1],true)
+      }else{
+        let arr = this.sideFilter?.stockInput.default!
+        this.sideFilter?.stockInput.setRangeValue(arr[0],arr[1],true)
+      }
+      
+      if(searchParams.has(DataKeys.category)){
+        let value = searchParams.get(DataKeys.category) as string
+        this.sideFilter?.categoryCheck.checkFormArray(JSON.parse(value))
+      }else{
+        this.sideFilter?.categoryCheck.checkFormArray(['костыль']) //пока так
+      }
+
+      if(searchParams.has(DataKeys.brand)){
+        let value = searchParams.get(DataKeys.brand) as string
+        this.sideFilter?.brandCheck.checkFormArray(JSON.parse(value))
+      }else{
+        this.sideFilter?.brandCheck.checkFormArray(['костыль']) //пока так
+      }
+
+      if(searchParams.has('search')){
+        let value = searchParams.get('search') as string
+        this.searchDOM.value = value
+        this.inputHandler()
+      }else{
+        this.searchDOM.value = ''
+        this.inputHandler()
+      }
+
+      if(searchParams.has('sort')){
+        let value = searchParams.get('sort') as string
+        this.sortDOM.value = value
+        this.sortHandler()
+      }else{
+        this.sortDOM.value = 'raitingASC'
+        this.sortHandler()
+      }
+    }
+  }
+    
 }
 
 function renderHTML():string{

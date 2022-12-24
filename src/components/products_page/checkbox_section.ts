@@ -1,5 +1,6 @@
 import { IProduct,DataKeys } from "../../types";
 import { SideFilter } from "./side_filter";
+import { searchHandler } from "../search_handler/search_handler";
 
 
 export class CheckboxSection{
@@ -9,6 +10,7 @@ export class CheckboxSection{
   parent:SideFilter
   keyName:DataKeys
   listArrayDOM:NodeListOf<HTMLElement>
+  isAnyChacked: boolean = false
   constructor(selector:HTMLElement,data:IProduct[],parent:SideFilter,keyName:DataKeys){
     this.containerDOM = selector
     this.data = data
@@ -36,11 +38,37 @@ export class CheckboxSection{
   checkboxEventTracker(){
     this.listContainerDOM.addEventListener('click',(e)=>{
       if(e.target instanceof HTMLInputElement){
-        this.pushFilteredData()
-        this.parent.updateCheckBoxSections()
-        this.parent.updatePriceAndStockRange()
+        this.eventHandler()
+        this.pushToUrl() // test
       }
     })
+  }
+  eventHandler(){
+    this.pushFilteredData()
+    this.parent.updateCheckBoxSections()
+    this.parent.updatePriceAndStockRange()
+  }
+  checkFormArray(arr:string[]){
+    this.listArrayDOM.forEach(e=>{
+      let input = e.firstElementChild as HTMLInputElement
+      if(arr.some(e=>e==input.name)){
+        input.checked = true
+      }else{
+        input.checked = false
+      }
+    })
+    this.eventHandler()
+  }
+  pushToUrl(){
+    if(this.isAnyChacked){
+      let map = this.getMapByKey(this.parent.arrayOfDataAllFilters[this.keyName] as IProduct[])
+      console.log(this.getMapByKey(this.parent.arrayOfDataAllFilters[this.keyName] as IProduct[]))
+      let arrOfKeys = Array.from(map.keys())
+      searchHandler.addParams(this.keyName, arrOfKeys as string[])
+    }else{
+      searchHandler.deleteParams(this.keyName)
+    }
+  
   }
   pushFilteredData(){
     let data = Array.from(this.data)
@@ -56,8 +84,10 @@ export class CheckboxSection{
     })
     if(isAnyCheck){
       this.parent.arrayOfDataAllFilters[this.keyName] = resultData
+      this.isAnyChacked = true
     }else{
       this.parent.arrayOfDataAllFilters[this.keyName] = data
+      this.isAnyChacked = false
     }
     this.parent.callback(this.parent.getFilteredData())
   }
@@ -67,10 +97,10 @@ export class CheckboxSection{
       let input = e.firstElementChild as HTMLInputElement
       if(currentData.has(input.value)){
         e.children[2].textContent = (currentData.get(input.value) as IProduct[]).length.toString()+' /'
-        e.style.cssText = `opacity: 1; pointer-events: auto;`
+        e.style.cssText = `opacity: 1;`
       }else{
         e.children[2].textContent = '0 /'
-        e.style.cssText = `opacity: .5; pointer-events: none;`
+        e.style.cssText = `opacity: .5;`
         //input.checked = false
       }
     })

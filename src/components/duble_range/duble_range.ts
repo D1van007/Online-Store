@@ -14,9 +14,11 @@ export class DubleRange{
   secondInputDOM:HTMLInputElement
   firstInfoDOM:HTMLElement
   secondInfoDOM:HTMLElement
+  default:[number,number]
   constructor(selector:HTMLElement,options:DubleRangeOptions){
     this.parentDOM = selector
     this.options = options
+    this.default = [options.min,options.max]
     this.render()
     this.containerDOM = this.parentDOM.querySelector('.duble-range')!
     this.firstInputDOM = this.containerDOM.querySelector('.duble-range__i1')!
@@ -48,10 +50,11 @@ export class DubleRange{
     this.firstInputDOM.removeEventListener('change', this.changeEventHadler)
     this.secondInputDOM.removeEventListener('change', this.changeEventHadler)
   }
-  customEvent(){
+  customEvent(fakeEvent:boolean=false){
     let dubleevent = new CustomEvent(this.options.eventName,{
       detail: {
-          result: [+this.firstInputDOM.value,+this.secondInputDOM.value].sort((a,b)=>a-b)
+          result: [+this.firstInputDOM.value,+this.secondInputDOM.value].sort((a,b)=>a-b),
+          isFake: fakeEvent
       }
     })
     window.dispatchEvent(dubleevent)
@@ -70,12 +73,14 @@ export class DubleRange{
   getPercent(elem:HTMLInputElement):number{
     return Number(elem.value)/Number(elem.max)*100
   }
-  setRangeValue(min:number,max:number){
+  setRangeValue(min:number,max:number,evented:boolean=false){
     this.firstInputDOM.value = min.toString()
     this.secondInputDOM.value = max.toString()
     this.setBackgroundGradient()
     this.renderInfoCurrentValue()
-    //this.customEvent()
+    if(evented){
+      this.customEvent(true)
+    }
   }
 }
 

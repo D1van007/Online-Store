@@ -1,6 +1,7 @@
 import { DubleRange } from "../duble_range/duble_range";
 import { IProduct, DataKeys } from "../../types";
 import { CheckboxSection } from "./checkbox_section";
+import { searchHandler } from "../search_handler/search_handler";
 
 type Callback = (data:IProduct[])=>void
 
@@ -68,12 +69,24 @@ export class SideFilter{
     window.addEventListener('stock',this.stockEventHandler)
   }
   priceEventHandler = (e:any)=>{
+    if(!e.detail.isFake){
+      searchHandler.addParams(DataKeys.price, e.detail.result) //тестим
+      if(e.detail.result[0]==this.priceInput.default[0]&&e.detail.result[1]==this.priceInput.default[1]){
+        searchHandler.deleteParams(DataKeys.price)
+      }
+    }
     let data = this.getKeyFilterData(DataKeys.price,e.detail.result[0],e.detail.result[1])
     this.arrayOfDataAllFilters.price = data
     this.updateCheckBoxSections()
     this.callback(this.getFilteredData())
   }
   stockEventHandler = (e:any)=>{
+    if(!e.detail.isFake){
+      searchHandler.addParams(DataKeys.stock, e.detail.result)
+      if(e.detail.result[0]==this.stockInput.default[0]&&e.detail.result[1]==this.stockInput.default[1]){
+        searchHandler.deleteParams(DataKeys.stock)
+      }
+    }
     let data = this.getKeyFilterData(DataKeys.stock,e.detail.result[0],e.detail.result[1])
     this.arrayOfDataAllFilters.stock = data
     this.updateCheckBoxSections()

@@ -1,6 +1,7 @@
 import { Loader } from "../loader/loader";
 import { ProductsPage } from "../products_page/products_page";
 import { CartPage } from "../cart/cart_page";
+import { searchHandler } from "../search_handler/search_handler";
 
 
 export class Router{
@@ -30,12 +31,10 @@ export class Router{
   historyEventHendler(){
     setTimeout(async()=>{ //это костыль
       this.isNewPage = this.isNewPageHandler()
-      if(this.productPage){ 
-        this.productPage.sideFilter?.testRemove() //без этого сборщий мусора не хочет удалять экземпляр
-        this.productPage.sideFilter = null
-      }
       this.urlUpdate()
       this.clearMain()
+      searchHandler.parseUrl() //тестим серч парамс
+      this.productPage?.updateSearchParamsFromURL()//тестим серч парамс
       await this.newPageRoute()
     },100)
   }
@@ -91,6 +90,10 @@ export class Router{
 
   clearMain(){
     if(this.isNewPage){
+      if(this.productPage){ 
+        this.productPage.sideFilter?.testRemove() //без этого сборщий мусора не хочет удалять экземпляр
+        this.productPage.sideFilter = null
+      }
       let $main = document.getElementById('main')!
       $main.innerHTML = ''
     }
