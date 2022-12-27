@@ -11,8 +11,8 @@ export class Cart {
   constructor(selector: string) {
     this.parentConteiner = document.querySelector(selector) as HTMLElement;
     this.localCart = new LocalCart();
-    this.productInCart = this.localCart.getLocalCartProducts();
-    this.renderCartContent();
+    this.productInCart =  this.localCart.getLocalCartProducts() ;
+    this.renderCartContent ();
   }
 
   renderCartContent() {
@@ -32,13 +32,13 @@ export class Cart {
       if (!JSON.parse(localStorage.getItem(`id${e.id}`) as string)) {
         localStorage.setItem(`id${e.id}`, JSON.stringify(1));
       }
-      new ProductInCart(e, productListDOM, index);
+      new ProductInCart(e, productListDOM, index)
     });
   }
 
   renderCartTotalBuy() {
     const productsTotalBuy = document.querySelector('.cart-total__content') as HTMLElement;
-    new TotalBuy(productsTotalBuy);
+    new TotalBuy(productsTotalBuy)
   }
 }
 
