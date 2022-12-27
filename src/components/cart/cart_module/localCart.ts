@@ -12,9 +12,11 @@ export class LocalCart {
   getLocalTotalProducts(): number {
     return JSON.parse(localStorage.getItem('totalProducts')!);
   }
+
   getLocalCartProducts() {
     return JSON.parse(localStorage.getItem('productsInCart')!);
   }
+
   removeProducrFromCart(element: HTMLElement) {
     const cartLocal = JSON.parse(localStorage.getItem('productsInCart')!);
     const index = cartLocal.findIndex((e: IProduct) => e.id.toString() === element.id);
@@ -23,6 +25,7 @@ export class LocalCart {
       localStorage.setItem('productsInCart', JSON.stringify(cartLocal));
     }
   }
+
   setTotalPrice() {
     if (JSON.parse(localStorage.getItem('productsInCart')!)) {
       const dataProducts = this.getLocalCartProducts();
@@ -44,6 +47,7 @@ export class LocalCart {
       }
     }
   }
+
   setTotalProducts() {
     if (JSON.parse(localStorage.getItem('productsInCart')!)) {
       const dataProducts = this.getLocalCartProducts();

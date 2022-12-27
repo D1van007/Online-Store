@@ -25,6 +25,7 @@ export class Cart {
       this.renderCartTotalBuy();
     }
   }
+
   renderCartProductList() {
     const productListDOM = document.querySelector('.cart-products__list') as HTMLUListElement;
     this.productInCart.forEach((e, index) => {
@@ -34,11 +35,13 @@ export class Cart {
       new ProductInCart(e, productListDOM, index);
     });
   }
+
   renderCartTotalBuy() {
     const productsTotalBuy = document.querySelector('.cart-total__content') as HTMLElement;
     new TotalBuy(productsTotalBuy);
   }
 }
+
 function createHTMLConteiner(): string {
   return ` 
     <div class="cart-products__content">

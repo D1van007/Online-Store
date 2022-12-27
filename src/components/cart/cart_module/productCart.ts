@@ -30,23 +30,27 @@ export class ProductInCart {
       `product__item__total-price${this.dataProduct.id}`,
     ) as HTMLElement;
   }
+
   renderProduct() {
     this.selectorList.insertAdjacentHTML(
       'beforeend',
       createHTMLCartItem(this.dataProduct, this.index, this.productAmount),
     );
   }
+
   renderProductNum() {
     const numList: NodeListOf<Element> = document.querySelectorAll('.cart-products__item__num');
     numList.forEach((e, index) => {
       e.textContent = (index + 1).toString();
     });
   }
+
   clearCart() {
     localStorage.setItem('totalPrice', JSON.stringify(0));
     localStorage.setItem('totalProducts', JSON.stringify(0));
     document.querySelector('.cart_conteiner')?.remove();
   }
+
   changeAmount() {
     this.productItemID.addEventListener('click', event => {
       if ((<HTMLElement>event.target).matches('.line1')) {

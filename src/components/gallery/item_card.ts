@@ -27,9 +27,11 @@ export class ItemCard {
   renderProduct() {
     this.selector.insertAdjacentHTML('beforeend', renderHTML(this.id, this.product));
   }
+
   selfPageRender() {
     this.parentConteinerDOM.innerHTML = selfPageHTML(this.product);
   }
+
   productEventTracker() {
     this.productDOM.addEventListener('click', e => {
       if (e.target === this.addToCartBtn) {
@@ -55,6 +57,7 @@ export class ItemCard {
       }
     });
   }
+
   setLocalProductsInCart() {
     if (localStorage.getItem('productsInCart')) {
       this.cartProducts = this.localCart.getLocalCartProducts();
