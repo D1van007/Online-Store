@@ -6,7 +6,7 @@
   margin: 0;
   padding: 0;
 }
-.product_item{
+.product__item{
   background-size: cover;
   list-style: none;
   color: rgb(65, 131, 65);
@@ -15,7 +15,7 @@
   cursor: pointer;
 }
 
-.product_item__title{
+.product__item__title{
   background-color: rgba(224, 224, 224, 0.5);
 }
 

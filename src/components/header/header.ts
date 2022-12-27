@@ -28,7 +28,7 @@ export class Header {
   }
 }
 
-function createHTMLHeaderConteiner() {
+function createHTMLHeaderConteiner():string {
   const cartTotal = JSON.parse(localStorage.getItem('totalProductsLocal') as string) | 0;
   const cartPrice = JSON.parse(localStorage.getItem('totalPriceLocal') as string) | 0;
   return ` 

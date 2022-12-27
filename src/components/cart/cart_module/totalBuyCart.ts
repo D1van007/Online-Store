@@ -10,16 +10,16 @@ export class TotalBuy {
   }
 }
 
-function createHTMLTotalBuy() {
+function createHTMLTotalBuy():string {
   return `
-    <p id="total-cart_product" class="total-cart_product">Products: 0</p>
-    <p id="total-cart_price" class="total-cart_price">Total: €</p>
-    <form>
+    <p id="cart-total__amount" class="cart-total__amount">Products: 0</p>
+    <p id="cart-total__price" class="cart-total__price">Total: €</p>
+    <form class="cart-total__promo>
         <div>
-            <input id="promo-code" type="text" name="text" placeholder="Enter promo code"/>
+            <input id="promo" type="text" name="text" placeholder="Enter promo code"/>
         </div>
         <div>
-            <label for="promo-code">Promo for test: 'RS', 'EPM'</label>
+            <label for="promo">Promo for test: 'RS', 'EPM'</label>
         </div>
         <div>
             <input type="submit" value="Buy Now" />
