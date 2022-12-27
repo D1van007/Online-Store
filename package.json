@@ -11,11 +11,11 @@
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix",
     "format": "prettier --ignore-path .gitignore --write '**/*.+(js|ts|json)'",
-    // "prepare": "husky install"
+    "prepare": "husky install"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --stager && lint --fix"
+      "pre-commit": "pretty-quick --staged && lint --fix"
     }
   },
   "keywords": [],
