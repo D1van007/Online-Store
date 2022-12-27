@@ -39,7 +39,7 @@ export class Cart {
     new TotalBuy(productsTotalBuy);
   }
 }
-function createHTMLConteiner():string {
+function createHTMLConteiner(): string {
   return ` 
     <div class="cart-products__content">
         <ul class="cart-products__list">

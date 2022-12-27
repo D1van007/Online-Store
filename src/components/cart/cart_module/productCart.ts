@@ -17,16 +17,18 @@ export class ProductInCart {
     this.selectorList = selectorList;
     this.productAmount = JSON.parse(localStorage.getItem(`id${this.dataProduct.id}`) as string);
     this.renderProduct();
-    this.getDOMElement ()
+    this.getDOMElement();
     this.localCart = new LocalCart();
     this.changeAmount();
   }
 
-  getDOMElement () {
+  getDOMElement() {
     this.productItemID = document.getElementById(this.dataProduct.id.toString()) as HTMLElement;
     this.amountContentDOM = document.getElementById(`amount-change_content${this.dataProduct.id}`) as HTMLElement;
     this.amountProductDOM = document.getElementById(`amount-product${this.dataProduct.id}`) as HTMLElement;
-    this.totalPriceProductDOM = document.getElementById(`product__item__total-price${this.dataProduct.id}`) as HTMLElement;
+    this.totalPriceProductDOM = document.getElementById(
+      `product__item__total-price${this.dataProduct.id}`,
+    ) as HTMLElement;
   }
   renderProduct() {
     this.selectorList.insertAdjacentHTML(
@@ -69,7 +71,7 @@ export class ProductInCart {
       }
       this.totalPriceProductDOM.textContent = `Total: €${this.productAmount * this.dataProduct.price}`;
 
-      if (this.localCart.getLocalCartProducts().length === 0 || !this.localCart.getLocalCartProducts()) {
+      if (this.localCart?.getLocalCartProducts().length === 0) {
         this.clearCart();
       }
       this.localCart.setTotalPrice();
@@ -78,7 +80,7 @@ export class ProductInCart {
   }
 }
 
-function createHTMLCartItem(dataProduct: IProduct, index: number, amountValue: number):string {
+function createHTMLCartItem(dataProduct: IProduct, index: number, amountValue: number): string {
   return `<li class="cart-products__item" id = "${dataProduct.id}">
     <span id="item-num${dataProduct.id}" class="cart-products__item__num">${index + 1}</span>
     <div class="cart-products__item__img" style = "background-image: url(${dataProduct.images[0]})"></div>

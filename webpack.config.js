@@ -1,5 +1,7 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require('copy-webpack-plugin');
 require('webpack');
 const path = require('path');
 
@@ -17,9 +19,9 @@ module.exports = {
     rules: [
       { test: /\.txt$/, use: 'raw-loader' },
       {
-          test: /\.tsx?$/,
-          use: 'ts-loader',
-          exclude: /node_modules/
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       },
       {
         test: /\.css$/i,
@@ -36,12 +38,10 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({ template: './src/index.html' }),
     new CopyPlugin({
-      patterns: [
-        { from: "redirect", to: "" },
-      ],
+      patterns: [{ from: 'redirect', to: '' }],
     }),
   ],
   resolve: {
-    extensions: [ ".tsx", ".ts", ".js" ]
+    extensions: ['.tsx', '.ts', '.js'],
   },
 };

@@ -8,7 +8,7 @@ export class Header {
     this.bodyDOM = document.querySelector(selector) as HTMLElement;
     this.headerConteiner = null;
     this.creatHeaderConteiner();
-    this.localCart = new LocalCart;
+    this.localCart = new LocalCart();
     this.renderHeader();
   }
 
@@ -19,16 +19,16 @@ export class Header {
   }
   renderHeader() {
     if (this.headerConteiner) {
-        this.headerConteiner.innerHTML = createHTMLHeaderConteiner();
+      this.headerConteiner.innerHTML = createHTMLHeaderConteiner();
     }
     if (this.localCart.getLocalCartProducts() && this.localCart.getLocalCartProducts().length > 0) {
-        this.localCart.setTotalPrice();
-        this.localCart.setTotalProducts();
+      this.localCart.setTotalPrice();
+      this.localCart.setTotalProducts();
     }
   }
 }
 
-function createHTMLHeaderConteiner():string {
+function createHTMLHeaderConteiner(): string {
   const cartTotal = JSON.parse(localStorage.getItem('totalProductsLocal') as string) | 0;
   const cartPrice = JSON.parse(localStorage.getItem('totalPriceLocal') as string) | 0;
   return ` 

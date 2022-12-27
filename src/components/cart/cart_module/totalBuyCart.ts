@@ -10,7 +10,7 @@ export class TotalBuy {
   }
 }
 
-function createHTMLTotalBuy():string {
+function createHTMLTotalBuy(): string {
   return `
     <p id="cart-total__amount" class="cart-total__amount">Products: 0</p>
     <p id="cart-total__price" class="cart-total__price">Total: €</p>
