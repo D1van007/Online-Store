@@ -13,11 +13,6 @@
     "format": "prettier --ignore-path .gitignore --write '**/*.+(js|ts|json)'",
     "prepare": "husky install"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged && lint --fix"
-    }
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",

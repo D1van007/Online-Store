@@ -4,23 +4,23 @@ import { TotalBuy } from './totalBuyCart';
 import { LocalCart } from './localCart';
 
 export class Cart {
-  parentConteiner: HTMLElement;
-  cartConteiner!: HTMLElement;
+  parentContainer: HTMLElement;
+  cartContainer!: HTMLElement;
   productInCart: IProduct[];
   localCart: LocalCart;
   constructor(selector: string) {
-    this.parentConteiner = document.querySelector(selector) as HTMLElement;
+    this.parentContainer = document.querySelector(selector) as HTMLElement;
     this.localCart = new LocalCart();
-    this.productInCart =  this.localCart.getLocalCartProducts() ;
-    this.renderCartContent ();
+    this.productInCart = this.localCart.getLocalCartProducts();
+    this.renderCartContent();
   }
 
   renderCartContent() {
     if (this.productInCart?.length > 0) {
-      this.cartConteiner = document.createElement('div');
-      this.cartConteiner.classList.add('cart__conteiner');
-      this.parentConteiner.prepend(this.cartConteiner);
-      this.cartConteiner.innerHTML = createHTMLConteiner();
+      this.cartContainer = document.createElement('div');
+      this.cartContainer.classList.add('cart__container');
+      this.parentContainer.prepend(this.cartContainer);
+      this.cartContainer.innerHTML = createHTMLContainer();
       this.renderCartProductList();
       this.renderCartTotalBuy();
     }
@@ -32,17 +32,17 @@ export class Cart {
       if (!JSON.parse(localStorage.getItem(`id${e.id}`) as string)) {
         localStorage.setItem(`id${e.id}`, JSON.stringify(1));
       }
-      new ProductInCart(e, productListDOM, index)
+      new ProductInCart(e, productListDOM, index);
     });
   }
 
   renderCartTotalBuy() {
     const productsTotalBuy = document.querySelector('.cart-total__content') as HTMLElement;
-    new TotalBuy(productsTotalBuy)
+    new TotalBuy(productsTotalBuy);
   }
 }
 
-function createHTMLConteiner(): string {
+function createHTMLContainer(): string {
   return ` 
     <div class="cart-products__content">
         <ul class="cart-products__list">

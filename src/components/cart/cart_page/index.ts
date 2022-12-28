@@ -9,6 +9,6 @@ export class CartPage {
     this.cart = new Cart('main');
     this.localCart = new LocalCart();
     this.localCart.setTotalPrice();
-    this.localCart.setTotalProducts();
+    this.localCart.drawTotalProductsOnPage();
   }
 }

@@ -12,8 +12,8 @@ export class TotalBuy {
 
 function createHTMLTotalBuy(): string {
   return `
-    <p id="cart-total__amount" class="cart-total__amount">Products: 0</p>
-    <p id="cart-total__price" class="cart-total__price">Total: €</p>
+    <p id="cart-total--amount" class="cart-total--amount">Products: 0</p>
+    <p id="cart-total--price" class="cart-total--price">Total: €</p>
     <form class="cart-total__promo>
         <div>
             <input id="promo" type="text" name="text" placeholder="Enter promo code"/>

@@ -2,33 +2,33 @@ import './style.css';
 import { LocalCart } from '../cart/cart_module/localCart';
 export class Header {
   bodyDOM: HTMLElement;
-  headerConteiner: HTMLElement | null;
+  headerContainer: HTMLElement | null;
   localCart: LocalCart;
   constructor(selector: string) {
     this.bodyDOM = document.querySelector(selector) as HTMLElement;
-    this.headerConteiner = null;
-    this.creatHeaderConteiner();
+    this.headerContainer = null;
+    this.creatHeaderContainer();
     this.localCart = new LocalCart();
     this.renderHeader();
   }
 
-  creatHeaderConteiner() {
-    this.headerConteiner = document.createElement('header');
-    this.headerConteiner.classList.add('header');
-    this.bodyDOM.prepend(this.headerConteiner);
+  creatHeaderContainer() {
+    this.headerContainer = document.createElement('header');
+    this.headerContainer.classList.add('header');
+    this.bodyDOM.prepend(this.headerContainer);
   }
   renderHeader() {
-    if (this.headerConteiner) {
-      this.headerConteiner.innerHTML = createHTMLHeaderConteiner();
+    if (this.headerContainer) {
+      this.headerContainer.innerHTML = createHTMLHeaderContainer();
     }
-    if (this.localCart.getLocalCartProducts() && this.localCart.getLocalCartProducts().length > 0) {
-      this.localCart.setTotalPrice();
-      this.localCart.setTotalProducts();
+    if (this.localCart?.getLocalCartProducts().length > 0) {
+      this.localCart.drawTotalPriceOnPage();
+      this.localCart.drawTotalProductsOnPage();
     }
   }
 }
 
-function createHTMLHeaderConteiner(): string {
+function createHTMLHeaderContainer(): string {
   const cartTotal = JSON.parse(localStorage.getItem('totalProductsLocal') as string) | 0;
   const cartPrice = JSON.parse(localStorage.getItem('totalPriceLocal') as string) | 0;
   return ` 
