@@ -7,18 +7,18 @@ export class ItemCard {
   id: number;
   product: IProduct;
   productDOM: HTMLElement;
-  parentConteinerDOM: HTMLElement;
+  parentContainerDOM: HTMLElement;
   addToCartBtn: HTMLButtonElement;
   localCart: LocalCart;
   cartProducts: IProduct[] = [];
   constructor(id: number, product: IProduct, selector: HTMLElement) {
     this.selector = selector;
-    this.parentConteinerDOM = document.getElementById('main') as HTMLElement;
+    this.parentContainerDOM = document.getElementById('main') as HTMLElement;
     this.id = id;
     this.product = product;
     this.renderProduct();
     this.productDOM = document.getElementById(this.id.toString()) as HTMLElement;
-    this.addToCartBtn = this.productDOM.querySelector('.product__item__btn') as HTMLButtonElement;
+    this.addToCartBtn = this.productDOM.querySelector('.product__item--btn') as HTMLButtonElement;
     this.productEventTracker();
     this.localCart = new LocalCart();
     this.cartProducts = this.localCart.getLocalCartProducts();
@@ -29,7 +29,7 @@ export class ItemCard {
   }
 
   selfPageRender() {
-    this.parentConteinerDOM.innerHTML = selfPageHTML(this.product);
+    this.parentContainerDOM.innerHTML = selfPageHTML(this.product);
   }
 
   productEventTracker() {
@@ -78,17 +78,17 @@ function renderHTML(id: number, data: IProduct): string {
   if (productsInCart && productsInCart.some((e: { id: number }) => e.id == id)) {
     return `
   <li class="product__item" id = "${id}" style = "background-image: url(${data.thumbnail});">
-    <h3 class="product__item__title">${data.title}</h3>
-    <div class="product__item__price">${data.price}</div>
-    <button id = "product__item__btn${id}" class="product__item__btn remove-from-cart">Remove cart</button>
+    <h3 class="product__item--title">${data.title}</h3>
+    <div class="product__item--price">${data.price}</div>
+    <button id = "product__item--btn${id}" class="product__item--btn remove-from-cart">Remove cart</button>
   </li>
   `;
   } else {
     return `
   <li class="product__item" id = "${id}" style = "background-image: url(${data.thumbnail});">
-  <h3 class="product__item__title">${data.title}</h3>
-  <div class="product__item__price">${data.price}</div>
-  <button id = "product__item__btn${id}" class="product__item__btn add-to-cart">Add cart</button>
+  <h3 class="product__item--title">${data.title}</h3>
+  <div class="product__item--price">${data.price}</div>
+  <button id = "product__item--btn${id}" class="product__item--btn add-to-cart">Add cart</button>
 </li>
 `;
   }

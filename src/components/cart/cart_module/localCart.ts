@@ -13,7 +13,11 @@ export class LocalCart {
     return JSON.parse(localStorage.getItem('totalProducts')!);
   }
 
-  getLocalCartProducts() {
+  getLocalTotalPrice(): number {
+    return JSON.parse(localStorage.getItem('totalPrice')!);
+  }
+
+  getLocalCartProducts(): IProduct[] {
     return JSON.parse(localStorage.getItem('productsInCart')!);
   }
 
@@ -39,12 +43,16 @@ export class LocalCart {
         return sum;
       }, 0);
       localStorage.setItem('totalPrice', JSON.stringify(totalPrice));
-      const totalPriceCartDOM = document.getElementById('cart-total__price');
-      const totalPriceHeaderDOM = document.getElementById('total-price')!;
-      totalPriceHeaderDOM.textContent = `Total: € ${totalPrice}`;
-      if (totalPriceCartDOM) {
-        totalPriceCartDOM.textContent = `Total: € ${totalPrice}`;
-      }
+      this.drawTotalPriceOnPage();
+    }
+  }
+
+  drawTotalPriceOnPage() {
+    const totalPriceCartDOM = document.getElementById('cart-total--price');
+    const totalPriceHeaderDOM = document.getElementById('total-price')!;
+    totalPriceHeaderDOM.textContent = `Total: € ${this.getLocalTotalPrice()}`;
+    if (totalPriceCartDOM) {
+      totalPriceCartDOM.textContent = `Total: € ${this.getLocalTotalPrice()}`;
     }
   }
 
@@ -61,12 +69,16 @@ export class LocalCart {
         return sum;
       }, 0);
       localStorage.setItem('totalProducts', JSON.stringify(totalProducts));
-      const totalProductsCartDOM = document.getElementById('cart-total__amount')!;
-      const totalProductsHeaderDOM = document.getElementById('total-products')!;
-      totalProductsHeaderDOM.textContent = `${totalProducts}`;
-      if (totalProductsCartDOM) {
-        totalProductsCartDOM.textContent = `Products:  ${totalProducts}`;
-      }
+      this.drawTotalProductsOnPage();
+    }
+  }
+
+  drawTotalProductsOnPage() {
+    const totalProductsCartDOM = document.getElementById('cart-total--amount')!;
+    const totalProductsHeaderDOM = document.getElementById('total-products')!;
+    totalProductsHeaderDOM.textContent = `${this.getLocalTotalProducts()}`;
+    if (totalProductsCartDOM) {
+      totalProductsCartDOM.textContent = `Products:  ${this.getLocalTotalProducts()}`;
     }
   }
 }
