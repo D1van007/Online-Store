@@ -3,7 +3,6 @@ import { ProductsPage } from "../products_page/products_page";
 import { CartPage } from "../cart/cart_page";
 import { searchHandler } from "../search_handler/search_handler";
 
-
 export class Router{
   loader:Loader
   productPage:ProductsPage|null=null
@@ -52,13 +51,12 @@ export class Router{
     }
   }
 
-  async getProductRouteList(){
-    let data = await this.loader.load()
-    return data.reduce((acc:string[],e)=>{
-      acc.push(`/product${e.id}`)
-      return acc
-    },[])
-
+  async getProductRouteList() {
+    const data = await this.loader.load();
+    return data.reduce((acc: string[], e) => {
+      acc.push(`/product${e.id}`);
+      return acc;
+    }, []);
   }
 
   async loadAndCreateProductPage(){
@@ -77,13 +75,13 @@ export class Router{
     productItemsArr[0].selfPageRender()
   }
 
-  urlUpdate(){
-    this.url = new URL(window.location.href)
+  urlUpdate() {
+    this.url = new URL(window.location.href);
   }
 
-  isNewPageHandler():boolean{
-    let newUrl = new URL(window.location.href)
-    return !(this.url.pathname == newUrl.pathname)
+  isNewPageHandler(): boolean {
+    const newUrl = new URL(window.location.href);
+    return !(this.url.pathname == newUrl.pathname);
   }
 
   clearMain(){
@@ -96,5 +94,4 @@ export class Router{
       $main.innerHTML = ''
     }
   }
-
 }

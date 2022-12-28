@@ -1,4 +1,4 @@
-import { IDataProducts } from "../../types";
+import { IDataProducts } from '../../types';
 
 export class Loader{
   async load(){
