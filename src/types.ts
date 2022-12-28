@@ -19,15 +19,15 @@ interface IDataProducts {
   total: number;
 }
 
-enum DataKeys{
-  brand='brand',
-  category ='category',
+enum DataKeys {
+  brand = 'brand',
+  category = 'category',
   price = 'price',
-  stock = 'stock'
+  stock = 'stock',
 }
-enum FilterKeys{
-  search='search',
-  sort='sort'
+enum FilterKeys {
+  search = 'search',
+  sort = 'sort',
 }
 
-export {IDataProducts, IProduct, DataKeys, FilterKeys}
+export { IDataProducts, IProduct, DataKeys, FilterKeys };
