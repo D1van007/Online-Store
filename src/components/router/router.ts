@@ -1,41 +1,38 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Loader } from '../loader/loader';
-import { GalleryFilter } from '../gallery/gallery_filter';
+import { ProductsPage } from '../products_page/products_page';
 import { CartPage } from '../cart/cart_page';
-import { Header } from '../header/header';
+import { searchHandler } from '../search_handler/search_handler';
 
 export class Router {
   loader: Loader;
-  galleryFilter: GalleryFilter | null;
+  productPage: ProductsPage | null = null;
   isNewPage = true;
   url: URL;
-  cartPage: CartPage | null;
-  header: Header | null;
+  cartPage: CartPage | null = null;
   constructor() {
     this.loader = new Loader();
-    this.galleryFilter = null;
-    this.cartPage = null;
     this.url = new URL(window.location.href);
-    this.header = new Header('body');
     this.historyEventTarcker();
     this.newPageRoute();
     this.isNewPage = false;
   }
   historyEventTarcker() {
     window.addEventListener('onpushstate', () => {
-      this.historyEventHendler();
+      this.historyEventHandler();
     });
 
     window.addEventListener('popstate', () => {
-      this.historyEventHendler();
+      this.historyEventHandler();
     });
   }
-  historyEventHendler() {
+  historyEventHandler() {
     setTimeout(async () => {
       //это костыль
       this.isNewPage = this.isNewPageHandler();
       this.urlUpdate();
       this.clearMain();
+      searchHandler.parseUrl(); //тестим серч парамс
+      this.productPage?.updateSearchParamsFromURL(); //тестим серч парамс
       await this.newPageRoute();
     }, 100);
   }
@@ -43,7 +40,7 @@ export class Router {
   async newPageRoute() {
     if (this.isNewPage) {
       if (this.url.pathname == '/') {
-        await this.loadAndCreateGallery();
+        await this.loadAndCreateProductPage();
       } else if (this.url.pathname == '/cart') {
         this.cartPage = new CartPage();
       } else if ((await this.getProductRouteList()).includes(this.url.pathname)) {
@@ -62,16 +59,16 @@ export class Router {
     }, []);
   }
 
-  async loadAndCreateGallery() {
+  async loadAndCreateProductPage() {
     const data = await this.loader.load();
-    this.galleryFilter = new GalleryFilter('main', data);
+    this.productPage = new ProductsPage('main', data);
   }
 
   async createItemPage() {
-    await this.loadAndCreateGallery();
+    await this.loadAndCreateProductPage();
     const $main = document.getElementById('main')!;
     $main.innerHTML = '';
-    let productItemsArr = this.galleryFilter?.gallery.productsArr;
+    let productItemsArr = this.productPage?.catalog.productsArr;
     const id = parseInt(this.url.pathname.replace(/[^\d]/g, ''));
     productItemsArr = productItemsArr?.filter(e => e.id == id);
     if (productItemsArr) productItemsArr[0].selfPageRender();
@@ -88,6 +85,10 @@ export class Router {
 
   clearMain() {
     if (this.isNewPage) {
+      if (this.productPage) {
+        this.productPage.sideFilter?.testRemove(); //без этого сборщий мусора не хочет удалять экземпляр
+        this.productPage.sideFilter = null;
+      }
       const $main = document.getElementById('main')!;
       $main.innerHTML = '';
     }
