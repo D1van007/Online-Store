@@ -1,4 +1,4 @@
-import { DubleRange } from "../duble_range/duble_range";
+import { DoubleRange } from "../double_range/double_range";
 import { IProduct, DataKeys } from "../../types";
 import { CheckboxSection } from "./checkbox_section";
 import { searchHandler } from "../search_handler/search_handler";
@@ -15,8 +15,8 @@ type DataArrays = {
 
 export class SideFilter{
   parentDOM: HTMLElement
-  priceInput: DubleRange
-  stockInput: DubleRange
+  priceInput: DoubleRange
+  stockInput: DoubleRange
   inputPriceDOM: HTMLElement
   inputStockDOM: HTMLElement
   categoryCheckBoxDOM: HTMLElement
@@ -35,17 +35,17 @@ export class SideFilter{
     this.brandCheckBoxDOM = this.parentDOM.querySelector('.side-filter__brand')!
     this.productData = data
     this.callback = callback
-    this.priceInput = new DubleRange(this.inputPriceDOM,{
+    this.priceInput = new DoubleRange(this.inputPriceDOM,{
       min: this.getMinMax(this.productData,DataKeys.price)[0],
       max: this.getMinMax(this.productData,DataKeys.price)[1],
       eventName: 'price'
     })
-    this.stockInput = new DubleRange(this.inputStockDOM,{
+    this.stockInput = new DoubleRange(this.inputStockDOM,{
       min: this.getMinMax(this.productData,DataKeys.stock)[0],
       max: this.getMinMax(this.productData,DataKeys.stock)[1],
       eventName: 'stock'
     })
-    this.addDubleRangeTracker()
+    this.addDoubleRangeTracker()
     this.categoryCheck = new CheckboxSection(this.categoryCheckBoxDOM,this.productData,this,DataKeys.category)
     this.brandCheck = new CheckboxSection(this.brandCheckBoxDOM,this.productData,this,DataKeys.brand)
   }
@@ -64,7 +64,7 @@ export class SideFilter{
     },data[0][key])
     return [min as number,max as number]
   }
-  addDubleRangeTracker(){
+  addDoubleRangeTracker(){
     window.addEventListener('price',this.priceEventHandler)
     window.addEventListener('stock',this.stockEventHandler)
   }

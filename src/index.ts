@@ -1,7 +1,6 @@
 import { App } from "./components/app/app";
 import "../node_modules/@icon/foundation-icons/foundation-icons.css";
 import { eventedPushState } from "./components/router/events_history";
-import { DubleRange } from "./components/duble_range/duble_range";
 
 const app = new App()
 

@@ -25,5 +25,9 @@ enum DataKeys{
   price = 'price',
   stock = 'stock'
 }
+enum FilterKeys{
+  search='search',
+  sort='sort'
+}
 
-export {IDataProducts, IProduct, DataKeys}
+export {IDataProducts, IProduct, DataKeys, FilterKeys}

@@ -1,3 +1,5 @@
+import { DataKeys, FilterKeys } from "../../types"
+
 class SearchHandler{
   currentUrl:URL
   constructor(){
@@ -7,7 +9,7 @@ class SearchHandler{
     this.currentUrl = new URL(window.location.href)
     console.log(this.currentUrl)
   }
-  addParams(name:string,value:string|number[]|string[]){
+  addParams(name:DataKeys|FilterKeys,value:string|number[]|string[]){
     let strValue:string
     if(typeof value == 'string'){
       strValue = value
@@ -22,7 +24,7 @@ class SearchHandler{
     history.pushState({},'',this.currentUrl.pathname+'?'+this.currentUrl.searchParams.toString())
     console.log('push to url')
   }
-  deleteParams(name:string){
+  deleteParams(name:DataKeys|FilterKeys){
     this.currentUrl.searchParams.delete(name)
     if(this.currentUrl.searchParams.toString()){
       history.pushState({},'',this.currentUrl.pathname+'?'+this.currentUrl.searchParams.toString())

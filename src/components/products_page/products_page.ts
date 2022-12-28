@@ -1,4 +1,4 @@
-import { IProduct, DataKeys } from "../../types";
+import { IProduct, DataKeys, FilterKeys } from "../../types";
 import { Catalog } from "./catalog";
 import './styles.css'
 import { SideFilter } from "./side_filter";
@@ -10,9 +10,9 @@ export class ProductsPage{
   currentData: IProduct[]
   mainDOM: HTMLElement
   containerDOM:HTMLDivElement
-  searchDOM:HTMLInputElement
-  sortDOM:HTMLInputElement
-  totalCountDOM:HTMLElement
+  searchDOM!:HTMLInputElement
+  sortDOM!:HTMLInputElement
+  totalCountDOM!:HTMLElement
   catalog: Catalog
   sideFilter:SideFilter|null
   constructor(selector:string, data:IProduct[]){
@@ -21,15 +21,11 @@ export class ProductsPage{
     this.currentData = this.data
     this.containerDOM = this.createAndReturnContainer()
     this.renderContent()
-    this.searchDOM = this.containerDOM.querySelector('.search-bar__search-bar')!
-    this.sortDOM = this.containerDOM.querySelector('.search-bar__sort-bar')!
-    this.totalCountDOM = this.containerDOM.querySelector('.search-bar__total')!
     this.searchInput()
     this.catalog = new Catalog('products-page',this.data)
     this.sideFilter = new SideFilter('products-page',this.data,(data)=>this.sideFilterHandler(data))
     this.sortInput()
-    //this.hrefParamsHendler()
-    this.inputHandler() //пушим данные в sideFilter.arrayOfDataAllFilters чтоб не был пустым
+    //this.inputHandler() //пушим данные в sideFilter.arrayOfDataAllFilters чтоб не был пустым
     this.renderTotalCount()
     this.updateSearchParamsFromURL()
   }
@@ -42,6 +38,9 @@ export class ProductsPage{
   }
   renderContent(){
     this.containerDOM.innerHTML = renderHTML()
+    this.searchDOM = this.containerDOM.querySelector('.search-bar__search')!
+    this.sortDOM = this.containerDOM.querySelector('.search-bar__sort')!
+    this.totalCountDOM = this.containerDOM.querySelector('.search-bar__total')!
   }
   renderTotalCount(){
     this.totalCountDOM.textContent = ` count: ${this.currentData.length}`
@@ -49,9 +48,9 @@ export class ProductsPage{
   searchInput(){
     this.searchDOM.addEventListener('input', ()=>{
       if(this.searchDOM.value){
-        searchHandler.addParams('search', this.searchDOM.value) //тестим
+        searchHandler.addParams(FilterKeys.search, this.searchDOM.value) //тестим
       }else{
-        searchHandler.deleteParams('search')
+        searchHandler.deleteParams(FilterKeys.search)
       }
       this.inputHandler()
     })
@@ -82,9 +81,9 @@ export class ProductsPage{
   }
   sortInput(){
     this.sortDOM.addEventListener('change',()=>{
-      searchHandler.addParams('sort', this.sortDOM.value) //тестим
+      searchHandler.addParams(FilterKeys.sort, this.sortDOM.value) //тестим
       this.sortHandler()
-      this.inputHandler()
+      this.rerenderCatalog()
     })
   }
   
@@ -114,6 +113,16 @@ export class ProductsPage{
   updateSearchParamsFromURL(){
     if(searchHandler.currentUrl.pathname == '/'){
       let searchParams = searchHandler.currentUrl.searchParams
+
+      if(searchParams.has(FilterKeys.sort)){
+        let value = searchParams.get(FilterKeys.sort) as string
+        this.sortDOM.value = value
+        this.sortHandler()
+      }else{
+        this.sortDOM.value = 'raitingASC'
+        this.sortHandler()
+      }
+
       if(searchParams.has(DataKeys.price)){
         let value = searchParams.get(DataKeys.price) as string
         let arr = JSON.parse(value)
@@ -146,8 +155,8 @@ export class ProductsPage{
         this.sideFilter?.brandCheck.checkFormArray(['костыль']) //пока так
       }
 
-      if(searchParams.has('search')){
-        let value = searchParams.get('search') as string
+      if(searchParams.has(FilterKeys.search)){
+        let value = searchParams.get(FilterKeys.search) as string
         this.searchDOM.value = value
         this.inputHandler()
       }else{
@@ -155,14 +164,6 @@ export class ProductsPage{
         this.inputHandler()
       }
 
-      if(searchParams.has('sort')){
-        let value = searchParams.get('sort') as string
-        this.sortDOM.value = value
-        this.sortHandler()
-      }else{
-        this.sortDOM.value = 'raitingASC'
-        this.sortHandler()
-      }
     }
   }
     
@@ -171,8 +172,8 @@ export class ProductsPage{
 function renderHTML():string{
   return `
     <div class="search-bar">
-      <input class = "search-bar__search-bar" placeholder="Enter some text" name="name" />
-      <select class = "search-bar__sort-bar">
+      <input class = "search-bar__search" placeholder="Enter some text" name="name" />
+      <select class = "search-bar__sort">
         <option value="raitingASC">Sort by raiting ASC</option>
         <option value="raitingDESC">Sort by raiting DESC</option>
         <option value="priceASC">Sort by price ASC</option>

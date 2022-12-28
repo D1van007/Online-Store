@@ -1,35 +1,35 @@
-import './duble_range.css'
+import './double_range.css'
 
-type DubleRangeOptions = {
+type DoubleRangeOptions = {
   min:number,
   max:number,
   eventName:string
 }
 
-export class DubleRange{
+export class DoubleRange{
   parentDOM:HTMLElement
-  options: DubleRangeOptions
+  options: DoubleRangeOptions
   containerDOM:HTMLElement
   firstInputDOM:HTMLInputElement
   secondInputDOM:HTMLInputElement
   firstInfoDOM:HTMLElement
   secondInfoDOM:HTMLElement
   default:[number,number]
-  constructor(selector:HTMLElement,options:DubleRangeOptions){
+  constructor(selector:HTMLElement,options:DoubleRangeOptions){
     this.parentDOM = selector
     this.options = options
     this.default = [options.min,options.max]
     this.render()
-    this.containerDOM = this.parentDOM.querySelector('.duble-range')!
-    this.firstInputDOM = this.containerDOM.querySelector('.duble-range__i1')!
-    this.secondInputDOM = this.containerDOM.querySelector('.duble-range__i2')!
+    this.containerDOM = this.parentDOM.querySelector('.double-range')!
+    this.firstInputDOM = this.containerDOM.querySelector('.double-range__i1')!
+    this.secondInputDOM = this.containerDOM.querySelector('.double-range__i2')!
     this.secondInfoDOM = this.containerDOM.querySelector('.info__left')!
     this.firstInfoDOM = this.containerDOM.querySelector('.info__right')!
     this.renderInfoCurrentValue()
     this.drEventsTracker()
   }
   render(){
-    this.parentDOM.innerHTML = getdubleRangeHTML(this.options)
+    this.parentDOM.innerHTML = getdoubleRangeHTML(this.options)
   }
   drEventsTracker(){
     this.firstInputDOM.addEventListener('input',()=>{
@@ -51,13 +51,13 @@ export class DubleRange{
     this.secondInputDOM.removeEventListener('change', this.changeEventHadler)
   }
   customEvent(fakeEvent:boolean=false){
-    let dubleevent = new CustomEvent(this.options.eventName,{
+    let doubleevent = new CustomEvent(this.options.eventName,{
       detail: {
           result: [+this.firstInputDOM.value,+this.secondInputDOM.value].sort((a,b)=>a-b),
           isFake: fakeEvent
       }
     })
-    window.dispatchEvent(dubleevent)
+    window.dispatchEvent(doubleevent)
   }
   renderInfoCurrentValue(){
     this.secondInfoDOM.style.left = `${((this.getPercent(this.firstInputDOM)/100)*this.firstInputDOM.offsetWidth)*0.9}px`
@@ -84,12 +84,12 @@ export class DubleRange{
   }
 }
 
-function getdubleRangeHTML(options:DubleRangeOptions):string{
+function getdoubleRangeHTML(options:DoubleRangeOptions):string{
   return `
-  <div class="duble-range">
-    <input class="duble-range__input duble-range__i1" type="range" min="${options.min}" max="${options.max}" step="1" value="${options.min}">
-    <input class="duble-range__input duble-range__i2" type="range" min="${options.min}" max="${options.max}" step="1" value="${options.max}">
-    <div class="duble-range__info">
+  <div class="double-range">
+    <input class="double-range__input double-range__i1" type="range" min="${options.min}" max="${options.max}" step="1" value="${options.min}">
+    <input class="double-range__input double-range__i2" type="range" min="${options.min}" max="${options.max}" step="1" value="${options.max}">
+    <div class="double-range__info">
       <span class="info__left">L</span>
       <span class="info__right">R</span>
     </div>
