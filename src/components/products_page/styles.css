@@ -25,7 +25,7 @@
   grid-column-end: 4;
   min-height: 100vh;
 }
-.product__list{
+.product-list{
   display: grid;
   grid-template-columns: repeat(4,1fr);
   grid-gap: 5px;
@@ -33,7 +33,7 @@
   margin: 0;
   padding: 0;
 }
-.product__item{
+.product-item{
   background-size: cover;
   list-style: none;
   color: rgb(190, 89, 199);
@@ -42,7 +42,7 @@
   cursor: pointer;
 }
 
-.product__item__title{
+.product-item__title{
   background-color: rgba(224, 224, 224, 0.5);
 }
 

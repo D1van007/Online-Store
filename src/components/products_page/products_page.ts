@@ -25,7 +25,6 @@ export class ProductsPage{
     this.catalog = new Catalog('products-page',this.data)
     this.sideFilter = new SideFilter('products-page',this.data,(data)=>this.sideFilterHandler(data))
     this.sortInput()
-    //this.inputHandler() //пушим данные в sideFilter.arrayOfDataAllFilters чтоб не был пустым
     this.renderTotalCount()
     this.updateSearchParamsFromURL()
   }
@@ -67,7 +66,6 @@ export class ProductsPage{
   }
   rerenderCatalog(){
     this.catalog.destroy()
-    console.log('отрисовка каталога')
     this.catalog = new Catalog('products-page',this.currentData)
   }
   searchDataFilter(value:string):IProduct[]{
@@ -81,7 +79,7 @@ export class ProductsPage{
   }
   sortInput(){
     this.sortDOM.addEventListener('change',()=>{
-      searchHandler.addParams(FilterKeys.sort, this.sortDOM.value) //тестим
+      searchHandler.addParams(FilterKeys.sort, this.sortDOM.value)
       this.sortHandler()
       this.rerenderCatalog()
     })
@@ -109,7 +107,7 @@ export class ProductsPage{
       break;
     }
   }
-  //тестовый метод, обновляет сострояния фильтров по данным из URL
+  //обновляет сострояния фильтров по данным из URL
   updateSearchParamsFromURL(){
     if(searchHandler.currentUrl.pathname == '/'){
       let searchParams = searchHandler.currentUrl.searchParams

@@ -6,7 +6,7 @@ import { searchHandler } from "../search_handler/search_handler";
 export class CheckboxSection{
   data:IProduct[]
   containerDOM:HTMLElement
-  listContainerDOM:HTMLUListElement
+  ulContainerDOM:HTMLUListElement
   parent:SideFilter
   keyName:DataKeys
   listArrayDOM:NodeListOf<HTMLElement>
@@ -16,9 +16,9 @@ export class CheckboxSection{
     this.data = data
     this.parent = parent
     this.keyName = keyName
-    this.listContainerDOM = this.createAndReturnUl()
+    this.ulContainerDOM = this.createAndReturnUl()
     this.renderItems()
-    this.listArrayDOM = this.listContainerDOM.querySelectorAll('.checkbox-list__item')
+    this.listArrayDOM = this.ulContainerDOM.querySelectorAll('.checkbox-list__item')
     this.checkboxEventTracker()
   }
   createAndReturnUl():HTMLUListElement{
@@ -29,17 +29,17 @@ export class CheckboxSection{
   }
   renderItems(){
     this.getMapByKey(this.data).forEach((value,key)=>{
-      this.listContainerDOM.insertAdjacentHTML('beforeend',itemHTML(key,this.getRandomId(),value.length))
+      this.ulContainerDOM.insertAdjacentHTML('beforeend',itemHTML(key,this.getRandomId(),value.length))
     })
   }
   getRandomId(){
     return Math.round(Math.random()*Date.now())
   }
   checkboxEventTracker(){
-    this.listContainerDOM.addEventListener('click',(e)=>{
+    this.ulContainerDOM.addEventListener('click',(e)=>{
       if(e.target instanceof HTMLInputElement){
         this.eventHandler()
-        this.pushToUrl() // test
+        this.pushToUrl()
       }
     })
   }
@@ -62,7 +62,6 @@ export class CheckboxSection{
   pushToUrl(){
     if(this.isAnyChacked){
       let map = this.getMapByKey(this.parent.arrayOfDataAllFilters[this.keyName] as IProduct[])
-      console.log(this.getMapByKey(this.parent.arrayOfDataAllFilters[this.keyName] as IProduct[]))
       let arrOfKeys = Array.from(map.keys())
       searchHandler.addParams(this.keyName, arrOfKeys as string[])
     }else{
@@ -101,7 +100,6 @@ export class CheckboxSection{
       }else{
         e.children[2].textContent = '0 /'
         e.style.cssText = `opacity: .5;`
-        //input.checked = false
       }
     })
   }
@@ -110,10 +108,9 @@ export class CheckboxSection{
       let current:IProduct[]|undefined = []
       if(acc.has(e[this.keyName])){
         current = acc.get(e[this.keyName])
-        current?.push(e)
-      }else{
-        current.push(e)
       }
+      current!.push(e)
+    
       return acc.set(e[this.keyName],current as IProduct[])
     },new Map<string|number,IProduct[]>)
     return map

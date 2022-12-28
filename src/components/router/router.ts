@@ -6,14 +6,12 @@ import { searchHandler } from "../search_handler/search_handler";
 
 export class Router{
   loader:Loader
-  productPage:ProductsPage|null
+  productPage:ProductsPage|null=null
   isNewPage:boolean = true
   url:URL
-  cartPage : CartPage | null
+  cartPage : CartPage | null=null
   constructor(){
     this.loader = new Loader()
-    this.productPage = null
-    this.cartPage = null
     this.url = new URL(window.location.href)
     this.historyEventTarcker()
     this.newPageRoute()
@@ -21,14 +19,14 @@ export class Router{
   }
   historyEventTarcker(){
     window.addEventListener('onpushstate', ()=>{
-      this.historyEventHendler()
+      this.historyEventHandler()
     })
     
     window.addEventListener('popstate', ()=>{
-      this.historyEventHendler()
+      this.historyEventHandler()
     })
   }
-  historyEventHendler(){
+  historyEventHandler(){
     setTimeout(async()=>{ //это костыль
       this.isNewPage = this.isNewPageHandler()
       this.urlUpdate()

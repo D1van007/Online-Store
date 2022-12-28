@@ -17,10 +17,10 @@ export class SideFilter{
   parentDOM: HTMLElement
   priceInput: DoubleRange
   stockInput: DoubleRange
-  inputPriceDOM: HTMLElement
-  inputStockDOM: HTMLElement
-  categoryCheckBoxDOM: HTMLElement
-  brandCheckBoxDOM: HTMLElement
+  inputPriceDOM!: HTMLElement
+  inputStockDOM!: HTMLElement
+  categoryCheckBoxDOM!: HTMLElement
+  brandCheckBoxDOM!: HTMLElement
   productData: IProduct[]
   arrayOfDataAllFilters: DataArrays = {}
   callback:Callback
@@ -29,10 +29,6 @@ export class SideFilter{
   constructor(selector:string,data:IProduct[],callback:Callback){
     this.parentDOM = document.getElementById(selector)!
     this.render()
-    this.inputPriceDOM = this.parentDOM.querySelector('.side-filter__price')!
-    this.inputStockDOM = this.parentDOM.querySelector('.side-filter__stock')!
-    this.categoryCheckBoxDOM = this.parentDOM.querySelector('.side-filter__category')!
-    this.brandCheckBoxDOM = this.parentDOM.querySelector('.side-filter__brand')!
     this.productData = data
     this.callback = callback
     this.priceInput = new DoubleRange(this.inputPriceDOM,{
@@ -51,6 +47,10 @@ export class SideFilter{
   }
   render(){
     this.parentDOM.insertAdjacentHTML('afterbegin',getHTML())
+    this.inputPriceDOM = this.parentDOM.querySelector('.side-filter__price')!
+    this.inputStockDOM = this.parentDOM.querySelector('.side-filter__stock')!
+    this.categoryCheckBoxDOM = this.parentDOM.querySelector('.side-filter__category')!
+    this.brandCheckBoxDOM = this.parentDOM.querySelector('.side-filter__brand')!
   }
   getMinMax(data:IProduct[],key:DataKeys):number[]{
      if(data.length == 0){
@@ -110,7 +110,8 @@ export class SideFilter{
     return this.productData.filter(e=>e[key]>=min&&e[key]<=max)
   }
   getFilteredData():IProduct[]{ // моя гордость))
-    let map =  Object.values(this.arrayOfDataAllFilters).flat(1).reduce((acc,e)=>{
+    const valuesArr = Object.values(this.arrayOfDataAllFilters)
+    let map =  valuesArr.flat(1).reduce((acc,e)=>{
       if(acc.has(e)){
         let current = acc.get(e) as number
         acc.set(e, current+1)
@@ -120,7 +121,7 @@ export class SideFilter{
       return acc
     },new Map<IProduct,number>)
     map.forEach((value,key)=>{
-      if(value<Object.values(this.arrayOfDataAllFilters).length){
+      if(value<valuesArr.length){
         map.delete(key)
       }
     })

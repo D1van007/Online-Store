@@ -9,27 +9,27 @@ type DoubleRangeOptions = {
 export class DoubleRange{
   parentDOM:HTMLElement
   options: DoubleRangeOptions
-  containerDOM:HTMLElement
-  firstInputDOM:HTMLInputElement
-  secondInputDOM:HTMLInputElement
-  firstInfoDOM:HTMLElement
-  secondInfoDOM:HTMLElement
+  containerDOM!:HTMLElement
+  firstInputDOM!:HTMLInputElement
+  secondInputDOM!:HTMLInputElement
+  firstInfoDOM!:HTMLElement
+  secondInfoDOM!:HTMLElement
   default:[number,number]
   constructor(selector:HTMLElement,options:DoubleRangeOptions){
     this.parentDOM = selector
     this.options = options
     this.default = [options.min,options.max]
     this.render()
+    this.renderInfoCurrentValue()
+    this.drEventsTracker()
+  }
+  render(){
+    this.parentDOM.innerHTML = getHTML(this.options)
     this.containerDOM = this.parentDOM.querySelector('.double-range')!
     this.firstInputDOM = this.containerDOM.querySelector('.double-range__i1')!
     this.secondInputDOM = this.containerDOM.querySelector('.double-range__i2')!
     this.secondInfoDOM = this.containerDOM.querySelector('.info__left')!
     this.firstInfoDOM = this.containerDOM.querySelector('.info__right')!
-    this.renderInfoCurrentValue()
-    this.drEventsTracker()
-  }
-  render(){
-    this.parentDOM.innerHTML = getdoubleRangeHTML(this.options)
   }
   drEventsTracker(){
     this.firstInputDOM.addEventListener('input',()=>{
@@ -84,7 +84,7 @@ export class DoubleRange{
   }
 }
 
-function getdoubleRangeHTML(options:DoubleRangeOptions):string{
+function getHTML(options:DoubleRangeOptions):string{
   return `
   <div class="double-range">
     <input class="double-range__input double-range__i1" type="range" min="${options.min}" max="${options.max}" step="1" value="${options.min}">

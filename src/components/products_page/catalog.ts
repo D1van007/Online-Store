@@ -4,13 +4,11 @@ import { ItemCard } from "./item_card";
 export class Catalog{
   data: IProduct[]
   parentDOM: HTMLElement
-  catalogContainerDOM: HTMLElement|null
-  productListDOM
+  catalogContainerDOM: HTMLElement|null=null
+  productListDOM:HTMLUListElement
   productsArr:ItemCard[]=[]
-  //isBigCard:boolean
   constructor(selector:string, data:IProduct[]){
     this.parentDOM = document.getElementById(selector)!
-    this.catalogContainerDOM = null
     this.data = data
     this.productListDOM =  this.createContainers()
     this.renderProducts()
@@ -20,7 +18,7 @@ export class Catalog{
     this.catalogContainerDOM.classList.add('catalog')
     this.parentDOM.insertAdjacentElement('beforeend',this.catalogContainerDOM)
     let productList = document.createElement('ul')
-    productList.classList.add('product__list')
+    productList.classList.add('product-list')
     this.catalogContainerDOM.insertAdjacentElement('beforeend',productList)
     return productList
   }

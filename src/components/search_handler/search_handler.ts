@@ -7,7 +7,6 @@ class SearchHandler{
   }
   parseUrl(){
     this.currentUrl = new URL(window.location.href)
-    console.log(this.currentUrl)
   }
   addParams(name:DataKeys|FilterKeys,value:string|number[]|string[]){
     let strValue:string
@@ -16,13 +15,10 @@ class SearchHandler{
     }else{
       strValue = JSON.stringify(value)
     }
-    console.log(strValue)
     if(strValue){
       this.currentUrl.searchParams.set(name,strValue)
-      //history.pushState({},'',this.currentUrl.pathname)
     }
     history.pushState({},'',this.currentUrl.pathname+'?'+this.currentUrl.searchParams.toString())
-    console.log('push to url')
   }
   deleteParams(name:DataKeys|FilterKeys){
     this.currentUrl.searchParams.delete(name)
