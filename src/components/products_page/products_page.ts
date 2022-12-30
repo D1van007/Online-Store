@@ -14,8 +14,9 @@ export class ProductsPage {
   totalCountDOM!: HTMLElement;
   catalog: Catalog;
   sideFilter: SideFilter | null;
+  optionsDOM!: HTMLElement;
   constructor(selector: string, data: IProduct[]) {
-    this.mainDOM = document.getElementById(selector)!;
+    this.mainDOM = document.getElementById(selector) as HTMLElement;
     this.data = data;
     this.currentData = this.data;
     this.containerDOM = this.createAndReturnContainer();
@@ -25,7 +26,8 @@ export class ProductsPage {
     this.sideFilter = new SideFilter('products-page', this.data, data => this.sideFilterHandler(data));
     this.sortInput();
     this.renderTotalCount();
-    this.updateSearchParamsFromURL();
+    this.setParamsIsBig();
+    // this.updateproduct__item--btnFromURL();
   }
   createAndReturnContainer(): HTMLDivElement {
     const container = document.createElement('div');
@@ -36,9 +38,10 @@ export class ProductsPage {
   }
   renderContent() {
     this.containerDOM.innerHTML = renderHTML();
-    this.searchDOM = this.containerDOM.querySelector('.search-bar__search')!;
-    this.sortDOM = this.containerDOM.querySelector('.search-bar__sort')!;
-    this.totalCountDOM = this.containerDOM.querySelector('.search-bar__total')!;
+    this.optionsDOM = this.containerDOM.querySelector('.options-bar') as HTMLElement;
+    this.searchDOM = this.containerDOM.querySelector('.options-bar__search') as HTMLInputElement;
+    this.sortDOM = this.containerDOM.querySelector('.options-bar__sort') as HTMLInputElement;
+    this.totalCountDOM = this.containerDOM.querySelector('.options-bar__total') as HTMLElement;
   }
   renderTotalCount() {
     this.totalCountDOM.textContent = ` count: ${this.currentData.length}`;
@@ -162,13 +165,28 @@ export class ProductsPage {
       }
     }
   }
+
+  setParamsIsBig() {
+    const currentUrl = new URL(window.location.href);
+    this.optionsDOM.addEventListener('click', event => {
+      if ((<HTMLElement>event.target).matches('.options-bar__small-item')) {
+        currentUrl.searchParams.set('big', 'false');
+        history.pushState({}, '', currentUrl.pathname + '?' + currentUrl.searchParams.toString());
+        this.rerenderCatalog();
+      } else if ((<HTMLElement>event.target).matches('.options-bar__big-item')) {
+        currentUrl.searchParams.set('big', 'true');
+        history.pushState({}, '', currentUrl.pathname + '?' + currentUrl.searchParams.toString());
+        this.rerenderCatalog();
+      }
+    });
+  }
 }
 
 function renderHTML(): string {
   return `
-    <div class="search-bar">
-      <input class = "search-bar__search" placeholder="Enter some text" name="name" />
-      <select class = "search-bar__sort">
+    <div class="options-bar">
+      <input class = "options-bar__search" placeholder="Enter some text" name="name" />
+      <select class = "options-bar__sort">
         <option value="raitingASC">Sort by raiting ASC</option>
         <option value="raitingDESC">Sort by raiting DESC</option>
         <option value="priceASC">Sort by price ASC</option>
@@ -176,7 +194,12 @@ function renderHTML(): string {
         <option value="discountASC">Sort by discount ASC</option>
         <option value="discountDESC">Sort by discount DESC</option>
       </select>
-      <span class="search-bar__total"></span>
+      <span class="options-bar__total"></span>
+      <button class="options-bar__small-item">small</button>
+      <button class="options-bar__big-item">big</button>
     </div>  
   `;
+}
+function btnFromURL() {
+  throw new Error('Function not implemented.');
 }

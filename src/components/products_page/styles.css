@@ -12,7 +12,7 @@
   grid-column-end: 2;
   border-top: 5px solid rgb(170, 68, 68);
 }
-.search-bar{
+.options-bar{
   background-color: rgb(170, 68, 68);
   padding: 20px;
   grid-row-start: 1;
@@ -46,7 +46,7 @@
   background-color: rgba(224, 224, 224, 0.5);
 }
 
-.search-bar{
+.options-bar{
   box-sizing: border-box;
   background-color: rgb(170, 68, 68);
   padding: 20px;

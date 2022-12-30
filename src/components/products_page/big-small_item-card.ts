@@ -1,6 +1,7 @@
 import { eventedPushState } from '../router/events_history';
 import { LocalCart } from '../cart/cart_module/localCart';
 import { IProduct } from '../../types';
+import { SearchHandler } from '../search_handler/search_handler';
 
 export class ItemCard {
   selector: HTMLElement;
@@ -11,6 +12,7 @@ export class ItemCard {
   addToCartBtn: HTMLButtonElement;
   localCart: LocalCart;
   cartProducts: IProduct[] = [];
+  searchHandler: SearchHandler;
   constructor(id: number, product: IProduct, selector: HTMLElement) {
     this.selector = selector;
     this.parentContainerDOM = document.getElementById('main') as HTMLElement;
@@ -22,14 +24,11 @@ export class ItemCard {
     this.productEventTracker();
     this.localCart = new LocalCart();
     this.cartProducts = this.localCart.getLocalCartProducts();
+    this.searchHandler = new SearchHandler();
   }
 
   renderProduct() {
     this.selector.insertAdjacentHTML('beforeend', renderHTML(this.id, this.product));
-  }
-
-  deleteProduct() {
-    this.selector.insertAdjacentHTML('beforeend', '');
   }
 
   selfPageRender() {
@@ -75,73 +74,30 @@ export class ItemCard {
       localStorage.setItem('productsInCart', JSON.stringify(this.cartProducts));
     }
   }
+
+  isBigItemCard() {
+    const myUrl = this.searchHandler.parseUrl();
+  }
 }
 
 function renderHTML(id: number, data: IProduct): string {
   const productsInCart = JSON.parse(localStorage.getItem('productsInCart') as string);
-  const currentUrl = new URL(window.location.href);
-  if (currentUrl?.searchParams.get('big') === `${false}`) {
-    if (productsInCart?.some((e: { id: number }) => e.id == id)) {
-      return `
+  if (productsInCart?.some((e: { id: number }) => e.id == id)) {
+    return `
   <li class="product__item" id = "${id}" style = "background-image: url(${data.thumbnail});">
     <h3 class="product__item--title">${data.title}</h3>
-    <div class="product__item--info">
-    <ul class="info__list">
-      <li class="info__item-price info-item"> €${data.price}</li>
-    </ul>
-    </div>
+    <div class="product__item--price">${data.price}</div>
     <button id = "product__item--btn${id}" class="product__item--btn remove-from-cart">Remove cart</button>
   </li>
   `;
-    } else {
-      return `
-  <li class="product__item" id = "${id}" style = "background-image: url(${data.thumbnail});">
-  <h3 class="product__item--title">${data.title}</h3>
-      <div class="product__item--info">
-    <ul class="info__list">
-      <li class="info__item-price info-item">Price: €${data.price}</li>
-    </ul>
-    </div>
-  <button id = "product__item--btn${id}" class="product__item--btn add-to-cart">Add cart</button>
-</li>
-`;
-    }
   } else {
-    if (productsInCart?.some((e: { id: number }) => e.id == id)) {
-      return `
-  <li class="product__item" id = "${id}" style = "background-image: url(${data.thumbnail});">
-    <h3 class="product__item--title">${data.title}</h3>
-    <div class="product__item--info">
-    <ul class="info__list">
-      <li class="info__item-category info-item">${data.category}</li>
-      <li class="info__item-brand info-item">${data.brand}</li>
-      <li class="info__item-price info-item"> €${data.price}</li>
-      <li class="info__item-discount info-item">${data.discountPercentage}%</li>
-      <li class="info__item-rating info-item">${data.rating}</li>
-      <li class="info__item-stock info-item">${data.stock}</li>
-    </ul>
-    </div>
-    <button id = "product__item--btn${id}" class="product__item--btn remove-from-cart">Remove cart</button>
-  </li>
-  `;
-    } else {
-      return `
+    return `
   <li class="product__item" id = "${id}" style = "background-image: url(${data.thumbnail});">
   <h3 class="product__item--title">${data.title}</h3>
-      <div class="product__item--info">
-    <ul class="info__list">
-      <li class="info__item-category info-item">Category: ${data.category}</li>
-      <li class="info__item-brand info-item">Brand: ${data.brand}</li>
-      <li class="info__item-price info-item">Price: €${data.price}</li>
-      <li class="info__item-discount info-item">Discount: ${data.discountPercentage}%</li>
-      <li class="info__item-rating info-item">Rating: ${data.rating}</li>
-      <li class="info__item-stock info-item">Stock: ${data.stock}</li>
-    </ul>
-    </div>
+  <div class="product__item--price">${data.price}</div>
   <button id = "product__item--btn${id}" class="product__item--btn add-to-cart">Add cart</button>
 </li>
 `;
-    }
   }
 }
 

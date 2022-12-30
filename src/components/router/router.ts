@@ -66,8 +66,8 @@ export class Router {
 
   async createItemPage() {
     await this.loadAndCreateProductPage();
-    const $main = document.getElementById('main')!;
-    $main.innerHTML = '';
+    const mainDOM = document.getElementById('main') as HTMLElement;
+    mainDOM.innerHTML = '';
     let productItemsArr = this.productPage?.catalog.productsArr;
     const id = parseInt(this.url.pathname.replace(/[^\d]/g, ''));
     productItemsArr = productItemsArr?.filter(e => e.id == id);
@@ -89,8 +89,8 @@ export class Router {
         this.productPage.sideFilter?.testRemove(); //без этого сборщий мусора не хочет удалять экземпляр
         this.productPage.sideFilter = null;
       }
-      const $main = document.getElementById('main')!;
-      $main.innerHTML = '';
+      const mainDOM = document.getElementById('main') as HTMLElement;
+      mainDOM.innerHTML = '';
     }
   }
 }
