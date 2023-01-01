@@ -27,7 +27,7 @@ export class ProductsPage {
     this.sortInput();
     this.renderTotalCount();
     this.setParamsIsBig();
-    // this.updateproduct__item--btnFromURL();
+    // this.updateproduct__item--btn-cartFromURL();
   }
   createAndReturnContainer(): HTMLDivElement {
     const container = document.createElement('div');
@@ -173,6 +173,13 @@ export class ProductsPage {
         currentUrl.searchParams.set('big', 'false');
         history.pushState({}, '', currentUrl.pathname + '?' + currentUrl.searchParams.toString());
         this.rerenderCatalog();
+        document.querySelector('.product-list')?.classList.add('line-list');
+        // document.querySelectorAll('.product__item').forEach(el => {
+        //   el.classList.add('line-item');
+        // });
+        // document.querySelectorAll('.product__item--img').forEach(el => {
+        //   el.classList.add('line-item--img');
+        // });
       } else if ((<HTMLElement>event.target).matches('.options-bar__big-item')) {
         currentUrl.searchParams.set('big', 'true');
         history.pushState({}, '', currentUrl.pathname + '?' + currentUrl.searchParams.toString());

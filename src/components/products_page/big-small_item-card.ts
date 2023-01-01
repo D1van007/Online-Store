@@ -20,7 +20,7 @@ export class ItemCard {
     this.product = product;
     this.renderProduct();
     this.productDOM = document.getElementById(this.id.toString()) as HTMLElement;
-    this.addToCartBtn = this.productDOM.querySelector('.product__item--btn') as HTMLButtonElement;
+    this.addToCartBtn = this.productDOM.querySelector('.product__item--btn-cart') as HTMLButtonElement;
     this.productEventTracker();
     this.localCart = new LocalCart();
     this.cartProducts = this.localCart.getLocalCartProducts();
@@ -87,7 +87,7 @@ function renderHTML(id: number, data: IProduct): string {
   <li class="product__item" id = "${id}" style = "background-image: url(${data.thumbnail});">
     <h3 class="product__item--title">${data.title}</h3>
     <div class="product__item--price">${data.price}</div>
-    <button id = "product__item--btn${id}" class="product__item--btn remove-from-cart">Remove cart</button>
+    <button id = "product__item--btn-cart${id}" class="product__item--btn-cart remove-from-cart">Remove cart</button>
   </li>
   `;
   } else {
@@ -95,7 +95,7 @@ function renderHTML(id: number, data: IProduct): string {
   <li class="product__item" id = "${id}" style = "background-image: url(${data.thumbnail});">
   <h3 class="product__item--title">${data.title}</h3>
   <div class="product__item--price">${data.price}</div>
-  <button id = "product__item--btn${id}" class="product__item--btn add-to-cart">Add cart</button>
+  <button id = "product__item--btn-cart${id}" class="product__item--btn-cart add-to-cart">Add cart</button>
 </li>
 `;
   }
