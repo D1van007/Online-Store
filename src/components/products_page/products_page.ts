@@ -3,6 +3,8 @@ import { Catalog } from './catalog';
 import './styles.css';
 import { SideFilter } from './side_filter';
 import { searchHandler } from '../search_handler/search_handler';
+import { CopyClearURL } from './copy_clear';
+
 
 export class ProductsPage {
   data: IProduct[];
@@ -13,6 +15,7 @@ export class ProductsPage {
   sortDOM!: HTMLInputElement;
   totalCountDOM!: HTMLElement;
   catalog: Catalog;
+  copyClearURL:CopyClearURL
   sideFilter: SideFilter | null;
   constructor(selector: string, data: IProduct[]) {
     this.mainDOM = document.getElementById(selector)!;
@@ -23,6 +26,7 @@ export class ProductsPage {
     this.searchInput();
     this.catalog = new Catalog('products-page', this.data);
     this.sideFilter = new SideFilter('products-page', this.data, data => this.sideFilterHandler(data));
+    this.copyClearURL = new CopyClearURL(this.containerDOM)
     this.sortInput();
     this.renderTotalCount();
     this.updateSearchParamsFromURL();

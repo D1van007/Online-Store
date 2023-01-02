@@ -7,6 +7,7 @@ export class Catalog {
   catalogContainerDOM: HTMLElement | null = null;
   productListDOM: HTMLUListElement;
   productsArr: ItemCard[] = [];
+  productsOnPage:number = 16
   constructor(selector: string, data: IProduct[]) {
     this.parentDOM = document.getElementById(selector)!;
     this.data = data;
