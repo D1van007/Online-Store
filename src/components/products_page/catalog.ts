@@ -7,8 +7,10 @@ export class Catalog {
   catalogContainerDOM: HTMLElement | null = null;
   productListDOM: HTMLUListElement;
   productsArr: ItemCard[] = [];
-  productsOnPage:number = 16
-  constructor(selector: string, data: IProduct[]) {
+  productOnPage:number = 16
+  currentPage:number
+  constructor(selector: string, data: IProduct[],currentPage:number) {
+    this.currentPage = currentPage
     this.parentDOM = document.getElementById(selector)!;
     this.data = data;
     this.productListDOM = this.createContainers();
@@ -24,10 +26,16 @@ export class Catalog {
     return productList;
   }
   renderProducts() {
+    const itemStart = this.productOnPage*this.currentPage
+    const itemEnd = this.productOnPage*this.currentPage+this.productOnPage-1
     if (this.data.length > 0) {
-      this.data.forEach(e => {
-        const card = new ItemCard(e.id, e, this.productListDOM);
-        this.productsArr.push(card);
+      this.data.forEach((e,i) => {
+        console.log(i,itemEnd,i<itemEnd)
+        console.log(i>itemStart,i<itemEnd)
+        if(i>=itemStart&&i<=itemEnd){
+          const card = new ItemCard(e.id, e, this.productListDOM);
+          this.productsArr.push(card);
+        }
       });
     }
   }

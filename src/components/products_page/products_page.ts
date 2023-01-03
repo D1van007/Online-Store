@@ -4,6 +4,7 @@ import './styles.css';
 import { SideFilter } from './side_filter';
 import { searchHandler } from '../search_handler/search_handler';
 import { CopyClearURL } from './copy_clear';
+import { Pagination } from './pagination';
 
 
 export class ProductsPage {
@@ -14,6 +15,7 @@ export class ProductsPage {
   searchDOM!: HTMLInputElement;
   sortDOM!: HTMLInputElement;
   totalCountDOM!: HTMLElement;
+  pagination: Pagination;
   catalog: Catalog;
   copyClearURL:CopyClearURL
   sideFilter: SideFilter | null;
@@ -24,7 +26,8 @@ export class ProductsPage {
     this.containerDOM = this.createAndReturnContainer();
     this.renderContent();
     this.searchInput();
-    this.catalog = new Catalog('products-page', this.data);
+    this.pagination = new Pagination(this.containerDOM,this.currentData,this);
+    this.catalog = new Catalog('products-page', this.data,this.pagination.currentPage);
     this.sideFilter = new SideFilter('products-page', this.data, data => this.sideFilterHandler(data));
     this.copyClearURL = new CopyClearURL(this.containerDOM)
     this.sortInput();
@@ -68,8 +71,14 @@ export class ProductsPage {
     }
   }
   rerenderCatalog() {
+    this.pagination.destroy()
+    this.pagination = new Pagination(this.containerDOM,this.currentData,this)
     this.catalog.destroy();
-    this.catalog = new Catalog('products-page', this.currentData);
+    this.catalog = new Catalog('products-page', this.currentData,this.pagination.currentPage);
+  }
+  reloadPagination(){
+    this.catalog.destroy();
+    this.catalog = new Catalog('products-page', this.currentData,this.pagination.currentPage);
   }
   searchDataFilter(value: string): IProduct[] {
     return this.data.filter(e => e.title.toLocaleLowerCase().includes(value.toLocaleLowerCase()));
