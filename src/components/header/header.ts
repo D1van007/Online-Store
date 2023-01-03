@@ -21,7 +21,7 @@ export class Header {
     if (this.headerContainer) {
       this.headerContainer.innerHTML = createHTMLHeaderContainer();
     }
-    if (this.localCart?.getLocalCartProducts().length > 0) {
+    if (this.localCart.getLocalCartProducts()?.length > 0) {
       this.localCart.drawTotalPriceOnPage();
       this.localCart.drawTotalProductsOnPage();
     }
