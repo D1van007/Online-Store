@@ -27,9 +27,6 @@ export class ItemCard {
   renderProduct() {
     this.selector.insertAdjacentHTML('beforeend', renderHTMLBase(this.id, this.product));
     this.renderBtnCartItem();
-    // console.log('1');
-    // this.renderBigOrLineCard();
-    // console.log('2');
   }
 
   deleteProduct() {
@@ -92,11 +89,6 @@ export class ItemCard {
       (currentBtn as HTMLElement).textContent = 'Add cart';
     }
   }
-
-  // renderBigOrLineCard() {
-  //   const currentBtn = document.getElementById(`product__item--btn-cart${this.id}`) as HTMLElement;
-  //   currentBtn.insertAdjacentHTML('beforebegin', renderInfoList(this.product));
-  // }
 }
 
 function renderHTMLBase(id: number, data: IProduct): string {
@@ -145,21 +137,10 @@ function renderHTMLBase(id: number, data: IProduct): string {
   }
 }
 
-function renderInfoList(data: IProduct): string {
-  const currentUrl = new URL(window.location.href);
-  console.log(currentUrl?.searchParams.get('big') === `false`);
-  if (currentUrl?.searchParams.get('big') === `false`) {
-    return `
-    <div class="products__item--fullname">
-        <p class="products__item--description">${data.description}</p>
-            <div class="products__item--description-second">
-                <p class="products__item--price">Price: €${data.price}</p>
-                <p class="products__item--rating">Rating: ${data.rating}</p>
-                <p class="products__item--discount">Discount: ${data.discountPercentage}</p>
-            </div> 
-    </div> `;
-  } else {
-    return `  
+function selfPageHTML(data: IProduct) {
+  return `
+    <div class="product__item--img" style = "background-image: url(${data.thumbnail})"></div>
+    <h3 class="product__item--title">${data.title}</h3>
     <div class="product__item--info">
       <ul class="info__list">
       <li class="info__item-category info-item">Category: ${data.category}</li>
@@ -170,26 +151,4 @@ function renderInfoList(data: IProduct): string {
       <li class="info__item-stock info-item">Stock: ${data.stock}</li>
       </ul>
     </div>`;
-  }
 }
-
-function selfPageHTML(data: IProduct) {
-  return `<h1>NAME:${data.title} ID:${data.id}</h1>`;
-}
-
-/*  <div class="cart-products__item--img" style = "background-image: url(${dataProduct.images[0]})"></div>
-    <h3 class="cart-products__item--title">${dataProduct.title}</h3>
-    <div class="cart-products__item--fullname">
-
-        <p class="cart-products__item--description">${dataProduct.description}</p>
-            <div class="cart-products__item--description-second">
-                <p class="cart-products__item--price">Price: €${dataProduct.price}</p>
-                <p class="cart-products__item--rating">Rating: ${dataProduct.rating}</p>
-                <p class="cart-products__item--discount">Discount: ${dataProduct.discountPercentage}</p>
-            </div> 
-    </div>    
-    <div>
-        <button id = "product__item--btn-cart-cart${id}" class="product__item--btn-cart add-to-cart">add to cart</button>
-        <button id = "product__item--btn-detals${id}" class="product__item--btn-detals">detals</button>
-    </div>    
-</li>`; */

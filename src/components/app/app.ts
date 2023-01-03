@@ -5,7 +5,7 @@ export class App {
   router: Router;
   header: Header;
   constructor() {
-    this.router = new Router();
     this.header = new Header('body');
+    this.router = new Router();
   }
 }
