@@ -2,6 +2,7 @@ import { Loader } from '../loader/loader';
 import { ProductsPage } from '../products_page/products_page';
 import { CartPage } from '../cart/cart_page';
 import { searchHandler } from '../search_handler/search_handler';
+import { Page404 } from '../404/page404';
 
 export class Router {
   loader: Loader;
@@ -9,6 +10,7 @@ export class Router {
   isNewPage = true;
   url: URL;
   cartPage: CartPage | null = null;
+  page404!: Page404;
   constructor() {
     this.loader = new Loader();
     this.url = new URL(window.location.href);
@@ -34,7 +36,7 @@ export class Router {
       searchHandler.parseUrl(); //тестим серч парамс
       this.productPage?.updateSearchParamsFromURL(); //тестим серч парамс
       await this.newPageRoute();
-    }, 100);
+    }, 0);
   }
 
   async newPageRoute() {
@@ -46,7 +48,8 @@ export class Router {
       } else if ((await this.getProductRouteList()).includes(this.url.pathname)) {
         await this.createItemPage();
       } else {
-        alert('it"s a 404 live with it');
+        this.page404 = new Page404('main');
+        // alert('it"s a 404 live with it');
       }
     }
   }
@@ -66,8 +69,8 @@ export class Router {
 
   async createItemPage() {
     await this.loadAndCreateProductPage();
-    const $main = document.getElementById('main')!;
-    $main.innerHTML = '';
+    const mainDOM = document.getElementById('main') as HTMLElement;
+    mainDOM.innerHTML = '';
     let productItemsArr = this.productPage?.catalog.productsArr;
     const id = parseInt(this.url.pathname.replace(/[^\d]/g, ''));
     productItemsArr = productItemsArr?.filter(e => e.id == id);
@@ -89,8 +92,8 @@ export class Router {
         this.productPage.sideFilter?.testRemove(); //без этого сборщий мусора не хочет удалять экземпляр
         this.productPage.sideFilter = null;
       }
-      const $main = document.getElementById('main')!;
-      $main.innerHTML = '';
+      const mainDOM = document.getElementById('main') as HTMLElement;
+      mainDOM.innerHTML = '';
     }
   }
 }

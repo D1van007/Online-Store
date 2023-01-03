@@ -6,7 +6,6 @@ import { searchHandler } from '../search_handler/search_handler';
 import { CopyClearURL } from './copy_clear';
 import { Pagination } from './pagination';
 
-
 export class ProductsPage {
   data: IProduct[];
   currentData: IProduct[];
@@ -17,22 +16,23 @@ export class ProductsPage {
   totalCountDOM!: HTMLElement;
   pagination: Pagination;
   catalog: Catalog;
-  copyClearURL:CopyClearURL
+  copyClearURL: CopyClearURL;
   sideFilter: SideFilter | null;
+  optionsDOM!: HTMLElement;
   constructor(selector: string, data: IProduct[]) {
-    this.mainDOM = document.getElementById(selector)!;
+    this.mainDOM = document.getElementById(selector) as HTMLElement;
     this.data = data;
     this.currentData = this.data;
     this.containerDOM = this.createAndReturnContainer();
     this.renderContent();
     this.searchInput();
-    this.pagination = new Pagination(this.containerDOM,this.currentData,this);
-    this.catalog = new Catalog('products-page', this.data,this.pagination.currentPage);
+    this.pagination = new Pagination(this.containerDOM, this.currentData, this);
+    this.catalog = new Catalog('products-page', this.data, this.pagination.currentPage);
     this.sideFilter = new SideFilter('products-page', this.data, data => this.sideFilterHandler(data));
-    this.copyClearURL = new CopyClearURL(this.containerDOM)
+    this.copyClearURL = new CopyClearURL(this.containerDOM);
     this.sortInput();
     this.renderTotalCount();
-    this.updateSearchParamsFromURL();
+    this.setParamsIsBig();
   }
   createAndReturnContainer(): HTMLDivElement {
     const container = document.createElement('div');
@@ -43,9 +43,10 @@ export class ProductsPage {
   }
   renderContent() {
     this.containerDOM.innerHTML = renderHTML();
-    this.searchDOM = this.containerDOM.querySelector('.search-bar__search')!;
-    this.sortDOM = this.containerDOM.querySelector('.search-bar__sort')!;
-    this.totalCountDOM = this.containerDOM.querySelector('.search-bar__total')!;
+    this.optionsDOM = this.containerDOM.querySelector('.options-bar') as HTMLElement;
+    this.searchDOM = this.containerDOM.querySelector('.options-bar__search') as HTMLInputElement;
+    this.sortDOM = this.containerDOM.querySelector('.options-bar__sort') as HTMLInputElement;
+    this.totalCountDOM = this.containerDOM.querySelector('.options-bar__total') as HTMLElement;
   }
   renderTotalCount() {
     this.totalCountDOM.textContent = ` count: ${this.currentData.length}`;
@@ -71,14 +72,14 @@ export class ProductsPage {
     }
   }
   rerenderCatalog() {
-    this.pagination.destroy()
-    this.pagination = new Pagination(this.containerDOM,this.currentData,this)
+    this.pagination.destroy();
+    this.pagination = new Pagination(this.containerDOM, this.currentData, this);
     this.catalog.destroy();
-    this.catalog = new Catalog('products-page', this.currentData,this.pagination.currentPage);
+    this.catalog = new Catalog('products-page', this.currentData, this.pagination.currentPage);
   }
-  reloadPagination(){
+  reloadPagination() {
     this.catalog.destroy();
-    this.catalog = new Catalog('products-page', this.currentData,this.pagination.currentPage);
+    this.catalog = new Catalog('products-page', this.currentData, this.pagination.currentPage);
   }
   searchDataFilter(value: string): IProduct[] {
     return this.data.filter(e => e.title.toLocaleLowerCase().includes(value.toLocaleLowerCase()));
@@ -175,13 +176,25 @@ export class ProductsPage {
       }
     }
   }
+
+  setParamsIsBig() {
+    this.optionsDOM.addEventListener('click', event => {
+      if ((<HTMLElement>event.target).matches('.options-bar__small-item')) {
+        searchHandler.addParams(FilterKeys.big, 'false');
+        this.rerenderCatalog();
+      } else if ((<HTMLElement>event.target).matches('.options-bar__big-item')) {
+        searchHandler.addParams(FilterKeys.big, 'true');
+        this.rerenderCatalog();
+      }
+    });
+  }
 }
 
 function renderHTML(): string {
   return `
-    <div class="search-bar">
-      <input class = "search-bar__search" placeholder="Enter some text" name="name" />
-      <select class = "search-bar__sort">
+    <div class="options-bar">
+      <input class = "options-bar__search" placeholder="Enter some text" name="name" />
+      <select class = "options-bar__sort">
         <option value="raitingASC">Sort by raiting ASC</option>
         <option value="raitingDESC">Sort by raiting DESC</option>
         <option value="priceASC">Sort by price ASC</option>
@@ -189,7 +202,12 @@ function renderHTML(): string {
         <option value="discountASC">Sort by discount ASC</option>
         <option value="discountDESC">Sort by discount DESC</option>
       </select>
-      <span class="search-bar__total"></span>
+      <span class="options-bar__total"></span>
+      <button class="options-bar__small-item">small</button>
+      <button class="options-bar__big-item">big</button>
     </div>  
   `;
 }
+// function btnFromURL() {
+//   throw new Error('Function not implemented.');
+// }

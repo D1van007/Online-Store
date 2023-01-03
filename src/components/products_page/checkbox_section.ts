@@ -107,7 +107,7 @@ export class CheckboxSection {
       if (acc.has(e[this.keyName])) {
         current = acc.get(e[this.keyName]);
       }
-      current!.push(e);
+      (current as IProduct[]).push(e);
 
       return acc.set(e[this.keyName], current as IProduct[]);
     }, new Map<string | number, IProduct[]>());

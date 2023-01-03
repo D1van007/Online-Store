@@ -1,6 +1,6 @@
 import { DataKeys, FilterKeys } from '../../types';
 
-class SearchHandler {
+export class SearchHandler {
   currentUrl: URL;
   constructor() {
     this.currentUrl = new URL(window.location.href);
@@ -20,6 +20,7 @@ class SearchHandler {
     }
     history.pushState({}, '', this.currentUrl.pathname + '?' + this.currentUrl.searchParams.toString());
   }
+
   deleteParams(name: DataKeys | FilterKeys) {
     this.currentUrl.searchParams.delete(name);
     if (this.currentUrl.searchParams.toString()) {

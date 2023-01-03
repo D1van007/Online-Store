@@ -28,7 +28,8 @@ enum DataKeys {
 enum FilterKeys {
   search = 'search',
   sort = 'sort',
-  page = 'page'
+  page = 'page',
+  big = 'big',
 }
 
 export { IDataProducts, IProduct, DataKeys, FilterKeys };

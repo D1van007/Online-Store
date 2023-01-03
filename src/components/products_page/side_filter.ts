@@ -27,7 +27,7 @@ export class SideFilter {
   categoryCheck: CheckboxSection;
   brandCheck: CheckboxSection;
   constructor(selector: string, data: IProduct[], callback: Callback) {
-    this.parentDOM = document.getElementById(selector)!;
+    this.parentDOM = document.getElementById(selector) as HTMLInputElement;
     this.render();
     this.productData = data;
     this.callback = callback;
@@ -47,10 +47,10 @@ export class SideFilter {
   }
   render() {
     this.parentDOM.insertAdjacentHTML('afterbegin', getHTML());
-    this.inputPriceDOM = this.parentDOM.querySelector('.side-filter__price')!;
-    this.inputStockDOM = this.parentDOM.querySelector('.side-filter__stock')!;
-    this.categoryCheckBoxDOM = this.parentDOM.querySelector('.side-filter__category')!;
-    this.brandCheckBoxDOM = this.parentDOM.querySelector('.side-filter__brand')!;
+    this.inputPriceDOM = this.parentDOM.querySelector('.side-filter__price') as HTMLInputElement;
+    this.inputStockDOM = this.parentDOM.querySelector('.side-filter__stock') as HTMLInputElement;
+    this.categoryCheckBoxDOM = this.parentDOM.querySelector('.side-filter__category') as HTMLInputElement;
+    this.brandCheckBoxDOM = this.parentDOM.querySelector('.side-filter__brand') as HTMLInputElement;
   }
   getMinMax(data: IProduct[], key: DataKeys): number[] {
     if (data.length == 0) {
