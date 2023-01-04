@@ -2,13 +2,6 @@
 import { IProduct } from '../../../types';
 
 export class LocalCart {
-  totalProductsFromLocal: number;
-  cartIcon: HTMLElement;
-  constructor() {
-    this.totalProductsFromLocal = this.getLocalTotalProducts();
-    this.cartIcon = document.querySelector('#total-products')!;
-  }
-
   getLocalTotalProducts(): number {
     return JSON.parse(localStorage.getItem('totalProducts')!);
   }
@@ -79,6 +72,17 @@ export class LocalCart {
     totalProductsHeaderDOM.textContent = `${this.getLocalTotalProducts()}`;
     if (totalProductsCartDOM) {
       totalProductsCartDOM.textContent = `Products:  ${this.getLocalTotalProducts()}`;
+    }
+  }
+
+  setLocalProductByID() {
+    if (JSON.parse(localStorage.getItem('productsInCart')!)) {
+      const dataProducts = this.getLocalCartProducts();
+      dataProducts.forEach(element => {
+        if (!JSON.parse(localStorage.getItem(`id${element.id}`) as string)) {
+          localStorage.setItem(`id${element.id}`, JSON.stringify(1));
+        }
+      });
     }
   }
 }
