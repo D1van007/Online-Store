@@ -33,6 +33,7 @@ export class ProductsPage {
     this.sortInput();
     this.renderTotalCount();
     this.setParamsIsBig();
+    this.updateSearchParamsFromURL()
   }
   createAndReturnContainer(): HTMLDivElement {
     const container = document.createElement('div');
