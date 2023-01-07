@@ -1,5 +1,6 @@
 import { IProduct } from '../../../types';
 import { LocalCart } from './localCart';
+import { ProductsCartList } from './productsCartList';
 
 export class ProductInCart {
   dataProduct: IProduct;
@@ -11,6 +12,9 @@ export class ProductInCart {
   productAmount!: number;
   index: number;
   localCart: LocalCart;
+  productsCartList: ProductsCartList;
+  totalProductHeaderDOM!: HTMLElement;
+  totalPriceHeaderDOM!: HTMLElement;
   constructor(dataProduct: IProduct, selectorList: HTMLUListElement, index: number) {
     this.dataProduct = dataProduct;
     this.index = index;
@@ -20,34 +24,34 @@ export class ProductInCart {
     this.initDOMElement();
     this.localCart = new LocalCart();
     this.changeAmount();
+    this.productsCartList = new ProductsCartList();
   }
 
   initDOMElement() {
     this.productItemID = document.getElementById(this.dataProduct.id.toString()) as HTMLElement;
     this.amountContentDOM = document.getElementById(`amount-change__content${this.dataProduct.id}`) as HTMLElement;
     this.amountProductDOM = document.getElementById(`amount-product${this.dataProduct.id}`) as HTMLElement;
+    this.totalProductHeaderDOM = document.getElementById('total-products') as HTMLElement;
+    this.totalPriceHeaderDOM = document.getElementById('total-price') as HTMLElement;
     this.totalPriceProductDOM = document.getElementById(
       `product__item--total-price${this.dataProduct.id}`,
     ) as HTMLElement;
   }
 
   renderProduct() {
+    this.productAmount = JSON.parse(localStorage.getItem(`id${this.dataProduct.id}`) as string);
     this.selectorList.insertAdjacentHTML(
       'beforeend',
       createHTMLCartItem(this.dataProduct, this.index, this.productAmount),
     );
   }
 
-  renderProductNum() {
-    const numList: NodeListOf<Element> = document.querySelectorAll('.cart-products__item--num');
-    numList.forEach((e, index) => {
-      e.textContent = (index + 1).toString();
-    });
-  }
-
   clearCart() {
     localStorage.setItem('totalPrice', JSON.stringify(0));
     localStorage.setItem('totalProducts', JSON.stringify(0));
+    this.totalPriceHeaderDOM.textContent = `Total: €0`;
+    this.totalProductHeaderDOM.textContent = '0';
+    localStorage.clear();
     document.querySelector('.cart__container')?.remove();
   }
 
@@ -66,7 +70,9 @@ export class ProductInCart {
         if (this.productAmount < 1) {
           this.localCart.removeProducrFromCart(this.productItemID);
           this.productItemID.remove();
-          this.renderProductNum();
+          // this.renderProductNum();
+          this.productsCartList.renderCartProductList();
+
           localStorage.removeItem(`id${this.dataProduct.id}`);
         } else {
           this.amountProductDOM.textContent = this.productAmount.toString();

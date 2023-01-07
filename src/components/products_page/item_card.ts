@@ -150,5 +150,9 @@ function selfPageHTML(data: IProduct) {
       <li class="info__item-rating info-item">Rating: ${data.rating}</li>
       <li class="info__item-stock info-item">Stock: ${data.stock}</li>
       </ul>
+          <div class="product__item--btn__content">
+    <button id = "product__item--btn-cart${data.id}" class="product__item--btn-cart add-to-cart">add to cart</button>
+    <button id = "product__item--btn-detals${data.id}" class="product__item--btn-detals">detals</button>
+    </div>
     </div>`;
 }

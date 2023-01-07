@@ -1,6 +1,9 @@
 import './style.css';
 import { LocalCart } from '../cart/cart_module/localCart';
 export class Header {
+  static createHTMLHeaderContainer() {
+    throw new Error('Method not implemented.');
+  }
   bodyDOM: HTMLElement;
   headerContainer: HTMLElement | null;
   localCart: LocalCart;
@@ -29,13 +32,11 @@ export class Header {
 }
 
 function createHTMLHeaderContainer(): string {
-  const cartTotal = JSON.parse(localStorage.getItem('totalProductsLocal') as string) | 0;
-  const cartPrice = JSON.parse(localStorage.getItem('totalPriceLocal') as string) | 0;
   return ` 
         <a class="header_logo">
         <h1>Online-Store</h1>
         </a>
-        <p id="total-price">Total: € ${cartPrice}</p>
-        <p id="total-products">${cartTotal}</p>
+        <p id="total-price">Total: € 0</p>
+        <p id="total-products">0</p>
 `;
 }
