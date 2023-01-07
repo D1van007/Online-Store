@@ -143,17 +143,20 @@ function renderHTMLBase(id: number, data: IProduct): string {
 
 function selfPageHTML(data: IProduct) {
   return `
-      <div class="product__item--img" style = "background-image: url(${data.thumbnail})"></div>
-      <h3 class="product__item--title">${data.title}</h3>
-      <div class="product__item--info">
-        <ul class="info__list">
-        <li class="info__item-category info-item">Category: ${data.category}</li>
-        <li class="info__item-brand info-item">Brand: ${data.brand}</li>
-        <li class="info__item-price info-item">Price: €${data.price}</li>
-        <li class="info__item-discount info-item">Discount: ${data.discountPercentage}%</li>
-        <li class="info__item-rating info-item">Rating: ${data.rating}</li>
-        <li class="info__item-stock info-item">Stock: ${data.stock}</li>
-        </ul>
-      </div>
-    `;
+    <div class="product__item--img" style = "background-image: url(${data.thumbnail})"></div>
+    <h3 class="product__item--title">${data.title}</h3>
+    <div class="product__item--info">
+      <ul class="info__list">
+      <li class="info__item-category info-item">Category: ${data.category}</li>
+      <li class="info__item-brand info-item">Brand: ${data.brand}</li>
+      <li class="info__item-price info-item">Price: €${data.price}</li>
+      <li class="info__item-discount info-item">Discount: ${data.discountPercentage}%</li>
+      <li class="info__item-rating info-item">Rating: ${data.rating}</li>
+      <li class="info__item-stock info-item">Stock: ${data.stock}</li>
+      </ul>
+          <div class="product__item--btn__content">
+    <button id = "product__item--btn-cart${data.id}" class="product__item--btn-cart add-to-cart">add to cart</button>
+    <button id = "product__item--btn-detals${data.id}" class="product__item--btn-detals">detals</button>
+    </div>
+    </div>`;
 }
