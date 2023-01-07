@@ -5,20 +5,20 @@ import { IProduct } from '../../types';
 export class ItemCard {
   selector: HTMLElement;
   id: number;
-  isRender:boolean;
+  isRender: boolean;
   product: IProduct;
   productDOM!: HTMLElement;
   parentContainerDOM: HTMLElement;
   addToCartBtn!: HTMLButtonElement;
   localCart!: LocalCart;
   cartProducts: IProduct[] = [];
-  constructor(id: number, product: IProduct, selector: HTMLElement,isRender:boolean=false) {
+  constructor(id: number, product: IProduct, selector: HTMLElement, isRender = false) {
     this.selector = selector;
     this.parentContainerDOM = document.getElementById('main') as HTMLElement;
     this.id = id;
-    this.isRender = isRender
+    this.isRender = isRender;
     this.product = product;
-    if(isRender){
+    if (isRender) {
       this.localCart = new LocalCart();
       this.cartProducts = this.localCart.getLocalCartProducts();
       this.renderProduct();

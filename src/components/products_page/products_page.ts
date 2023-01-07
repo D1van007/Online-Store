@@ -19,7 +19,7 @@ export class ProductsPage {
   copyClearURL: CopyClearURL;
   sideFilter: SideFilter | null;
   optionsDOM!: HTMLElement;
-  paginationPage:number = 0;
+  paginationPage = 0;
   constructor(selector: string, data: IProduct[]) {
     this.mainDOM = document.getElementById(selector) as HTMLElement;
     this.data = data;
@@ -27,14 +27,14 @@ export class ProductsPage {
     this.containerDOM = this.createAndReturnContainer();
     this.renderContent();
     this.searchInput();
-    this.pagination = new Pagination(this.containerDOM, this.currentData, this,this.paginationPage);
+    this.pagination = new Pagination(this.containerDOM, this.currentData, this, this.paginationPage);
     this.catalog = new Catalog('products-page', this.data, this.pagination.currentPage);
     this.sideFilter = new SideFilter('products-page', this.data, data => this.sideFilterHandler(data));
     this.copyClearURL = new CopyClearURL(this.containerDOM);
     this.sortInput();
     this.renderTotalCount();
     this.setParamsIsBig();
-    this.updateSearchParamsFromURL()
+    this.updateSearchParamsFromURL();
   }
   createAndReturnContainer(): HTMLDivElement {
     const container = document.createElement('div');
@@ -75,7 +75,7 @@ export class ProductsPage {
   }
   rerenderCatalog() {
     this.pagination.destroy();
-    this.pagination = new Pagination(this.containerDOM, this.currentData, this,this.paginationPage);
+    this.pagination = new Pagination(this.containerDOM, this.currentData, this, this.paginationPage);
     this.catalog.destroy();
     this.catalog = new Catalog('products-page', this.currentData, this.pagination.currentPage);
   }
@@ -127,11 +127,11 @@ export class ProductsPage {
     if (searchHandler.currentUrl.pathname == '/') {
       const searchParams = searchHandler.currentUrl.searchParams;
 
-      if(searchParams.has(FilterKeys.page)){
+      if (searchParams.has(FilterKeys.page)) {
         const value = searchParams.get(FilterKeys.page) as string;
-        this.paginationPage = Number(value)
-      }else{
-        this.paginationPage = 0
+        this.paginationPage = Number(value);
+      } else {
+        this.paginationPage = 0;
       }
 
       if (searchParams.has(FilterKeys.sort)) {
@@ -183,8 +183,6 @@ export class ProductsPage {
         this.searchDOM.value = '';
         this.inputHandler();
       }
-
-     
     }
   }
 

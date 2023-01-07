@@ -1,27 +1,27 @@
-import { OrderForm } from "../../order_form/order_form";
-import { Cart } from "./cart";
+import { OrderForm } from '../../order_form/order_form';
+import { Cart } from './cart';
 
 export class TotalBuy {
   selectorParentsSum: HTMLElement;
-  buyNowButtonDOM!:HTMLButtonElement;
-  orederForm:OrderForm|null = null
-  cart:Cart
-  constructor(selectorParentsSum: HTMLElement,cart:Cart) {
-    this.cart = cart
+  buyNowButtonDOM!: HTMLButtonElement;
+  orederForm: OrderForm | null = null;
+  cart: Cart;
+  constructor(selectorParentsSum: HTMLElement, cart: Cart) {
+    this.cart = cart;
     this.selectorParentsSum = selectorParentsSum;
     this.renderTotalBuy();
-    this.buyNowButtonEvent()
+    this.buyNowButtonEvent();
   }
 
   renderTotalBuy() {
     this.selectorParentsSum.insertAdjacentHTML('beforeend', createHTMLTotalBuy());
-    this.buyNowButtonDOM = this.selectorParentsSum.querySelector('.buy-now')!
+    this.buyNowButtonDOM = this.selectorParentsSum.querySelector('.buy-now') as HTMLButtonElement;
   }
-  buyNowButtonEvent(){
-    this.buyNowButtonDOM.addEventListener('click',(e)=>{
-      e.preventDefault()
-      this.orederForm = new OrderForm(this.cart)
-    })
+  buyNowButtonEvent() {
+    this.buyNowButtonDOM.addEventListener('click', e => {
+      e.preventDefault();
+      this.orederForm = new OrderForm(this.cart);
+    });
   }
 }
 
