@@ -38,49 +38,51 @@ export class Cart {
   }
 
   changeControlsSetting() {
-    const productPageDOM = document.getElementById('controll__page-numbers') as HTMLElement;
-    const productLimiteDOM = document.getElementById('controll__limit--value') as HTMLInputElement;
+    if (this.cartProductsControlDOM) {
+      const productPageDOM = document.getElementById('controll__page-numbers') as HTMLElement;
+      const productLimiteDOM = document.getElementById('controll__limit--value') as HTMLInputElement;
 
-    productLimiteDOM.addEventListener('input', () => {
-      this.productInCart = this.localCart.getLocalCartProducts();
-      const productPageNumber = Number(
-        (document.getElementById('controll__page-numbers--value') as HTMLInputElement).textContent,
-      );
-      if (productLimiteDOM.valueAsNumber <= this.productInCart.length) {
-        if (
-          productLimiteDOM.valueAsNumber * productPageNumber - this.productInCart.length >=
-          productLimiteDOM.valueAsNumber
-        ) {
-          (document.getElementById('controll__page-numbers--value') as HTMLInputElement).textContent = Math.ceil(
-            this.productInCart.length / productLimiteDOM.valueAsNumber,
-          ).toString();
+      productLimiteDOM.addEventListener('input', () => {
+        this.productInCart = this.localCart.getLocalCartProducts();
+        const productPageNumber = Number(
+          (document.getElementById('controll__page-numbers--value') as HTMLInputElement).textContent,
+        );
+        if (productLimiteDOM.valueAsNumber <= this.productInCart.length) {
+          if (
+            productLimiteDOM.valueAsNumber * productPageNumber - this.productInCart.length >=
+            productLimiteDOM.valueAsNumber
+          ) {
+            (document.getElementById('controll__page-numbers--value') as HTMLInputElement).textContent = Math.ceil(
+              this.productInCart.length / productLimiteDOM.valueAsNumber,
+            ).toString();
+          }
+          this.productsCartList.renderCartProductList();
         }
+      });
+      productPageDOM.addEventListener('click', event => {
+        this.productInCart = this.localCart.getLocalCartProducts();
+        let productPageNumber = Number(
+          (document.getElementById('controll__page-numbers--value') as HTMLInputElement).textContent,
+        );
+        if ((<HTMLElement>event.target).matches('.btn-left') && productPageNumber > 1) {
+          productPageNumber = productPageNumber - 1;
+        } else if (
+          (<HTMLElement>event.target).matches('.btn-right') &&
+          productPageNumber < Math.ceil(this.productInCart.length / productLimiteDOM.valueAsNumber)
+        ) {
+          productPageNumber = productPageNumber + 1;
+        } else return;
+        (document.getElementById('controll__page-numbers--value') as HTMLInputElement).textContent =
+          productPageNumber.toString();
         this.productsCartList.renderCartProductList();
-      }
-    });
-    productPageDOM.addEventListener('click', event => {
-      this.productInCart = this.localCart.getLocalCartProducts();
-      let productPageNumber = Number(
-        (document.getElementById('controll__page-numbers--value') as HTMLInputElement).textContent,
-      );
-      if ((<HTMLElement>event.target).matches('.btn-left') && productPageNumber > 1) {
-        productPageNumber = productPageNumber - 1;
-      } else if (
-        (<HTMLElement>event.target).matches('.btn-right') &&
-        productPageNumber < Math.ceil(this.productInCart.length / productLimiteDOM.valueAsNumber)
-      ) {
-        productPageNumber = productPageNumber + 1;
-      } else return;
-      (document.getElementById('controll__page-numbers--value') as HTMLInputElement).textContent =
-        productPageNumber.toString();
-      this.productsCartList.renderCartProductList();
-    });
+      });
+    }
   }
 }
 
 function createHTMLContainer(): string {
   return ` 
-    <div class="cart-products__content">
+    <div id="cart-products__content" class="cart-products__content">
         <div class="cart-products__head">
           <h2 class="cart-products__head--title">Products In Cart</h2>
           <div class="cart-products__head--controll">

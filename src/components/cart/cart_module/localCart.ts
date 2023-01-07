@@ -43,9 +43,9 @@ export class LocalCart {
   drawTotalPriceOnPage() {
     const totalPriceCartDOM = document.getElementById('cart-total--price');
     const totalPriceHeaderDOM = document.getElementById('total-price')!;
-    totalPriceHeaderDOM.textContent = `Total: € ${this.getLocalTotalPrice()}`;
+    totalPriceHeaderDOM.textContent = `Total: € ${this.getLocalTotalPrice() | 0}`;
     if (totalPriceCartDOM) {
-      totalPriceCartDOM.textContent = `Total: € ${this.getLocalTotalPrice()}`;
+      totalPriceCartDOM.textContent = `Total: € ${this.getLocalTotalPrice() | 0}`;
     }
   }
 
@@ -69,9 +69,9 @@ export class LocalCart {
   drawTotalProductsOnPage() {
     const totalProductsCartDOM = document.getElementById('cart-total--amount')!;
     const totalProductsHeaderDOM = document.getElementById('total-products')!;
-    totalProductsHeaderDOM.textContent = `${this.getLocalTotalProducts()}`;
+    totalProductsHeaderDOM.textContent = `${this.getLocalTotalProducts() | 0}`;
     if (totalProductsCartDOM) {
-      totalProductsCartDOM.textContent = `Products:  ${this.getLocalTotalProducts()}`;
+      totalProductsCartDOM.textContent = `Products:  ${this.getLocalTotalProducts() | 0}`;
     }
   }
 
