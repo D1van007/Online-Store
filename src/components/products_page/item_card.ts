@@ -5,23 +5,27 @@ import { IProduct } from '../../types';
 export class ItemCard {
   selector: HTMLElement;
   id: number;
+  isRender:boolean;
   product: IProduct;
-  productDOM: HTMLElement;
+  productDOM!: HTMLElement;
   parentContainerDOM: HTMLElement;
-  addToCartBtn: HTMLButtonElement;
-  localCart: LocalCart;
+  addToCartBtn!: HTMLButtonElement;
+  localCart!: LocalCart;
   cartProducts: IProduct[] = [];
-  constructor(id: number, product: IProduct, selector: HTMLElement) {
+  constructor(id: number, product: IProduct, selector: HTMLElement,isRender:boolean=false) {
     this.selector = selector;
     this.parentContainerDOM = document.getElementById('main') as HTMLElement;
     this.id = id;
+    this.isRender = isRender
     this.product = product;
-    this.localCart = new LocalCart();
-    this.cartProducts = this.localCart.getLocalCartProducts();
-    this.renderProduct();
-    this.productDOM = document.getElementById(this.id.toString()) as HTMLElement;
-    this.addToCartBtn = this.productDOM.querySelector('.product__item--btn-cart') as HTMLButtonElement;
-    this.productEventTracker();
+    if(isRender){
+      this.localCart = new LocalCart();
+      this.cartProducts = this.localCart.getLocalCartProducts();
+      this.renderProduct();
+      this.productDOM = document.getElementById(this.id.toString()) as HTMLElement;
+      this.addToCartBtn = this.productDOM.querySelector('.product__item--btn-cart') as HTMLButtonElement;
+      this.productEventTracker();
+    }
   }
 
   renderProduct() {
@@ -139,16 +143,6 @@ function renderHTMLBase(id: number, data: IProduct): string {
 
 function selfPageHTML(data: IProduct) {
   return `
-    <div class="product__item--img" style = "background-image: url(${data.thumbnail})"></div>
     <h3 class="product__item--title">${data.title}</h3>
-    <div class="product__item--info">
-      <ul class="info__list">
-      <li class="info__item-category info-item">Category: ${data.category}</li>
-      <li class="info__item-brand info-item">Brand: ${data.brand}</li>
-      <li class="info__item-price info-item">Price: €${data.price}</li>
-      <li class="info__item-discount info-item">Discount: ${data.discountPercentage}%</li>
-      <li class="info__item-rating info-item">Rating: ${data.rating}</li>
-      <li class="info__item-stock info-item">Stock: ${data.stock}</li>
-      </ul>
-    </div>`;
+    `;
 }
