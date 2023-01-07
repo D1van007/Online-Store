@@ -133,7 +133,7 @@ function renderHTMLBase(id: number, data: IProduct): string {
     document.querySelector('.product-list')?.classList.add('line-list');
     return `
       <li class="product__item line-item" id = "${id}">
-    <div class="product__item--img line-item--img" style = "background-image: url(${data.thumbnail})"></div>
+    <div class="product__item--img-main line-item--img" style = "background-image: url(${data.thumbnail})"></div>
     <div class="products__item--fullname">
         <h3 class="product__item--title">${data.title}</h3>
         <p class="products__item--description">${data.description}</p>
@@ -152,7 +152,7 @@ function renderHTMLBase(id: number, data: IProduct): string {
   } else {
     return `  
   <li class="product__item" id = "${id}">
-    <div class="product__item--img" style = "background-image: url(${data.thumbnail})"></div>
+    <div class="product__item--img-main" style = "background-image: url(${data.thumbnail})"></div>
     <h3 class="product__item--title">${data.title}</h3>
     <div class="product__item--info">
       <ul class="info__list">
@@ -164,9 +164,9 @@ function renderHTMLBase(id: number, data: IProduct): string {
       <li class="info__item-stock info-item">Stock: ${data.stock}</li>
       </ul>
     </div>
-    <div class="product__item--btn__content">
-    <button id = "product__item--btn-cart${id}" class="product__item--btn-cart add-to-cart">add to cart</button>
-    <button id = "product__item--btn-detals${id}" class="product__item--btn-detals">detals</button>
+    <div class="product__item--btn-main">
+      <button id = "product__item--btn-cart${id}" class="product__item--btn-cart add-to-cart">add to cart</button>
+      <button id = "product__item--btn-detals${id}" class="product__item--btn-detals">detals</button>
     </div>
   </li>
   `;
@@ -190,7 +190,7 @@ function selfPageHTML(data: IProduct) {
       <li class="navigation__item-brand">${data.title.toLocaleUpperCase()}</li>
     </ul>
   </div>
-  <div class="product-page product__item" id = "${data.id}">
+  <div class="product-page product__item--container" id = "${data.id}">
     <div class="product__item--title">
       <h1 class="product__item--text">${data.title}</h1>
     </div>
@@ -231,7 +231,7 @@ function selfPageHTML(data: IProduct) {
       </ul>
     
     </div>
-      <div id="product__item--btn-content" class="product__item--btn__content">
+      <div id="product__item--btn-content" class="product__item--btn-content">
         <div class="product__item--btn info-item">Price: €${data.price}</div>
         <button id = "product__item--btn-cart${
           data.id
