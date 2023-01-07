@@ -20,7 +20,7 @@ export class TotalBuy {
   buyNowButtonEvent() {
     this.buyNowButtonDOM.addEventListener('click', e => {
       e.preventDefault();
-      this.orederForm = new OrderForm(this.cart);
+      this.orederForm = new OrderForm(/* this.cart */);
     });
   }
 }
