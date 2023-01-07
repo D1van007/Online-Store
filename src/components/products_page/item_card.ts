@@ -5,23 +5,27 @@ import { IProduct } from '../../types';
 export class ItemCard {
   selector: HTMLElement;
   id: number;
+  isRender:boolean;
   product: IProduct;
-  productDOM: HTMLElement;
+  productDOM!: HTMLElement;
   parentContainerDOM: HTMLElement;
-  addToCartBtn: HTMLButtonElement;
-  localCart: LocalCart;
+  addToCartBtn!: HTMLButtonElement;
+  localCart!: LocalCart;
   cartProducts: IProduct[] = [];
-  constructor(id: number, product: IProduct, selector: HTMLElement) {
+  constructor(id: number, product: IProduct, selector: HTMLElement,isRender:boolean=false) {
     this.selector = selector;
     this.parentContainerDOM = document.getElementById('main') as HTMLElement;
     this.id = id;
+    this.isRender = isRender
     this.product = product;
-    this.localCart = new LocalCart();
-    this.cartProducts = this.localCart.getLocalCartProducts();
-    this.renderProduct();
-    this.productDOM = document.getElementById(this.id.toString()) as HTMLElement;
-    this.addToCartBtn = this.productDOM.querySelector('.product__item--btn-cart') as HTMLButtonElement;
-    this.productEventTracker();
+    if(isRender){
+      this.localCart = new LocalCart();
+      this.cartProducts = this.localCart.getLocalCartProducts();
+      this.renderProduct();
+      this.productDOM = document.getElementById(this.id.toString()) as HTMLElement;
+      this.addToCartBtn = this.productDOM.querySelector('.product__item--btn-cart') as HTMLButtonElement;
+      this.productEventTracker();
+    }
   }
 
   renderProduct() {

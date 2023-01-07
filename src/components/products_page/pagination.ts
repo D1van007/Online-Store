@@ -10,10 +10,12 @@ export class Pagination {
   productOnPage = 16;
   currentPage = 0;
   ulContainerDOM: HTMLUListElement;
-  constructor(selector: HTMLElement, data: IProduct[], parent: ProductsPage) {
+  constructor(selector: HTMLElement, data: IProduct[], parent: ProductsPage,page:number=0) {
+    this.parent = parent;
+    this.currentPage = page
     this.parentDOM = selector;
     this.data = data;
-    this.parent = parent;
+    this.checkPageCount()
     this.ulContainerDOM = this.render();
     this.createEventHandler();
     this.coloredCurrent();
@@ -27,13 +29,19 @@ export class Pagination {
     }
     return ulDOM as HTMLUListElement;
   }
+  checkPageCount(){
+    if(this.data?.length/16<this.currentPage){
+      this.currentPage = 0
+      this.parent.paginationPage = 0
+    }
+  }
   createEventHandler() {
     this.ulContainerDOM.addEventListener('click', e => {
       if (e.target instanceof HTMLLIElement) {
-        console.log(e.target.textContent);
         this.currentPage = Number(e.target.textContent) - 1;
         this.parent.reloadPagination();
         this.coloredCurrent();
+        this.pushToSearch()
       }
     });
   }
@@ -47,7 +55,11 @@ export class Pagination {
     });
   }
   pushToSearch() {
-    searchHandler.addParams(FilterKeys.page, this.currentPage.toString());
+    if(this.currentPage>0){
+      searchHandler.addParams(FilterKeys.page, this.currentPage.toString());
+    }else{
+      searchHandler.deleteParams(FilterKeys.page)
+    }
   }
   destroy() {
     const container = this.parentDOM.querySelector('.pagination') as HTMLElement;

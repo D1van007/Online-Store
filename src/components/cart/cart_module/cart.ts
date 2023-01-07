@@ -34,7 +34,7 @@ export class Cart {
 
   renderCartTotalBuy() {
     const productsTotalBuy = document.querySelector('.cart-total__content') as HTMLElement;
-    new TotalBuy(productsTotalBuy);
+    new TotalBuy(productsTotalBuy,this);
   }
 
   changeControlsSetting() {

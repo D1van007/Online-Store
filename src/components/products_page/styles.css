@@ -33,6 +33,7 @@
   grid-row-end: 4;
   grid-column-start: 2;
   grid-column-end: 4;
+  margin-top: 25px;
 }
 .pagination__list{
   background-color: rgb(170, 68, 68);
