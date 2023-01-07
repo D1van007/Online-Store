@@ -38,6 +38,7 @@ export class Cart {
   }
 
   changeControlsSetting() {
+    console.log(this.cartProductsControlDOM);
     if (this.cartProductsControlDOM) {
       const productPageDOM = document.getElementById('controll__page-numbers') as HTMLElement;
       const productLimiteDOM = document.getElementById('controll__limit--value') as HTMLInputElement;
@@ -85,11 +86,11 @@ function createHTMLContainer(): string {
     <div id="cart-products__content" class="cart-products__content">
         <div class="cart-products__head">
           <h2 class="cart-products__head--title">Products In Cart</h2>
-          <div class="cart-products__head--controll">
+          <div id="cart-products__head--controll" class="cart-products__head--controll">
             <div class="controll__limit">
               <p class="controll__limit--text">Limit: </p>
               <input id="controll__limit--value" class="controll__limit--value" type="number" min="1" max="${
-                JSON.parse(localStorage.getItem('productsInCart')!).length
+                JSON.parse(localStorage.getItem('productsInCart') as string).length
               }" value="3">
             </div>
             <div id="controll__page-numbers" class="controll__page-numbers">
