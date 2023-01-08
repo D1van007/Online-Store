@@ -11,7 +11,7 @@
   background-color: antiquewhite;
 }
 .cart-total__content {
-  width: 15%;
+  width: 25%;
   background-color: antiquewhite;
 }
 .cart-products__item--container {
@@ -95,4 +95,15 @@
 }
 .controll__page-numbers--text{
   margin: 0;
+}
+.promo__input--epm,
+.promo__input--rs,
+.promo__input--rs-add {
+  display: none;
+}
+
+.promo__input--epm.active,
+.promo__input--rs.active,
+.promo__input--rs-add.active {
+  display: block;
 }

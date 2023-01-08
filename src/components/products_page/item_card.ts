@@ -205,11 +205,11 @@ function selfPageHTML(data: IProduct) {
     <div class="product__item--info">
       <ul class="info__list">
         <li class="info__item--description info-item">
-          <p class="info__item--description-title">Category: </p>
+          <p class="info__item--description-title">Description: </p>
           <p class="info__item--description-text">${data.description}</p>        
         </li>
         <li class="info__item--discount info-item">
-          <p class="info__item--discount-title">Brand: </p>
+          <p class="info__item--discount-title">Discount: </p>
           <p class="info__item--discount-text">${data.discountPercentage}%</p>
         </li>
         <li class="info__item--rating info-item">

@@ -26,6 +26,7 @@ export class Cart {
 
   renderCartContent() {
     if (this.productInCart?.length > 0) {
+      this.parentContainer.innerHTML = '';
       this.cartContainer = document.createElement('div');
       this.cartContainer.classList.add('cart__container');
       this.parentContainer.prepend(this.cartContainer);
