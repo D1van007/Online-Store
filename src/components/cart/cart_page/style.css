@@ -96,7 +96,7 @@
 .controll__page-numbers--text{
   margin: 0;
 }
-.promo__input--epm,
+/* .promo__input--epm,
 .promo__input--rs,
 .promo__input--rs-add {
   display: none;
@@ -106,4 +106,4 @@
 .promo__input--rs.active,
 .promo__input--rs-add.active {
   display: block;
-}
+} */
