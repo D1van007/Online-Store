@@ -57,7 +57,6 @@ export class ItemCard {
 
   productEventTracker() {
     this.productDOM = document.getElementById(this.id.toString()) as HTMLElement;
-    // const productImgDOM = document.querySelector('product__item--img') as HTMLElement;
     this.addToCartBtn = this.productDOM.querySelector('.product__item--btn-cart') as HTMLButtonElement;
     this.productDOM.addEventListener('click', e => {
       console.log(e.target);
@@ -101,7 +100,9 @@ export class ItemCard {
 
   renderBtnCartItem() {
     const currentBtn = document.getElementById(`product__item--btn-cart${this.id}`);
-    if (this.cartProducts?.some((e: { id: number }) => e.id === this.id)) {
+    this.cartProducts = this.localCart.getLocalCartProducts();
+    if (this.cartProducts.some((e: { id: number }) => e.id === this.id)) {
+      console.log(this.id);
       currentBtn?.classList.remove('add-to-cart');
       currentBtn?.classList.add('remove-from-cart');
       (currentBtn as HTMLElement).textContent = 'Remove cart';
