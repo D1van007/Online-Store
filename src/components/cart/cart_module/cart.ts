@@ -73,7 +73,6 @@ export class Cart {
   setParamsControls() {
     this.cartProductsControlDOM?.addEventListener('click', event => {
       if ((<HTMLElement>event.target).matches('.controll__limit--value')) {
-        console.log((document.getElementById('controll__limit--value') as HTMLInputElement).valueAsNumber);
         searchHandler.addParams(
           FilterKeys.limitCartProduct,
           `${(document.getElementById('controll__limit--value') as HTMLInputElement).valueAsNumber}`,

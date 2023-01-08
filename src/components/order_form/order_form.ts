@@ -3,7 +3,6 @@ import IMask from 'imask';
 import * as EmailValidator from 'email-validator';
 import { eventedPushState } from '../router/events_history';
 import { LocalCart } from '../cart/cart_module/localCart';
-// import { Cart } from '../cart/cart_module/cart';
 
 type IMaskType = ReturnType<typeof IMask>;
 
@@ -25,8 +24,7 @@ export class OrderForm {
   cardLogoContainerDOM!: HTMLDivElement;
   addressDOM!: HTMLInputElement;
   localCart: LocalCart | undefined;
-  // cart: Cart;
-  constructor(/* cart: Cart */) {
+  constructor() {
     this.render();
     this.coverEventHandler();
     this.inputsEventHandler();
