@@ -101,7 +101,7 @@ export class ItemCard {
   renderBtnCartItem() {
     const currentBtn = document.getElementById(`product__item--btn-cart${this.id}`);
     this.cartProducts = this.localCart.getLocalCartProducts();
-    if (this.cartProducts.some((e: { id: number }) => e.id === this.id)) {
+    if (this.cartProducts?.some((e: { id: number }) => e.id === this.id)) {
       console.log(this.id);
       currentBtn?.classList.remove('add-to-cart');
       currentBtn?.classList.add('remove-from-cart');
