@@ -1,5 +1,5 @@
 import { App } from './components/app/app';
-import '../node_modules/@fortawesome/fontawesome-free/css/all.css'
+import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
 import { eventedPushState } from './components/router/events_history';
 
 new App();

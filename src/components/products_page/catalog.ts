@@ -31,9 +31,9 @@ export class Catalog {
     if (this.data.length > 0) {
       this.data.forEach((e, i) => {
         if (i >= itemStart && i <= itemEnd) {
-          const card = new ItemCard(e.id, e, this.productListDOM,true);
+          const card = new ItemCard(e.id, e, this.productListDOM, true);
           this.productsArr.push(card);
-        }else{
+        } else {
           const card = new ItemCard(e.id, e, this.productListDOM);
           this.productsArr.push(card);
         }
