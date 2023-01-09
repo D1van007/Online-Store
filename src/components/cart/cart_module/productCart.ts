@@ -50,7 +50,7 @@ export class ProductInCart {
 
   changeAmount() {
     this.productItemID.addEventListener('click', event => {
-      if ((<HTMLElement>event.target).matches('.line1')) {
+      if ((<HTMLElement>event.target).matches('.fa-plus')) {
         if (this.productAmount >= this.dataProduct.stock) {
           return;
         } else {
@@ -58,7 +58,7 @@ export class ProductInCart {
           this.amountProductDOM.textContent = this.productAmount.toString();
           localStorage.setItem(`id${this.dataProduct.id}`, JSON.stringify(this.productAmount));
         }
-      } else if ((<HTMLElement>event.target).matches('.line3')) {
+      } else if ((<HTMLElement>event.target).matches('.fa-minus')) {
         this.productAmount -= 1;
         if (this.productAmount < 1) {
           this.localCart.removeProducrFromCart(this.productItemID);
@@ -99,19 +99,18 @@ function createHTMLCartItem(dataProduct: IProduct, index: number, amountValue: n
         </div> 
       </div>
     </div>      
-    <div>
-      <p class="product__item--price">Stock: ${dataProduct.stock}</p>
+    <div class="cart-products__item--amount">
+      <span class="product__item--price">Stock: ${dataProduct.stock}</span>
       <div id="amount-change__content${dataProduct.id}" class="amount-change__content">
         <div class="add-value__circle value_circle">
-          <div class="circle__line line1">+</div>
-          <div class="circle__line line2"></div>
+          <i class="fa-solid fa-plus"></i>
         </div>
         <p id="amount-product${dataProduct.id}" class="amount-product">${amountValue}</p>
         <div class="remove-value__circle value_circle">
-          <div class="circle__line line3">-</div>
+          <i class="fa-solid fa-minus"></i>
         </div>
       </div>
-      <span id="product__item--total-price${dataProduct.id}" class="product__item--total-price">Total: €${
+      <span id="product__item--total-price${dataProduct.id}" class="product__item--total-price">€${
     amountValue * dataProduct.price
   }</span>       
     </div>    
