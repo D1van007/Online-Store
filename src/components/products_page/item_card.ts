@@ -3,7 +3,7 @@ import { LocalCart } from '../cart/cart_module/localCart';
 import { IProduct } from '../../types';
 import { OrderForm } from '../order_form/order_form';
 import { CartPage } from '../cart/cart_page';
-import './item.css'
+import './item.css';
 
 export class ItemCard {
   selector: HTMLElement;
