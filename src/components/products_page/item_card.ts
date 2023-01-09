@@ -135,19 +135,19 @@ function renderHTMLBase(id: number, data: IProduct): string {
   if (currentUrl?.searchParams.get('big') === `false`) {
     document.querySelector('.product-list')?.classList.add('line-list');
     return `
-      <li class="product__item line-item" id = "${id}">
+    <li class="product__item line-item" id = "${id}">
     <div class="product__item--img line-item--img" style = "background-image: url(${data.thumbnail})"></div>
     <div class="products__item--fullname">
         <h3 class="product__item--title">${data.title}</h3>
         <p class="products__item--description">${data.description}</p>
-            <div class="products__item--description-second">
-                <p class="products__item--price">Price: €${data.price}</p>
-                <p class="products__item--rating">Rating: ${data.rating}</p>
-                <p class="products__item--discount">Discount: ${data.discountPercentage}</p>
-            </div> 
+        <div class="products__item--description-second">
+            <p class="products__item--price">Price: €${data.price}</p>
+            <p class="products__item--rating">Rating: ${data.rating}</p>
+            <p class="products__item--discount">Discount: ${data.discountPercentage}</p>
+        </div> 
     </div>
     <div class="product__item--btn__content line-item--btn">
-    <button id = "product__item--btn-cart${id}" class="product__item--btn-cart add-to-cart">add to cart</button>
+    <button id = "product__item--btn-cart${id}" class="product__item--btn-cart add-to-cart btn-style">add to cart</button>
     <button id = "product__item--btn-detals${id}" class="product__item--btn-detals">detals</button>
     </div>
   </li>

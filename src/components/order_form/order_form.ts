@@ -32,6 +32,7 @@ export class OrderForm {
     this.createCCNMask();
     this.createCCDMask();
     this.createCCVMask();
+    this.setPreValid();
   }
   render() {
     this.bodyDOM.insertAdjacentHTML('afterbegin', getHTML());
@@ -46,6 +47,9 @@ export class OrderForm {
     this.cardCCVDOM = document.querySelector('.input-ccv')!;
     this.submitButtonDOM = document.querySelector('.submit-button')!;
     this.cardLogoContainerDOM = document.querySelector('.card-logo')!;
+  }
+  setPreValid(){
+    this.cardDateDOM.setCustomValidity('Invalid field.');
   }
   coverEventHandler() {
     this.coverDOM.addEventListener('click', () => {
@@ -87,6 +91,7 @@ export class OrderForm {
   submitButtonEventHeandler() {
     const allInputs = this.formContainerDOM.querySelectorAll('input');
     const arr = Array.from(allInputs);
+    arr.forEach(e=>e.classList.add('validation'))
     if (arr.some(e => !e.validity.valid)) {
       console.log('не валидно');
     } else {
@@ -215,24 +220,24 @@ function getHTML() {
   <div class="form-contaner">
     <form class="order-form" action="" method="post">
       <p>
-        <label for="name">Введите имя:</label>
+        <label for="name">Name:</label>
         <input class="input-name" type="text" name="name" id="name" required>
       </p>
       <p>
-        <label for="address">Введите адрес:</label>
+        <label for="address">Address:</label>
         <input class="input-address" type="address" name="address" id="address" required>
       </p>
       <p>
-        <label for="name">Введите телефон:</label>
+        <label for="name">Phone:</label>
         <input class="input-phone" type="text" name="phone" id="phone" required>
       </p>
       <p>
-        <label for="email">Введите email:</label>
+        <label for="email">Email:</label>
         <input class="input-email" type="email" name="email" id="email" required>
       </p>
       <p>
-        <label for="ccn">Введите номер карты:</label>
-        <input id="ccn" class="input-ccn" type="tel" inputmode="numeric" autocomplete="cc-number" maxlength="19" placeholder="xxxx xxxx xxxx xxxx">
+        <label for="ccn">CC Number:</label>
+        <input id="ccn" class="input-ccn" type="tel" inputmode="numeric" required>
         <div class="card-logo">
           <i class="fa-solid fa-credit-card"></i>
           <i class="fa-brands fa-cc-visa"></i>
@@ -241,14 +246,14 @@ function getHTML() {
         </div>
       </p>
       <p>
-        <label for="ccd">Введите дату:</label>
-        <input class="input-ccd" type="tel" name="ccd" id="ccd" minlength="19" required>
+        <label for="ccd">CC Date:</label>
+        <input class="input-ccd" type="tel" name="ccd" id="ccd" required>
       </p>
       <p>
-        <label for="ccv">ccv:</label>
+        <label for="ccv">CCV:</label>
         <input class="input-ccv" type="tel" name="ccv" id="ccv" required>
       </p>
-      <button class="submit-button" type="submit">Отправить</button>
+      <button class="submit-button btn-style" type="submit">Отправить</button>
     </form>
   </div>
   `;
