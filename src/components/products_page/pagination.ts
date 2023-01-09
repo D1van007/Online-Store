@@ -48,9 +48,9 @@ export class Pagination {
   coloredCurrent() {
     const listDOM = this.parentDOM.querySelectorAll('.pagination__list__item');
     listDOM.forEach(e => {
-      (e as HTMLElement).style.color = `rgb(230, 230, 230)`;
+      (e as HTMLElement).style.color = `#333`;
       if (Number(e.textContent) == this.currentPage + 1) {
-        (e as HTMLElement).style.color = `rgb(67, 97, 153)`;
+        (e as HTMLElement).style.color = `#3b9275`;
       }
     });
   }

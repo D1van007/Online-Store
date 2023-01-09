@@ -204,7 +204,7 @@ function renderHTML(): string {
     <div class="options-bar">
       <input class = "options-bar__search" placeholder="Enter some text" name="name" />
       <select class = "options-bar__sort">
-        <option value="raitingASC">Sort by raiting ASC</option>
+        <option value="raitingASC">Sort by raiting</option>
         <option value="raitingDESC">Sort by raiting DESC</option>
         <option value="priceASC">Sort by price ASC</option>
         <option value="priceDESC">Sort by price DESC</option>
@@ -212,8 +212,8 @@ function renderHTML(): string {
         <option value="discountDESC">Sort by discount DESC</option>
       </select>
       <span class="options-bar__total"></span>
-      <button class="options-bar__small-item">small</button>
-      <button class="options-bar__big-item">big</button>
+      <i class="fa-solid fa-list options-bar__small-item"></i>
+      <i class="fa-solid fa-grip-vertical options-bar__big-item"></i>
     </div>  
   `;
 }
