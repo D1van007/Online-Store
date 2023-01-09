@@ -8,7 +8,7 @@
 
 .double-range__input{
   -webkit-appearance: none;
-  background-color: rgb(174, 175, 85);
+  background-color: var(--main-color);
   height: 5px;
   width: 100%;
   display: block;
@@ -23,7 +23,7 @@
   height: 15px;
   border-radius: 50%;
   cursor: pointer;
-  background-color: rgb(174, 175, 85);
+  background-color: var(--main-color);
 }
 
 .double-range__i2{
@@ -38,8 +38,9 @@
   position: absolute;
   left: 0;
   top:20px;
-  background-color: rgb(174, 175, 85);
+  background-color: var(--main-color);
   border-radius: 3px;
   padding: 5px;
   color: rgb(255, 255, 255);
+  z-index: 100;
 }

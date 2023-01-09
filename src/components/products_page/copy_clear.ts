@@ -27,8 +27,8 @@ export class CopyClearURL {
 function getHTML(): string {
   return `
     <div class="copy-clear">
-      <button class="copy-btn">CopyURL</button>
-      <button class="clear-btn">ClearURL</button>
+      <button class="copy-btn btn-style">CopyURL</button>
+      <button class="clear-btn btn-style">ClearURL</button>
     </div>
   `;
 }

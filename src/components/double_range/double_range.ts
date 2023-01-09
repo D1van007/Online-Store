@@ -71,8 +71,8 @@ export class DoubleRange {
   }
   setBackgroundGradient() {
     const minMaxArr = [this.getPercent(this.firstInputDOM), this.getPercent(this.secondInputDOM)].sort((a, b) => a - b);
-    this.firstInputDOM.style.background = `linear-gradient(90deg, rgb(119, 157, 179) ${minMaxArr[0]}%, rgb(174, 175, 85) ${minMaxArr[0]}%, 
-    rgb(174, 175, 85) ${minMaxArr[1]}%, rgb(119, 157, 179) ${minMaxArr[1]}%)`;
+    this.firstInputDOM.style.background = `linear-gradient(90deg, #f1d761 ${minMaxArr[0]}%, #3b9275 ${minMaxArr[0]}%, 
+    #3b9275 ${minMaxArr[1]}%, #f1d761 ${minMaxArr[1]}%)`;
   }
   getPercent(elem: HTMLInputElement): number {
     return (Number(elem.value) / Number(elem.max)) * 100;

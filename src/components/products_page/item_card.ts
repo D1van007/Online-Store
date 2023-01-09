@@ -1,6 +1,7 @@
 import { eventedPushState } from '../router/events_history';
 import { LocalCart } from '../cart/cart_module/localCart';
 import { IProduct } from '../../types';
+import './item.css'
 
 export class ItemCard {
   selector: HTMLElement;
@@ -133,7 +134,7 @@ function renderHTMLBase(id: number, data: IProduct): string {
       </ul>
     </div>
     <div class="product__item--btn__content">
-    <button id = "product__item--btn-cart${id}" class="product__item--btn-cart add-to-cart">add to cart</button>
+    <button id = "product__item--btn-cart${id}" class="product__item--btn-cart add-to-cart btn-style">add to cart</button>
     <button id = "product__item--btn-detals${id}" class="product__item--btn-detals">detals</button>
     </div>
   </li>
