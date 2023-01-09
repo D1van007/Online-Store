@@ -1,11 +1,14 @@
 /* USER VARIABLES SECTION */
-
+* {
+    box-sizing: border-box;
+}
 :root {
 	--main-color: #3b9275;
   --color2: #c48298;
   --color3: #f1d761;
   --dark: #3d3d3d;
   --darker: #2b2b2b;
+  --gray-border: rgb(179, 179, 179);
   --text-white: #ebebeb;
   --button-border: #2e745c;
 	--text: #333;
@@ -26,7 +29,6 @@ body{
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
   font-family: var(--userfont);
   color: #333;
   display: flex;
@@ -79,6 +81,7 @@ li{
 }
 
 .main{
-  max-width: 1000px;
-  margin-top: 20px;
+  width: 100%;
+  margin: 1rem auto 0;
+  padding: 0 1rem;
 }

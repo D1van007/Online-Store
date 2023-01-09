@@ -124,8 +124,14 @@ function createHTMLContainer(): string {
         </div>
         <ul class="cart-products__list">
         </ul>
-    </div>
-    <div class="cart-total__content"></div>`;
+      </div>
+      <div class="cart-total__container">
+      <div class="cart-total__head">
+        <h2 class="cart-total__head--title">Summary</h2>
+      </div>
+      <div class="cart-total__content">
+      </div>
+    </div>`;
 }
 
 export function calcPageNum() {

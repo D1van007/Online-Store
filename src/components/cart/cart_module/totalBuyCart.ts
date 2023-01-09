@@ -132,21 +132,20 @@ export class TotalBuy {
 function createHTMLTotalBuy(): string {
   return `
     <p id="cart-total--amount" class="cart-total--amount">Products: 0</p>
+    <div class="empty-block"></div>
     <p id="cart-total--price" class="cart-total--price">Total: €</p>
     <form class="cart-total--promo">
-        <div>
-            <input id="promo__input" type="text" name="text" placeholder="Enter promo code('RS', 'EPM')"/>
-        </div>
+            <input id="promo__input" class="promo__input" type="text" name="text" placeholder="Enter code 'RS' or 'EPM'"/>
         <div class="promo__content--valid"></div>
-        <button class="buy-now">Buy Now</button>
+        <button class="buy-now btn-style">Buy Now</button>
     </form>
 `;
 }
 
 function createHTMLPromoApply(objWithPromo: { [x: string]: string }, code: string) {
-  return `<div class="promo__input--${code}-content">
-        <p class="promo__input--${code}-text discount-text">${objWithPromo[code]}</p>
-        <button class="promo__input--${code}-drop btn-drop" data-promo="${code}">DROP</button>
+  return `<div class="promo__input--${code}-content discount-content">
+        <span class="promo__input--${code}-text discount-text">${objWithPromo[code]}</span>
+        <button class="promo__input--${code}-drop btn-drop btn-style" data-promo="${code}">DROP</button>
         </div>
 `;
 }
@@ -161,9 +160,9 @@ function createHTMLPromoApplyContainer(): string {
 
 function createHTMLPromo(objWithPromo: { [x: string]: string }, code: string) {
   return `
-  <div class="promo__content--${code}-add">
-    <span class="promo__content--${code}-lable">${objWithPromo[code]}</span>
-    <button class="promo__content--${code}-btn btn-add" data-promo="${code}">ADD</button>
+  <div class="promo__content--${code}-add promo__content--add">
+    <span class="promo__content--${code}-lable promo__content--lable">${objWithPromo[code]}</span>
+    <button class="promo__content--${code}-btn btn-add btn-style" data-promo="${code}">ADD</button>
   </div>
   `;
 }
