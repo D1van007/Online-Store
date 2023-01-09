@@ -30,6 +30,8 @@ enum FilterKeys {
   sort = 'sort',
   page = 'page',
   big = 'big',
+  pageCartProduct = 'page',
+  limitCartProduct = 'limit',
 }
 
 export { IDataProducts, IProduct, DataKeys, FilterKeys };

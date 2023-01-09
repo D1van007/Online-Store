@@ -10,12 +10,12 @@ export class Pagination {
   productOnPage = 16;
   currentPage = 0;
   ulContainerDOM: HTMLUListElement;
-  constructor(selector: HTMLElement, data: IProduct[], parent: ProductsPage,page:number=0) {
+  constructor(selector: HTMLElement, data: IProduct[], parent: ProductsPage, page = 0) {
     this.parent = parent;
-    this.currentPage = page
+    this.currentPage = page;
     this.parentDOM = selector;
     this.data = data;
-    this.checkPageCount()
+    this.checkPageCount();
     this.ulContainerDOM = this.render();
     this.createEventHandler();
     this.coloredCurrent();
@@ -29,10 +29,10 @@ export class Pagination {
     }
     return ulDOM as HTMLUListElement;
   }
-  checkPageCount(){
-    if(this.data?.length/16<this.currentPage){
-      this.currentPage = 0
-      this.parent.paginationPage = 0
+  checkPageCount() {
+    if (this.data?.length / 16 < this.currentPage) {
+      this.currentPage = 0;
+      this.parent.paginationPage = 0;
     }
   }
   createEventHandler() {
@@ -41,7 +41,7 @@ export class Pagination {
         this.currentPage = Number(e.target.textContent) - 1;
         this.parent.reloadPagination();
         this.coloredCurrent();
-        this.pushToSearch()
+        this.pushToSearch();
       }
     });
   }
@@ -55,10 +55,10 @@ export class Pagination {
     });
   }
   pushToSearch() {
-    if(this.currentPage>0){
+    if (this.currentPage > 0) {
       searchHandler.addParams(FilterKeys.page, this.currentPage.toString());
-    }else{
-      searchHandler.deleteParams(FilterKeys.page)
+    } else {
+      searchHandler.deleteParams(FilterKeys.page);
     }
   }
   destroy() {
