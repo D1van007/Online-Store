@@ -238,8 +238,8 @@ function selfPageHTML(data: IProduct) {
         <div class="product__item--btn info-item">Price: €${data.price}</div>
         <button id = "product__item--btn-cart${
           data.id
-        }" class="product__item--btn-cart add-to-cart__self-page">add to cart</button>
-        <button class="buy-now">Buy Now</button>
+        }" class="product__item--btn-cart add-to-cart__self-page btn-style">add to cart</button>
+        <button class="buy-now btn-style">Buy Now</button>
       </div>
     </div>
   </div>`;
