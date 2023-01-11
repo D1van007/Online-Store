@@ -160,3 +160,8 @@
 .add-to-cart__self-page.btn-style {
   width: 80%;
 }
+
+.btn-active{
+  background-color: var(--color3) !important;
+  color: var(--main-color) !important;
+}
