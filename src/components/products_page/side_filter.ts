@@ -68,7 +68,7 @@ export class SideFilter {
     window.addEventListener('price', this.priceEventHandler);
     window.addEventListener('stock', this.stockEventHandler);
   }
-  priceEventHandler = (e: any) => {
+  priceEventHandler = (e: CustomEventInit) => {
     if (!e.detail.isFake) {
       searchHandler.addParams(DataKeys.price, e.detail.result); //тестим
       if (e.detail.result[0] == this.priceInput.default[0] && e.detail.result[1] == this.priceInput.default[1]) {
@@ -80,7 +80,7 @@ export class SideFilter {
     this.updateCheckBoxSections();
     this.callback(this.getFilteredData());
   };
-  stockEventHandler = (e: any) => {
+  stockEventHandler = (e: CustomEventInit) => {
     if (!e.detail.isFake) {
       searchHandler.addParams(DataKeys.stock, e.detail.result);
       if (e.detail.result[0] == this.stockInput.default[0] && e.detail.result[1] == this.stockInput.default[1]) {
