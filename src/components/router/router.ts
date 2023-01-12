@@ -34,7 +34,7 @@ export class Router {
       this.clearMain();
       searchHandler.parseUrl(); //тестим серч парамс
       if(this.url.pathname=='/cart'){
-        this.cartPage?.cart.renderCartContent;//добавь эту строчку <--------------------
+        this.cartPage = new CartPage()//добавь эту строчку <--------------------
       }
       this.productPage?.updateSearchParamsFromURL(); //тестим серч парамс
       await this.newPageRoute();
