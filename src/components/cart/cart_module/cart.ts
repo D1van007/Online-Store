@@ -11,6 +11,7 @@ export class Cart {
   localCart: LocalCart;
   productsCartList: ProductsCartList;
   cartProductsControlDOM: HTMLElement;
+  productsTotalBuy!: HTMLElement;
   constructor(selector: string) {
     this.parentContainer = document.querySelector(selector) as HTMLElement;
     this.parentContainer.innerHTML = '';
@@ -25,20 +26,23 @@ export class Cart {
   }
 
   renderCartContent() {
+    this.parentContainer.innerHTML = '';
+    this.cartContainer = document.createElement('div');
+    this.cartContainer.classList.add('cart__container');
+    this.parentContainer.prepend(this.cartContainer);
     if (this.productInCart?.length > 0) {
-      this.parentContainer.innerHTML = '';
-      this.cartContainer = document.createElement('div');
-      this.cartContainer.classList.add('cart__container');
-      this.parentContainer.prepend(this.cartContainer);
       this.cartContainer.innerHTML = createHTMLContainer();
       this.productsCartList.renderCartProductList();
       this.renderCartTotalBuy();
+    } else {
+      (document.querySelector('.cart__container') as HTMLElement).innerHTML =
+        '<h2 class="cart-empty">Cart is empty</h2>';
     }
   }
 
   renderCartTotalBuy() {
-    const productsTotalBuy = document.querySelector('.cart-total__content') as HTMLElement;
-    new TotalBuy(productsTotalBuy, this);
+    this.productsTotalBuy = document.querySelector('.cart-total__content') as HTMLElement;
+    new TotalBuy(this.productsTotalBuy, this);
   }
 
   changeControlsSetting() {

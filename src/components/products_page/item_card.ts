@@ -204,38 +204,37 @@ function selfPageHTML(data: IProduct) {
       <div id="self__item--main-img" class="self__item--main-img" style = "background-image: url(${
         data.thumbnail
       })"></div>
-
     <div class="self__item--info">
       <ul class="self-info__list">
         <li class="self-info__item--description self-info-item">
           <p class="self-info__item--description-title">Description: </p>
-          <p class="self-info__item--description-text">${data.description}</p>        
+          <span class="self-info__item--description-text">${data.description}</span>        
         </li>
         <li class="self-info__item--discount self-info-item">
           <p class="self-info__item--discount-title">Discount: </p>
-          <p class="self-info__item--discount-text">${data.discountPercentage}%</p>
+          <span class="self-info__item--discount-text">${data.discountPercentage}%</span>
         </li>
         <li class="self-info__item--rating self-info-item">
           <p class="self-info__item--rating-title">Rating: </p>
-          <p class="self-info__item--rating-text">${data.rating}</p>
+          <span class="self-info__item--rating-text">${data.rating}</span>
         </li>        
         <li class="self-info__item--stock self-info-item">
           <p class="self-info__item--stock-title">Stock: </p>
-          <p class="self-info__item--stock-text">${data.stock}</p>
+          <span class="self-info__item--stock-text">${data.stock}</span>
         </li>   
         <li class="self-info__item--brand self-info-item">
           <p class="self-info__item--brand-title">Brand: </p>
-          <p class="self-info__item--brand-text">${data.brand}</p>
+          <span class="self-info__item--brand-text">${data.brand}</span>
         </li>
         <li class="self-info__item--category self-info-item">
           <p class="self-info__item--category-title">Category: </p>
-          <p class="self-info__item--category-text">${data.category}</p>
+          <span class="self-info__item--category-text">${data.category}</span>
         </li>
       </ul>
     
     </div>
       <div id="product__item--btn-content" class="product__item--btn-content">
-        <div class="product__item--btn info-item">Price: €${data.price}</div>
+        <p id="self-total--price" class="self-total--price">Price: €${data.price}</p>
         <button id = "product__item--btn-cart${
           data.id
         }" class="product__item--btn-cart add-to-cart__self-page btn-style">add to cart</button>

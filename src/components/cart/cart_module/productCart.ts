@@ -17,6 +17,7 @@ export class ProductInCart {
   productsCartList: ProductsCartList;
   totalProductHeaderDOM!: HTMLElement;
   totalPriceHeaderDOM!: HTMLElement;
+  productsTotalBuy!: HTMLElement;
   constructor(dataProduct: IProduct, selectorList: HTMLUListElement, index: number) {
     this.dataProduct = dataProduct;
     this.index = index;
@@ -31,6 +32,7 @@ export class ProductInCart {
 
   initDOMElement() {
     this.productItemID = document.getElementById(this.dataProduct.id.toString()) as HTMLElement;
+    this.productsTotalBuy = document.querySelector('.cart-total__content') as HTMLElement;
     this.amountContentDOM = document.getElementById(`amount-change__content${this.dataProduct.id}`) as HTMLElement;
     this.amountProductDOM = document.getElementById(`amount-product${this.dataProduct.id}`) as HTMLElement;
     this.totalProductHeaderDOM = document.getElementById('total-products') as HTMLElement;
@@ -73,7 +75,7 @@ export class ProductInCart {
       } else if ((<HTMLElement>event.target).closest('.cart-products__item--content')) {
         eventedPushState({}, '', `/product${this.dataProduct.id}`);
       }
-      this.totalPriceProductDOM.textContent = `Total: €${this.productAmount * this.dataProduct.price}`;
+      this.totalPriceProductDOM.textContent = `€${this.productAmount * this.dataProduct.price}`;
 
       if (this.localCart?.getLocalCartProducts().length === 0) {
         this.localCart.clearCart();

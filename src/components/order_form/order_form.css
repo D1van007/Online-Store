@@ -64,3 +64,12 @@
 .card-logo>.fa-credit-card{
   display: block;
 }
+
+.valid-alert{
+  color: rgb(180, 72, 72);
+  display: none;
+}
+
+.is-visible{
+  display: block;
+}

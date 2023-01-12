@@ -87,13 +87,11 @@ export class LocalCart {
   }
 
   clearCart() {
-    // localStorage.setItem('totalPrice', JSON.stringify(0));
-    // localStorage.setItem('totalProducts', JSON.stringify(0));
     const totalProductHeaderDOM = document.getElementById('total-products') as HTMLElement;
     const totalPriceHeaderDOM = document.getElementById('total-price') as HTMLElement;
     totalPriceHeaderDOM.textContent = `Total: €0`;
     totalProductHeaderDOM.textContent = '0';
     localStorage.clear();
-    document.querySelector('.cart__container')?.remove();
+    (document.querySelector('.cart__container') as HTMLElement).innerHTML = '<h2 class="cart-empty">Cart is empty</h2>';
   }
 }

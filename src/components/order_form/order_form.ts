@@ -94,6 +94,8 @@ export class OrderForm {
     arr.forEach(e=>e.classList.add('validation'))
     if (arr.some(e => !e.validity.valid)) {
       console.log('не валидно');
+      let alert = document.querySelector('.valid-alert')
+      alert?.classList.add('is-visible')
     } else {
       this.formContainerDOM.innerHTML = '<p class="end_purchase">Спасибо за покупку</p>';
       this.localCart = new LocalCart();
@@ -254,6 +256,7 @@ function getHTML() {
         <input class="input-ccv" type="tel" name="ccv" id="ccv" required>
       </p>
       <button class="submit-button btn-style" type="submit">Отправить</button>
+      <p class="valid-alert">Enter the correct data!!!</p>
     </form>
   </div>
   `;
