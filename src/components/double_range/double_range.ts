@@ -25,11 +25,11 @@ export class DoubleRange {
   }
   render() {
     this.parentDOM.innerHTML = getHTML(this.options);
-    this.containerDOM = this.parentDOM.querySelector('.double-range')!;
-    this.firstInputDOM = this.containerDOM.querySelector('.double-range__i1')!;
-    this.secondInputDOM = this.containerDOM.querySelector('.double-range__i2')!;
-    this.secondInfoDOM = this.containerDOM.querySelector('.info__left')!;
-    this.firstInfoDOM = this.containerDOM.querySelector('.info__right')!;
+    this.containerDOM = this.parentDOM.querySelector('.double-range') as HTMLElement;
+    this.firstInputDOM = this.containerDOM.querySelector('.double-range__i1') as HTMLInputElement;
+    this.secondInputDOM = this.containerDOM.querySelector('.double-range__i2') as HTMLInputElement;
+    this.secondInfoDOM = this.containerDOM.querySelector('.info__left') as HTMLElement;
+    this.firstInfoDOM = this.containerDOM.querySelector('.info__right') as HTMLElement;
   }
   drEventsTracker() {
     this.firstInputDOM.addEventListener('input', () => {

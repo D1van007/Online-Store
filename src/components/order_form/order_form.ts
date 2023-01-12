@@ -7,7 +7,7 @@ import { LocalCart } from '../cart/cart_module/localCart';
 type IMaskType = ReturnType<typeof IMask>;
 
 export class OrderForm {
-  bodyDOM: HTMLBodyElement = document.querySelector('body')!;
+  bodyDOM: HTMLBodyElement = document.querySelector('body') as HTMLBodyElement;
   coverDOM!: HTMLElement;
   formContainerDOM!: HTMLElement;
   inputNameDOM!: HTMLInputElement;
@@ -36,19 +36,19 @@ export class OrderForm {
   }
   render() {
     this.bodyDOM.insertAdjacentHTML('afterbegin', getHTML());
-    this.coverDOM = document.querySelector('.cover')!;
-    this.formContainerDOM = document.querySelector('.form-contaner')!;
-    this.inputNameDOM = document.querySelector('.input-name')!;
-    this.addressDOM = document.querySelector('.input-address')!;
-    this.phoneDOM = document.querySelector('.input-phone')!;
-    this.eMailDOM = document.querySelector('.input-email')!;
-    this.cardNumberDOM = document.querySelector('.input-ccn')!;
-    this.cardDateDOM = document.querySelector('.input-ccd')!;
-    this.cardCCVDOM = document.querySelector('.input-ccv')!;
-    this.submitButtonDOM = document.querySelector('.submit-button')!;
-    this.cardLogoContainerDOM = document.querySelector('.card-logo')!;
+    this.coverDOM = document.querySelector('.cover') as HTMLElement;
+    this.formContainerDOM = document.querySelector('.form-contaner') as HTMLElement;
+    this.inputNameDOM = document.querySelector('.input-name') as HTMLInputElement;
+    this.addressDOM = document.querySelector('.input-address') as HTMLInputElement;
+    this.phoneDOM = document.querySelector('.input-phone') as HTMLInputElement;
+    this.eMailDOM = document.querySelector('.input-email') as HTMLInputElement;
+    this.cardNumberDOM = document.querySelector('.input-ccn') as HTMLInputElement;
+    this.cardDateDOM = document.querySelector('.input-ccd') as HTMLInputElement;
+    this.cardCCVDOM = document.querySelector('.input-ccv') as HTMLInputElement;
+    this.submitButtonDOM = document.querySelector('.submit-button') as HTMLButtonElement;
+    this.cardLogoContainerDOM = document.querySelector('.card-logo') as HTMLInputElement;
   }
-  setPreValid(){
+  setPreValid() {
     this.cardDateDOM.setCustomValidity('Invalid field.');
   }
   coverEventHandler() {
@@ -92,11 +92,11 @@ export class OrderForm {
   submitButtonEventHeandler() {
     const allInputs = this.formContainerDOM.querySelectorAll('input');
     const arr = Array.from(allInputs);
-    arr.forEach(e=>e.classList.add('validation'))
+    arr.forEach(e => e.classList.add('validation'));
     if (arr.some(e => !e.validity.valid)) {
       console.log('не валидно');
-      let alert = document.querySelector('.valid-alert')
-      alert?.classList.add('is-visible')
+      const alert = document.querySelector('.valid-alert');
+      alert?.classList.add('is-visible');
     } else {
       this.formContainerDOM.innerHTML = '<p class="end_purchase">Спасибо за покупку</p>';
       this.localCart = new LocalCart();
@@ -146,10 +146,10 @@ export class OrderForm {
   changeCardImage() {
     if (this.cardNumberDOM.value.length) {
       const children = this.cardLogoContainerDOM.querySelectorAll('i');
-      const defaultCard: HTMLElement = this.cardLogoContainerDOM.querySelector('.fa-credit-card')!;
-      const americanExpress: HTMLElement = this.cardLogoContainerDOM.querySelector('.fa-cc-amex')!;
-      const visa: HTMLElement = this.cardLogoContainerDOM.querySelector('.fa-cc-visa')!;
-      const mastercard: HTMLElement = this.cardLogoContainerDOM.querySelector('.fa-cc-mastercard')!;
+      const defaultCard: HTMLElement = this.cardLogoContainerDOM.querySelector('.fa-credit-card') as HTMLElement;
+      const americanExpress: HTMLElement = this.cardLogoContainerDOM.querySelector('.fa-cc-amex') as HTMLElement;
+      const visa: HTMLElement = this.cardLogoContainerDOM.querySelector('.fa-cc-visa') as HTMLElement;
+      const mastercard: HTMLElement = this.cardLogoContainerDOM.querySelector('.fa-cc-mastercard') as HTMLElement;
       const clear = () => {
         children.forEach(e => {
           e.style.display = 'none';
