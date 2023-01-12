@@ -29,13 +29,12 @@ export class Router {
   }
   historyEventHandler() {
     setTimeout(async () => {
-      //это костыль
       this.isNewPage = this.isNewPageHandler();
       this.urlUpdate();
       this.clearMain();
       searchHandler.parseUrl(); //тестим серч парамс
-      if (this.url.pathname == '/cart') {
-        this.cartPage = new CartPage();
+      if(this.url.pathname=='/cart'){
+        this.cartPage?.cart.renderCartContent;//добавь эту строчку <--------------------
       }
       this.productPage?.updateSearchParamsFromURL(); //тестим серч парамс
       await this.newPageRoute();

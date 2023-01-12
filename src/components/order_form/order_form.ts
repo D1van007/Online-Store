@@ -73,6 +73,7 @@ export class OrderForm {
     });
     this.cardNumberDOM.addEventListener('focusout', () => {
       this.inputValidation(this.ccnMask, this.cardNumberDOM, 16);
+      this.changeCardImage();
     });
     this.cardDateDOM.addEventListener('focusout', () => {
       this.inputValidation(this.ccdMask, this.cardDateDOM, 4);
@@ -94,6 +95,8 @@ export class OrderForm {
     arr.forEach(e=>e.classList.add('validation'))
     if (arr.some(e => !e.validity.valid)) {
       console.log('не валидно');
+      let alert = document.querySelector('.valid-alert')
+      alert?.classList.add('is-visible')
     } else {
       this.formContainerDOM.innerHTML = '<p class="end_purchase">Спасибо за покупку</p>';
       this.localCart = new LocalCart();
@@ -141,7 +144,7 @@ export class OrderForm {
     }
   }
   changeCardImage() {
-    if (this.cardNumberDOM.value.length > 0 && this.cardNumberDOM.value.length < 2) {
+    if (this.cardNumberDOM.value.length) {
       const children = this.cardLogoContainerDOM.querySelectorAll('i');
       const defaultCard: HTMLElement = this.cardLogoContainerDOM.querySelector('.fa-credit-card')!;
       const americanExpress: HTMLElement = this.cardLogoContainerDOM.querySelector('.fa-cc-amex')!;
@@ -149,7 +152,6 @@ export class OrderForm {
       const mastercard: HTMLElement = this.cardLogoContainerDOM.querySelector('.fa-cc-mastercard')!;
       const clear = () => {
         children.forEach(e => {
-          console.log(e);
           e.style.display = 'none';
         });
       };
@@ -254,6 +256,7 @@ function getHTML() {
         <input class="input-ccv" type="tel" name="ccv" id="ccv" required>
       </p>
       <button class="submit-button btn-style" type="submit">Отправить</button>
+      <p class="valid-alert">Enter the correct data!!!</p>
     </form>
   </div>
   `;
