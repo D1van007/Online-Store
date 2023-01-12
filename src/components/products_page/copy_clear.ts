@@ -19,7 +19,7 @@ export class CopyClearURL {
       eventedPushState({}, '', '/');
     });
     this.copyBtnDOM.addEventListener('click', () => {
-      this.copyBtnDOM.classList.add('btn-active')
+      this.copyBtnDOM.classList.add('btn-active');
       navigator.clipboard.writeText(`${window.location.href}`);
     });
   }

@@ -8,13 +8,14 @@ export class SearchHandler {
   parseUrl() {
     this.currentUrl = new URL(window.location.href);
   }
-  isSearchParamsIsValid():boolean{
-    let arr = Array.from(this.currentUrl.searchParams.keys())
-    if(arr.length!==0){
-      return !(arr.some(e=>!(Object.values(DataKeys).includes(e as DataKeys)
-                            ||Object.values(FilterKeys).includes(e as FilterKeys))))
+  isSearchParamsIsValid(): boolean {
+    const arr = Array.from(this.currentUrl.searchParams.keys());
+    if (arr.length !== 0) {
+      return !arr.some(
+        e => !(Object.values(DataKeys).includes(e as DataKeys) || Object.values(FilterKeys).includes(e as FilterKeys)),
+      );
     }
-    return true
+    return true;
   }
   addParams(name: DataKeys | FilterKeys, value: string | number[] | string[]) {
     let strValue: string;

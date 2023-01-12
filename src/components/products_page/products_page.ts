@@ -52,8 +52,8 @@ export class ProductsPage {
   }
   renderTotalCount() {
     this.totalCountDOM.textContent = ` count: ${this.currentData.length}`;
-    if(this.currentData.length===0&&this.catalog.catalogContainerDOM){
-      this.catalog.catalogContainerDOM.innerHTML = `<span>Sorry nothing was found(</span>`
+    if (this.currentData.length === 0 && this.catalog.catalogContainerDOM) {
+      this.catalog.catalogContainerDOM.innerHTML = `<span>Sorry nothing was found(</span>`;
     }
   }
   searchInput() {
@@ -77,7 +77,7 @@ export class ProductsPage {
     }
   }
   rerenderCatalog() {
-    this.copyClearURL.copyBtnDOM.classList.remove('btn-active')
+    this.copyClearURL.copyBtnDOM.classList.remove('btn-active');
     this.pagination.destroy();
     this.pagination = new Pagination(this.containerDOM, this.currentData, this, this.paginationPage);
     this.catalog.destroy();
