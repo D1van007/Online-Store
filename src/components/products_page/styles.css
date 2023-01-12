@@ -1,0 +1,210 @@
+.products-page{
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: min-content 1fr 1fr;
+  grid-template-rows: min-content 1fr min-content;
+}
+.side-filter{
+  min-height: min-content;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.options-bar{
+  padding: 20px;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  grid-column-start: 2;
+  grid-column-end: 4;
+}
+
+.copy-clear{
+  padding: 10px;
+  background-color: var(--main-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.pagination{
+  grid-row-start: 3;
+  grid-row-end: 4;
+  grid-column-start: 2;
+  grid-column-end: 4;
+  margin-top: 25px;
+}
+.pagination__list{
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--main-color);
+  border-top: 1px solid var(--main-color);
+}
+.pagination__list__item{
+  cursor: pointer;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+}
+
+.catalog{
+  grid-column-start: 2;
+  grid-column-end: 4;
+  min-height: 100vh;
+}
+.product-list{
+  display: grid;
+  grid-template-columns: repeat(4,minmax(150px,1fr));
+  grid-auto-rows: 15rem;
+  grid-gap: 5px;
+  /* height: 200px; */
+  margin: 0;
+  padding: 0;
+}
+.options-bar{
+  box-sizing: border-box;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border: 1px solid var(--main-color);
+  border-radius: 3px;
+}
+
+.options-bar>i{
+  font-size: 25px;
+  margin: 5px;
+  cursor: pointer;
+  color: var(--main-color);
+}
+
+.options-bar>input,.options-bar__sort{
+  height: 30px;
+  border-radius: 3px;
+  border: 1px solid var(--main-color);
+}
+
+.side-filter__stock{
+  margin-top: 10px;
+}
+
+.checkbox-list{
+  height: 150px;
+  overflow-y: scroll;
+  border: 1px solid rgb(179, 179, 179);
+  padding: 0;
+}
+
+.checkbox-list__item{
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+.self__item--container{
+  height: max-content;
+  width: 90%;
+  background-color: rgba(243, 243, 243, 0.9);
+  color: var(--text);
+  border: 1px solid var(--main-color);
+  border-radius: 5px;
+  margin: 0 auto;
+}
+.self__item--content {
+  height: calc(100% - 5rem);
+  margin: 0 1rem;
+  display: flex;
+  gap: 1.5rem;
+}
+.self__item--text {
+  height: 4rem;
+  display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 0.5rem;
+    padding: 1rem;
+    color: var(--text-white);
+    background-color: var(--dark);
+}
+.self-total--price {
+  font-weight: 600;
+}
+.self__item--img {
+  height: 10vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid var(--gray-border);
+  border-radius: 3px;
+  margin: 0.5rem 0;
+}
+.self-info-item>p {
+  font-weight: 600;
+  margin: 0.3rem 0;
+}
+.self-info-item>span {
+  font-size: 0.9rem;
+  }
+.navigation {
+      width: 90%;
+
+    margin: 0 auto;
+}
+.navigation__list {
+  display: flex;
+  width: 90%;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto 1.5rem;
+}
+.self__item--img-content {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  height: 100%;
+}
+.self__item--main-img {
+    width: 100%;
+  height: calc(100% -1rem);
+    background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid var(--gray-border);
+  border-radius: 3px;
+
+}
+.self-info-item>p {
+  font-weight: 600;
+  margin: 0.5rem 0;
+}
+.self-info-item {
+  border-bottom: 1px solid var(--gray-border);
+  padding-bottom: 0.2rem;
+}
+.product__item--btn-content {
+  width: 20%;
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+  align-items: center;
+}
+.line-list {
+  grid-template-columns: repeat(1,1fr);
+  grid-auto-rows: 10rem;
+}
+.add-to-cart__self-page.btn-style {
+  width: 80%;
+}
+
+.self-info__list>li:last-child{
+  border: none;
+}
+
+.btn-active{
+  background-color: var(--color3) !important;
+  color: var(--main-color) !important;
+}
