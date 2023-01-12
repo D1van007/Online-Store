@@ -73,6 +73,7 @@ export class OrderForm {
     });
     this.cardNumberDOM.addEventListener('focusout', () => {
       this.inputValidation(this.ccnMask, this.cardNumberDOM, 16);
+      this.changeCardImage();
     });
     this.cardDateDOM.addEventListener('focusout', () => {
       this.inputValidation(this.ccdMask, this.cardDateDOM, 4);
@@ -143,7 +144,7 @@ export class OrderForm {
     }
   }
   changeCardImage() {
-    if (this.cardNumberDOM.value.length > 0 && this.cardNumberDOM.value.length < 2) {
+    if (this.cardNumberDOM.value.length) {
       const children = this.cardLogoContainerDOM.querySelectorAll('i');
       const defaultCard: HTMLElement = this.cardLogoContainerDOM.querySelector('.fa-credit-card')!;
       const americanExpress: HTMLElement = this.cardLogoContainerDOM.querySelector('.fa-cc-amex')!;
@@ -151,7 +152,6 @@ export class OrderForm {
       const mastercard: HTMLElement = this.cardLogoContainerDOM.querySelector('.fa-cc-mastercard')!;
       const clear = () => {
         children.forEach(e => {
-          console.log(e);
           e.style.display = 'none';
         });
       };
